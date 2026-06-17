@@ -16,15 +16,13 @@ const suppliers = [
     area: 'Independence Layout',
     rating: '4.9',
     eta: '18 min',
-    price: 7200,
     status: 'Fastest',
   },
   {
     name: 'Nike Lake Tankers',
-    area: 'Trans-Ekulu',
+    area: 'Trans Ekulu',
     rating: '4.8',
     eta: '22 min',
-    price: 6900,
     status: 'Best price',
   },
   {
@@ -32,43 +30,36 @@ const suppliers = [
     area: 'Uwani',
     rating: '4.7',
     eta: '27 min',
-    price: 7600,
     status: 'Bulk ready',
   },
-];
-
-const demandZones = [
-  { label: 'New Haven', value: 'High demand', tone: 'bg-red-500' },
-  { label: 'GRA', value: '5 trucks nearby', tone: 'bg-emerald-500' },
-  { label: 'Achara Layout', value: 'Subsidy active', tone: 'bg-blue-500' },
 ];
 
 const scheduleSlots = ['Today, 4-6 PM', 'Today, 6-8 PM', 'Tomorrow, 8-10 AM'];
 
 const homeMapMarkers = [
   { id: 'you', lat: 6.42, lng: 7.55, label: 'You', value: 'You', tone: 'blue' as const, selected: true },
-  { id: 'coal-city', lat: 6.45, lng: 7.52, label: 'Coal City Water', value: '🚚', tone: 'dark' as const },
-  { id: 'nike-lake', lat: 6.53, lng: 7.62, label: 'Nike Lake Tankers', value: '🚚', tone: 'dark' as const },
-  { id: 'uwani', lat: 6.5, lng: 7.65, label: 'Uwani Bulk Supply', value: '🚚', tone: 'dark' as const },
-  { id: 'demand', lat: 6.44, lng: 7.5, label: 'High demand zone', value: '54', tone: 'red' as const },
+  { id: 'coal-city', lat: 6.45, lng: 7.52, label: 'Coal City Water', value: '\u{1F69A}', tone: 'dark' as const },
+  { id: 'nike-lake', lat: 6.53, lng: 7.62, label: 'Nike Lake Tankers', value: '\u{1F69A}', tone: 'dark' as const },
+  { id: 'uwani', lat: 6.5, lng: 7.65, label: 'Uwani Bulk Supply', value: '\u{1F69A}', tone: 'dark' as const },
 ];
 
 export default function Home() {
   const [selectedTank, setSelectedTank] = useState(tankSizes[1]);
   const [selectedSupplier, setSelectedSupplier] = useState(suppliers[0]);
-  const [serviceMode, setServiceMode] = useState('Now');
+  const [serviceMode, setServiceMode] = useState<'Now' | 'Schedule'>('Now');
   const [selectedSchedule, setSelectedSchedule] = useState(scheduleSlots[0]);
   const [address, setAddress] = useState('12 Chime Avenue, New Haven');
 
   const subsidy = useMemo(() => Math.round(selectedTank.price * 0.12), [selectedTank]);
   const total = selectedTank.price - subsidy + 650;
+  const deliveryTime = serviceMode === 'Schedule' ? selectedSchedule : selectedSupplier.eta;
 
   return (
     <main className="min-h-screen bg-[#f5f6f2] text-neutral-950">
       <header className="fixed left-0 right-0 top-0 z-50 border-b border-black/10 bg-[#f5f6f2]/90 backdrop-blur-xl">
-        <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+        <div className="mx-auto flex h-14 max-w-6xl items-center justify-between px-4 sm:px-6 lg:px-8">
           <Link href="/" className="flex items-center gap-3" aria-label="AquaTrust home">
-            <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-neutral-950 text-sm font-black text-white">
+            <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-neutral-950 text-xs font-black text-white">
               AT
             </span>
             <span>
@@ -77,148 +68,130 @@ export default function Home() {
             </span>
           </Link>
 
-          <nav className="hidden items-center gap-7 text-sm font-semibold text-neutral-600 md:flex">
+          <nav className="hidden items-center gap-5 text-sm font-bold text-neutral-600 md:flex">
             <a href="#book">Book</a>
             <a href="#suppliers">Suppliers</a>
             <a href="#insights">Insights</a>
           </nav>
 
-          <div className="flex items-center gap-2">
-            <Link
-              href="/admin"
-              className="hidden rounded-lg px-4 py-2 text-sm font-bold text-neutral-700 transition hover:bg-black/5 sm:inline-flex"
-            >
-              Admin
-            </Link>
-            <Link
-              href="/request"
-              className="inline-flex h-10 items-center rounded-lg bg-neutral-950 px-5 text-sm font-bold text-white transition hover:bg-neutral-800"
-            >
-              Order water
-            </Link>
-          </div>
+          <Link
+            href="/request"
+            className="inline-flex h-9 items-center rounded-lg bg-neutral-950 px-4 text-sm font-bold text-white transition hover:bg-neutral-800"
+          >
+            Order water
+          </Link>
         </div>
       </header>
 
-      <section id="book" className="pt-20 lg:min-h-screen lg:pt-16">
-        <div className="mx-auto grid max-w-7xl gap-6 px-4 py-6 sm:px-6 lg:grid-cols-[420px_1fr] lg:px-8 lg:py-8">
-          <aside className="order-1 rounded-lg border border-black/10 bg-white p-4 shadow-[0_24px_80px_rgba(15,23,42,0.12)] lg:self-start">
-            <div className="mb-5 flex items-center justify-between">
-              <div>
-                <p className="text-xs font-bold uppercase text-neutral-500">Water request</p>
-                <h1 className="mt-2 text-3xl font-black leading-tight sm:text-4xl">
-                  Order water like a ride.
-                </h1>
-              </div>
-              <span className="rounded-lg bg-emerald-50 px-3 py-2 text-xs font-black text-emerald-700">
-                Live
-              </span>
+      <section id="book" className="pt-16">
+        <div className="mx-auto grid max-w-6xl gap-4 px-4 py-4 sm:px-6 lg:grid-cols-[360px_1fr] lg:px-8 lg:py-5">
+          <aside className="rounded-lg border border-black/10 bg-white p-4 shadow-[0_16px_48px_rgba(15,23,42,0.10)]">
+            <div className="mb-4">
+              <p className="text-xs font-bold uppercase text-neutral-500">Book a tanker</p>
+              <h1 className="mt-1 text-2xl font-black leading-tight sm:text-3xl">Water delivery, made obvious.</h1>
+              <p className="mt-2 text-sm font-semibold text-neutral-500">
+                Choose where, when, tank size, then confirm. No calls. No guessing.
+              </p>
             </div>
 
-            <div className="mb-4 grid grid-cols-2 rounded-lg bg-neutral-100 p-1">
-              {['Now', 'Schedule'].map((mode) => (
-                <button
-                  key={mode}
-                  type="button"
-                  onClick={() => setServiceMode(mode)}
-                  className={`h-11 rounded-md text-sm font-black transition ${
-                    serviceMode === mode ? 'bg-white text-neutral-950 shadow-sm' : 'text-neutral-500'
-                  }`}
-                >
-                  {mode}
-                </button>
+            <div className="mb-3 grid grid-cols-4 gap-1 text-center text-[11px] font-black text-neutral-500">
+              {['Where', 'When', 'Tank', 'Pay'].map((step, index) => (
+                <div key={step} className="rounded-md bg-neutral-100 px-1 py-2">
+                  {index + 1}. {step}
+                </div>
               ))}
             </div>
 
             <div className="space-y-3">
-              {serviceMode === 'Schedule' && (
-                <div>
-                  <span className="mb-2 block text-xs font-bold uppercase text-neutral-500">
-                    Delivery window
-                  </span>
-                  <div className="grid gap-2">
-                    {scheduleSlots.map((slot) => (
-                      <button
-                        key={slot}
-                        type="button"
-                        onClick={() => setSelectedSchedule(slot)}
-                        className={`h-11 rounded-lg border px-3 text-left text-sm font-black transition ${
-                          selectedSchedule === slot
-                            ? 'border-neutral-950 bg-neutral-950 text-white'
-                            : 'border-neutral-200 bg-white text-neutral-700'
-                        }`}
-                      >
-                        {slot}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              )}
-
               <label className="block">
-                <span className="mb-2 block text-xs font-bold uppercase text-neutral-500">
-                  Delivery address
-                </span>
+                <span className="mb-2 block text-xs font-bold uppercase text-neutral-500">Delivery address</span>
                 <input
                   value={address}
                   onChange={(event) => setAddress(event.target.value)}
-                  className="h-12 w-full rounded-lg border border-neutral-200 bg-white px-4 text-sm font-semibold outline-none transition focus:border-neutral-950"
+                  className="h-10 w-full rounded-lg border border-neutral-200 bg-white px-3 text-sm font-semibold outline-none transition focus:border-neutral-950"
                 />
               </label>
 
               <div>
-                <span className="mb-2 block text-xs font-bold uppercase text-neutral-500">
-                  Tank volume
-                </span>
+                <span className="mb-2 block text-xs font-bold uppercase text-neutral-500">Delivery time</span>
+                <div className="grid grid-cols-2 rounded-lg bg-neutral-100 p-1">
+                  {(['Now', 'Schedule'] as const).map((mode) => (
+                    <button
+                      key={mode}
+                      type="button"
+                      onClick={() => setServiceMode(mode)}
+                      className={`h-9 rounded-md text-sm font-black transition ${
+                        serviceMode === mode ? 'bg-white text-neutral-950 shadow-sm' : 'text-neutral-500'
+                      }`}
+                    >
+                      {mode}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {serviceMode === 'Schedule' && (
+                <div className="grid gap-2">
+                  {scheduleSlots.map((slot) => (
+                    <button
+                      key={slot}
+                      type="button"
+                      onClick={() => setSelectedSchedule(slot)}
+                      className={`h-9 rounded-lg border px-3 text-left text-sm font-black transition ${
+                        selectedSchedule === slot
+                          ? 'border-neutral-950 bg-neutral-950 text-white'
+                          : 'border-neutral-200 bg-white text-neutral-700'
+                      }`}
+                    >
+                      {slot}
+                    </button>
+                  ))}
+                </div>
+              )}
+
+              <div>
+                <span className="mb-2 block text-xs font-bold uppercase text-neutral-500">Tank volume</span>
                 <div className="grid grid-cols-3 gap-2">
                   {tankSizes.map((tank) => (
                     <button
                       key={tank.label}
                       type="button"
                       onClick={() => setSelectedTank(tank)}
-                      className={`rounded-lg border p-3 text-left transition ${
+                      className={`rounded-lg border p-2.5 text-left transition ${
                         selectedTank.label === tank.label
                           ? 'border-neutral-950 bg-neutral-950 text-white'
                           : 'border-neutral-200 bg-white hover:border-neutral-400'
                       }`}
                     >
-                      <span className="block text-sm font-black">{tank.label}</span>
-                      <span
-                        className={`mt-1 block text-xs font-semibold ${
-                          selectedTank.label === tank.label ? 'text-white/65' : 'text-neutral-500'
-                        }`}
-                      >
-                        {tank.eta}
-                      </span>
+                      <span className="block text-xs font-black sm:text-sm">{tank.label}</span>
+                      <span className="mt-1 block text-xs font-semibold opacity-65">{tank.eta}</span>
                     </button>
                   ))}
                 </div>
               </div>
 
               <div>
-                <span className="mb-2 block text-xs font-bold uppercase text-neutral-500">
-                  Nearby suppliers
-                </span>
+                <span className="mb-2 block text-xs font-bold uppercase text-neutral-500">Supplier</span>
                 <div className="space-y-2">
                   {suppliers.map((supplier) => (
                     <button
                       key={supplier.name}
                       type="button"
                       onClick={() => setSelectedSupplier(supplier)}
-                      className={`w-full rounded-lg border p-3 text-left transition ${
+                      className={`w-full rounded-lg border p-2.5 text-left transition ${
                         selectedSupplier.name === supplier.name
                           ? 'border-neutral-950 bg-neutral-50'
                           : 'border-neutral-200 bg-white hover:border-neutral-400'
                       }`}
                     >
                       <span className="flex items-center justify-between gap-3">
-                        <span>
-                          <span className="block text-sm font-black">{supplier.name}</span>
-                          <span className="mt-1 block text-xs font-semibold text-neutral-500">
+                        <span className="min-w-0">
+                          <span className="block truncate text-sm font-black">{supplier.name}</span>
+                          <span className="mt-1 block truncate text-xs font-semibold text-neutral-500">
                             {supplier.area} - {supplier.rating} rating
                           </span>
                         </span>
-                        <span className="rounded-md bg-neutral-950 px-2 py-1 text-xs font-black text-white">
+                        <span className="shrink-0 rounded-md bg-neutral-950 px-2 py-1 text-xs font-black text-white">
                           {supplier.eta}
                         </span>
                       </span>
@@ -228,149 +201,107 @@ export default function Home() {
               </div>
             </div>
 
-            <div className="mt-5 rounded-lg bg-neutral-950 p-4 text-white">
-              <div className="flex items-center justify-between border-b border-white/10 pb-3 text-sm">
-                <span className="font-semibold text-white/65">Water</span>
-                <span className="font-black">NGN {selectedTank.price.toLocaleString()}</span>
+            <div className="mt-4 rounded-lg bg-neutral-950 p-3 text-white">
+              <div className="space-y-2 border-b border-white/10 pb-3 text-sm">
+                <Row label="Water" value={`NGN ${selectedTank.price.toLocaleString()}`} />
+                <Row label="Subsidy" value={`-NGN ${subsidy.toLocaleString()}`} positive />
+                <Row label="Service fee" value="NGN 650" />
               </div>
-              <div className="flex items-center justify-between border-b border-white/10 py-3 text-sm">
-                <span className="font-semibold text-white/65">Subsidy applied</span>
-                <span className="font-black text-emerald-300">-NGN {subsidy.toLocaleString()}</span>
-              </div>
-              <div className="flex items-center justify-between py-3 text-sm">
-                <span className="font-semibold text-white/65">Service fee</span>
-                <span className="font-black">NGN 650</span>
-              </div>
-              <div className="flex items-end justify-between pt-2">
+              <div className="mt-3 flex items-center justify-between gap-3">
                 <span>
                   <span className="block text-xs font-bold uppercase text-white/45">Total</span>
-                  <span className="text-3xl font-black">NGN {total.toLocaleString()}</span>
+                  <span className="text-2xl font-black">NGN {total.toLocaleString()}</span>
                 </span>
                 <Link
                   href="/request"
-                  className="inline-flex h-12 items-center justify-center rounded-lg bg-white px-5 text-sm font-black text-neutral-950 transition hover:bg-neutral-200"
+                  className="inline-flex h-10 items-center justify-center rounded-lg bg-white px-4 text-sm font-black text-neutral-950 transition hover:bg-neutral-200"
                 >
-                  Request tank
+                  Confirm
                 </Link>
               </div>
             </div>
           </aside>
 
-          <div className="order-2 overflow-hidden rounded-lg border border-black/10 bg-white shadow-[0_24px_80px_rgba(15,23,42,0.18)]">
-            <div className="relative min-h-[430px] p-4 sm:min-h-[560px] sm:p-6 lg:min-h-[calc(100vh-8rem)]">
-              <div className="absolute inset-0">
-                <OpenStreetMap markers={homeMapMarkers} heightClass="h-full rounded-none" caption="OpenStreetMap dispatch layer" />
-              </div>
+          <section className="overflow-hidden rounded-lg border border-black/10 bg-white shadow-[0_16px_48px_rgba(15,23,42,0.12)]">
+            <div className="h-[360px] sm:h-[440px] lg:h-[560px]">
+              <OpenStreetMap markers={homeMapMarkers} heightClass="h-full rounded-none" caption="Nearby tankers" />
+            </div>
 
-              <div className="relative z-10 flex flex-wrap items-center justify-between gap-3">
-                <div className="rounded-lg bg-white px-4 py-3 shadow-xl">
-                  <p className="text-xs font-bold uppercase text-neutral-500">Enugu coverage</p>
-                  <p className="mt-1 text-sm font-black">24 verified tankers online</p>
-                </div>
-                <div className="flex rounded-lg bg-neutral-950/70 p-1 text-xs font-black text-white backdrop-blur">
-                  <span className="rounded-md bg-white px-3 py-2 text-neutral-950">Tanks</span>
-                  <span className="px-3 py-2 text-white/70">Boreholes</span>
-                  <span className="px-3 py-2 text-white/70">Demand</span>
-                </div>
+            <div className="grid gap-3 border-t border-black/10 p-3 sm:grid-cols-[1fr_150px] sm:items-center">
+              <div>
+                <p className="text-xs font-bold uppercase text-neutral-500">Selected delivery</p>
+                <h2 className="mt-1 text-lg font-black">{selectedSupplier.name}</h2>
+                <p className="text-sm font-semibold text-neutral-500">
+                  {selectedTank.label} to {address || 'your selected address'}
+                </p>
+                <p className="text-xs font-black text-neutral-500">
+                  {serviceMode === 'Schedule' ? selectedSchedule : 'Arriving now'}
+                </p>
               </div>
-              <div className="absolute bottom-4 left-4 right-4 z-10 rounded-lg bg-white p-3 shadow-2xl sm:bottom-6 sm:left-6 sm:right-6 sm:p-4">
-                <div className="grid gap-4 lg:grid-cols-[1fr_220px] lg:items-center">
-                  <div>
-                    <div className="mb-3 flex items-center gap-2">
-                      <span className="h-2 w-2 rounded-full bg-emerald-500" />
-                      <p className="text-xs font-bold uppercase text-neutral-500">
-                        Driver assigned
-                      </p>
-                    </div>
-                    <h2 className="text-xl font-black sm:text-2xl">{selectedSupplier.name}</h2>
-                    <p className="mt-1 text-sm font-semibold text-neutral-500">
-                      {selectedTank.label} clean water to {address || 'your selected address'}
-                    </p>
-                    <p className="mt-1 text-xs font-black text-neutral-500">
-                      {serviceMode === 'Schedule' ? selectedSchedule : 'Arriving now'}
-                    </p>
-                    <div className="mt-4 grid grid-cols-3 gap-2">
-                      {['Accepted', 'Filling', 'On route'].map((step, index) => (
-                        <div key={step} className="min-w-0">
-                          <div className={`h-1.5 rounded-full ${index < 2 ? 'bg-neutral-950' : 'bg-neutral-200'}`} />
-                          <p className="mt-2 truncate text-xs font-bold text-neutral-500">{step}</p>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                  <div className="rounded-lg bg-[#ecfdf3] p-3 sm:p-4">
-                    <p className="text-xs font-bold uppercase text-emerald-700">
-                      {serviceMode === 'Schedule' ? 'Window' : 'ETA'}
-                    </p>
-                    <p className="mt-1 text-3xl font-black text-emerald-950 sm:text-4xl">
-                      {serviceMode === 'Schedule' ? selectedSchedule.split(', ')[1] : selectedSupplier.eta}
-                    </p>
-                    <p className="mt-2 text-sm font-semibold text-emerald-800">{selectedSupplier.status}</p>
-                  </div>
-                </div>
+              <div className="rounded-lg bg-[#ecfdf3] p-3">
+                <p className="text-xs font-bold uppercase text-emerald-700">
+                  {serviceMode === 'Schedule' ? 'Window' : 'ETA'}
+                </p>
+                <p className="mt-1 text-2xl font-black text-emerald-950">
+                  {serviceMode === 'Schedule' ? selectedSchedule.split(', ')[1] : deliveryTime}
+                </p>
               </div>
             </div>
-          </div>
+          </section>
         </div>
       </section>
 
-      <section id="suppliers" className="border-y border-black/10 bg-white py-14">
-        <div className="mx-auto grid max-w-7xl gap-8 px-4 sm:px-6 lg:grid-cols-[0.8fr_1.2fr] lg:px-8">
+      <section id="suppliers" className="border-y border-black/10 bg-white py-10">
+        <div className="mx-auto grid max-w-6xl gap-6 px-4 sm:px-6 lg:grid-cols-[0.8fr_1.2fr] lg:px-8">
           <div>
             <p className="text-xs font-bold uppercase text-neutral-500">Marketplace</p>
-            <h2 className="mt-3 text-3xl font-black sm:text-5xl">
-              Verified supply without the phone-call chaos.
-            </h2>
+            <h2 className="mt-2 text-2xl font-black sm:text-3xl">Verified suppliers without the phone-call chaos.</h2>
           </div>
           <div className="grid gap-3 md:grid-cols-3">
             {suppliers.map((supplier) => (
               <article key={supplier.name} className="rounded-lg border border-neutral-200 bg-neutral-50 p-4">
-                <div className="mb-6 flex items-start justify-between gap-3">
-                  <span className="rounded-md bg-white px-2 py-1 text-xs font-black text-neutral-700">
-                    {supplier.status}
-                  </span>
+                <div className="mb-4 flex items-start justify-between gap-3">
+                  <span className="rounded-md bg-white px-2 py-1 text-xs font-black text-neutral-700">{supplier.status}</span>
                   <span className="text-sm font-black">{supplier.rating}</span>
                 </div>
-                <h3 className="text-lg font-black">{supplier.name}</h3>
+                <h3 className="text-base font-black">{supplier.name}</h3>
                 <p className="mt-1 text-sm font-semibold text-neutral-500">{supplier.area}</p>
-                <div className="mt-5 flex items-end justify-between">
-                  <span className="text-sm font-bold text-neutral-500">{supplier.eta}</span>
-                  <span className="text-xl font-black">NGN {supplier.price.toLocaleString()}</span>
-                </div>
+                <p className="mt-4 text-sm font-bold text-neutral-500">{supplier.eta}</p>
               </article>
             ))}
           </div>
         </div>
       </section>
 
-      <section id="insights" className="bg-[#f5f6f2] py-14">
-        <div className="mx-auto grid max-w-7xl gap-6 px-4 sm:px-6 lg:grid-cols-3 lg:px-8">
-          <div className="rounded-lg bg-neutral-950 p-6 text-white lg:col-span-1">
+      <section id="insights" className="bg-[#f5f6f2] py-10">
+        <div className="mx-auto grid max-w-6xl gap-4 px-4 sm:px-6 lg:grid-cols-3 lg:px-8">
+          <div className="rounded-lg bg-neutral-950 p-5 text-white lg:col-span-1">
             <p className="text-xs font-bold uppercase text-white/45">For city teams</p>
-            <h2 className="mt-3 text-3xl font-black">Demand visibility, not guesswork.</h2>
-            <p className="mt-4 text-sm font-semibold leading-6 text-white/65">
-              See where households are requesting tanks, where subsidies are flowing, and where supply gaps are forming.
+            <h2 className="mt-2 text-2xl font-black">Demand visibility, not guesswork.</h2>
+            <p className="mt-3 text-sm font-semibold leading-6 text-white/65">
+              Track requests, subsidy use, complaints, and supply gaps in one operations view.
             </p>
-            <Link
-              href="/admin"
-              className="mt-6 inline-flex h-11 items-center rounded-lg bg-white px-5 text-sm font-black text-neutral-950"
-            >
+            <Link href="/admin" className="mt-5 inline-flex h-10 items-center rounded-lg bg-white px-4 text-sm font-black text-neutral-950">
               View dashboard
             </Link>
           </div>
 
           <div className="grid gap-3 lg:col-span-2">
-            {demandZones.map((zone) => (
-              <article key={zone.label} className="rounded-lg border border-black/10 bg-white p-5">
+            {[
+              { label: 'New Haven', value: 'High demand', tone: 'bg-red-500' },
+              { label: 'GRA', value: '5 trucks nearby', tone: 'bg-emerald-500' },
+              { label: 'Achara Layout', value: 'Subsidy active', tone: 'bg-blue-500' },
+            ].map((zone) => (
+              <article key={zone.label} className="rounded-lg border border-black/10 bg-white p-4">
                 <div className="flex items-center justify-between gap-4">
-                  <div className="flex min-w-0 items-center gap-4">
-                    <span className={`h-10 w-2 rounded-full ${zone.tone}`} />
+                  <div className="flex min-w-0 items-center gap-3">
+                    <span className={`h-9 w-2 rounded-full ${zone.tone}`} />
                     <div className="min-w-0">
-                      <h3 className="truncate text-xl font-black">{zone.label}</h3>
-                      <p className="mt-1 text-sm font-semibold text-neutral-500">{zone.value}</p>
+                      <h3 className="truncate text-lg font-black">{zone.label}</h3>
+                      <p className="text-sm font-semibold text-neutral-500">{zone.value}</p>
                     </div>
                   </div>
-                  <span className="rounded-lg bg-neutral-100 px-3 py-2 text-sm font-black">Live feed</span>
+                  <span className="rounded-lg bg-neutral-100 px-3 py-2 text-xs font-black">Live</span>
                 </div>
               </article>
             ))}
@@ -378,5 +309,14 @@ export default function Home() {
         </div>
       </section>
     </main>
+  );
+}
+
+function Row({ label, value, positive = false }: { label: string; value: string; positive?: boolean }) {
+  return (
+    <div className="flex items-center justify-between">
+      <span className="font-semibold text-white/60">{label}</span>
+      <span className={`font-black ${positive ? 'text-emerald-300' : 'text-white'}`}>{value}</span>
+    </div>
   );
 }
