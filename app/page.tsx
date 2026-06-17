@@ -43,11 +43,13 @@ const demandZones = [
   { label: 'Achara Layout', value: 'Subsidy active', tone: 'bg-blue-500' },
 ];
 
+const scheduleSlots = ['Today, 4-6 PM', 'Today, 6-8 PM', 'Tomorrow, 8-10 AM'];
+
 const homeMapMarkers = [
   { id: 'you', lat: 6.42, lng: 7.55, label: 'You', value: 'You', tone: 'blue' as const, selected: true },
-  { id: 'coal-city', lat: 6.45, lng: 7.52, label: 'Coal City Water', value: '18', tone: 'dark' as const },
-  { id: 'nike-lake', lat: 6.53, lng: 7.62, label: 'Nike Lake Tankers', value: '22', tone: 'dark' as const },
-  { id: 'uwani', lat: 6.5, lng: 7.65, label: 'Uwani Bulk Supply', value: '27', tone: 'dark' as const },
+  { id: 'coal-city', lat: 6.45, lng: 7.52, label: 'Coal City Water', value: '🚚', tone: 'dark' as const },
+  { id: 'nike-lake', lat: 6.53, lng: 7.62, label: 'Nike Lake Tankers', value: '🚚', tone: 'dark' as const },
+  { id: 'uwani', lat: 6.5, lng: 7.65, label: 'Uwani Bulk Supply', value: '🚚', tone: 'dark' as const },
   { id: 'demand', lat: 6.44, lng: 7.5, label: 'High demand zone', value: '54', tone: 'red' as const },
 ];
 
@@ -55,6 +57,7 @@ export default function Home() {
   const [selectedTank, setSelectedTank] = useState(tankSizes[1]);
   const [selectedSupplier, setSelectedSupplier] = useState(suppliers[0]);
   const [serviceMode, setServiceMode] = useState('Now');
+  const [selectedSchedule, setSelectedSchedule] = useState(scheduleSlots[0]);
   const [address, setAddress] = useState('12 Chime Avenue, New Haven');
 
   const subsidy = useMemo(() => Math.round(selectedTank.price * 0.12), [selectedTank]);
@@ -128,6 +131,30 @@ export default function Home() {
             </div>
 
             <div className="space-y-3">
+              {serviceMode === 'Schedule' && (
+                <div>
+                  <span className="mb-2 block text-xs font-bold uppercase text-neutral-500">
+                    Delivery window
+                  </span>
+                  <div className="grid gap-2">
+                    {scheduleSlots.map((slot) => (
+                      <button
+                        key={slot}
+                        type="button"
+                        onClick={() => setSelectedSchedule(slot)}
+                        className={`h-11 rounded-lg border px-3 text-left text-sm font-black transition ${
+                          selectedSchedule === slot
+                            ? 'border-neutral-950 bg-neutral-950 text-white'
+                            : 'border-neutral-200 bg-white text-neutral-700'
+                        }`}
+                      >
+                        {slot}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
+
               <label className="block">
                 <span className="mb-2 block text-xs font-bold uppercase text-neutral-500">
                   Delivery address
@@ -259,6 +286,9 @@ export default function Home() {
                     <p className="mt-1 text-sm font-semibold text-neutral-500">
                       {selectedTank.label} clean water to {address || 'your selected address'}
                     </p>
+                    <p className="mt-1 text-xs font-black text-neutral-500">
+                      {serviceMode === 'Schedule' ? selectedSchedule : 'Arriving now'}
+                    </p>
                     <div className="mt-4 grid grid-cols-3 gap-2">
                       {['Accepted', 'Filling', 'On route'].map((step, index) => (
                         <div key={step} className="min-w-0">
@@ -269,8 +299,12 @@ export default function Home() {
                     </div>
                   </div>
                   <div className="rounded-lg bg-[#ecfdf3] p-3 sm:p-4">
-                    <p className="text-xs font-bold uppercase text-emerald-700">ETA</p>
-                    <p className="mt-1 text-3xl font-black text-emerald-950 sm:text-4xl">{selectedSupplier.eta}</p>
+                    <p className="text-xs font-bold uppercase text-emerald-700">
+                      {serviceMode === 'Schedule' ? 'Window' : 'ETA'}
+                    </p>
+                    <p className="mt-1 text-3xl font-black text-emerald-950 sm:text-4xl">
+                      {serviceMode === 'Schedule' ? selectedSchedule.split(', ')[1] : selectedSupplier.eta}
+                    </p>
                     <p className="mt-2 text-sm font-semibold text-emerald-800">{selectedSupplier.status}</p>
                   </div>
                 </div>

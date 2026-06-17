@@ -12,6 +12,7 @@ import { calculatePrice, formatPrice } from '@/lib/pricing';
 import { getSortedSourcesByDistance } from '@/lib/utils';
 
 const quantities = [1000, 2500, 5000, 10000];
+const scheduleSlots = ['Today, 4-6 PM', 'Today, 6-8 PM', 'Tomorrow, 8-10 AM'];
 
 export default function RequestPage() {
   const [role] = useState<UserRole>('resident');
@@ -19,6 +20,8 @@ export default function RequestPage() {
   const [selectedQuantity, setSelectedQuantity] = useState(2500);
   const [selectedSourceId, setSelectedSourceId] = useState<string | null>('src-005');
   const [useSubsidy, setUseSubsidy] = useState(true);
+  const [deliveryMode, setDeliveryMode] = useState<'now' | 'schedule'>('now');
+  const [selectedSchedule, setSelectedSchedule] = useState(scheduleSlots[0]);
   const [createdOrder, setCreatedOrder] = useState<WaterOrder | null>(null);
 
   const selectedSource = WATER_SOURCES.find((source) => source.id === selectedSourceId);
@@ -52,7 +55,10 @@ export default function RequestPage() {
       subsidyAmount: pricing.subsidyDiscount,
       deliveryFee: pricing.deliveryFee,
       createdAt: new Date().toISOString(),
-      estimatedDeliveryTime: `${selectedSource.etaMinutes || Math.ceil(selectedSource.distanceKm * 8)} mins`,
+      estimatedDeliveryTime:
+        deliveryMode === 'schedule'
+          ? selectedSchedule
+          : `${selectedSource.etaMinutes || Math.ceil(selectedSource.distanceKm * 8)} mins`,
     });
   };
 
@@ -96,6 +102,46 @@ export default function RequestPage() {
                     ))}
                   </select>
                 </label>
+
+                <div className="mt-5">
+                  <p className="mb-2 text-xs font-bold uppercase text-neutral-500">Delivery time</p>
+                  <div className="grid grid-cols-2 rounded-lg bg-neutral-100 p-1">
+                    {[
+                      { id: 'now', label: 'Now' },
+                      { id: 'schedule', label: 'Schedule' },
+                    ].map((mode) => (
+                      <button
+                        key={mode.id}
+                        type="button"
+                        onClick={() => setDeliveryMode(mode.id as 'now' | 'schedule')}
+                        className={`h-11 rounded-md text-sm font-black transition ${
+                          deliveryMode === mode.id ? 'bg-white text-neutral-950 shadow-sm' : 'text-neutral-500'
+                        }`}
+                      >
+                        {mode.label}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {deliveryMode === 'schedule' && (
+                  <div className="mt-3 grid gap-2">
+                    {scheduleSlots.map((slot) => (
+                      <button
+                        key={slot}
+                        type="button"
+                        onClick={() => setSelectedSchedule(slot)}
+                        className={`h-11 rounded-lg border px-3 text-left text-sm font-black transition ${
+                          selectedSchedule === slot
+                            ? 'border-neutral-950 bg-neutral-950 text-white'
+                            : 'border-black/10 bg-white text-neutral-700'
+                        }`}
+                      >
+                        {slot}
+                      </button>
+                    ))}
+                  </div>
+                )}
 
                 <div className="mt-5">
                   <p className="mb-2 text-xs font-bold uppercase text-neutral-500">Tank size</p>
@@ -147,7 +193,12 @@ export default function RequestPage() {
                   lng: source.coordinates.lng,
                   label: source.name,
                   selected: selectedSourceId === source.id,
-                  value: source.etaMinutes ? String(source.etaMinutes) : 'OK',
+                  value:
+                    source.type === 'tanker' || source.type === 'subsidized_truck'
+                      ? '🚚'
+                      : source.etaMinutes
+                        ? String(source.etaMinutes)
+                        : 'OK',
                   tone: source.status === 'offline' ? 'red' : 'dark',
                 }))}
                 heightClass="h-[360px] md:h-[640px]"
@@ -161,6 +212,9 @@ export default function RequestPage() {
               <h2 className="mt-2 text-2xl font-black">{selectedSource?.name || 'Select a supplier'}</h2>
               <p className="mt-1 text-sm font-semibold text-white/60">
                 {selectedQuantity.toLocaleString()}L to {selectedArea}
+              </p>
+              <p className="mt-2 rounded-lg bg-white/10 px-3 py-2 text-sm font-black">
+                {deliveryMode === 'schedule' ? selectedSchedule : 'Deliver now'}
               </p>
 
               {pricing && selectedSource && (
@@ -178,7 +232,9 @@ export default function RequestPage() {
                       <span className="text-3xl font-black">{formatPrice(pricing.total)}</span>
                     </span>
                     <span className="rounded-lg bg-white/10 px-3 py-2 text-sm font-black">
-                      {selectedSource.etaMinutes || Math.ceil(selectedSource.distanceKm * 8)} min
+                      {deliveryMode === 'schedule'
+                        ? selectedSchedule.split(', ')[1]
+                        : `${selectedSource.etaMinutes || Math.ceil(selectedSource.distanceKm * 8)} min`}
                     </span>
                   </div>
                   <button onClick={handleCreateOrder} className="h-12 w-full rounded-lg bg-white text-sm font-black text-neutral-950">

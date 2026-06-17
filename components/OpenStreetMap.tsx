@@ -104,7 +104,7 @@ export default function OpenStreetMap({
             title={marker.label}
           >
             <span
-              className={`flex h-10 min-w-10 items-center justify-center rounded-full px-3 text-xs font-black shadow-xl transition hover:scale-110 ${toneClass(
+              className={`flex h-10 min-w-10 items-center justify-center rounded-full px-3 text-lg font-black shadow-xl transition hover:scale-110 ${toneClass(
                 marker.tone,
                 marker.selected
               )}`}

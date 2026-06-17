@@ -47,7 +47,12 @@ export default function WaterMap({
             ? ('green' as const)
             : ('dark' as const),
     selected: selectedSourceId === source.id,
-    value: source.etaMinutes ? `${source.etaMinutes}` : source.type === 'borehole' ? 'BH' : 'WP',
+    value:
+      source.type === 'tanker' || source.type === 'subsidized_truck'
+        ? '🚚'
+        : source.type === 'borehole'
+          ? 'BH'
+          : 'WP',
   }));
 
   const demandMarkers = demandMap
@@ -76,7 +81,7 @@ export default function WaterMap({
         caption="OpenStreetMap service map"
       />
       <div className="grid grid-cols-2 gap-2 border-t border-black/10 p-3 text-xs font-bold text-neutral-600 sm:grid-cols-4">
-        <span>Black: tanker</span>
+        <span>🚚 Tanker</span>
         <span>Green: borehole</span>
         <span>Blue: subsidy/public</span>
         <span>Red/Amber: demand risk</span>
