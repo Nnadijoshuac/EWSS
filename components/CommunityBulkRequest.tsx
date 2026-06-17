@@ -8,69 +8,65 @@ interface CommunityBulkRequestProps {
 
 export default function CommunityBulkRequest({ bulkRequests }: CommunityBulkRequestProps) {
   return (
-    <div className="card">
-      <h3 className="heading-sm mb-4">Community Bulk Requests</h3>
+    <section className="card">
+      <div className="mb-4 flex items-center justify-between">
+        <h3 className="text-xl font-black">Bulk requests</h3>
+        <span className="rounded-lg bg-neutral-100 px-3 py-2 text-xs font-black text-neutral-600">
+          {bulkRequests.length} live
+        </span>
+      </div>
 
-      <div className="space-y-4">
+      <div className="space-y-3">
         {bulkRequests.map((request) => {
           const progressPercent = (request.joinedHouseholds / Math.max(request.joinedHouseholds, 10)) * 100;
 
           return (
-            <div key={request.id} className="border-l-4 border-water-500 bg-water-50 rounded-lg p-4">
-              <div className="flex items-start justify-between mb-3">
-                <div>
-                  <p className="font-bold text-water-900">
+            <article key={request.id} className="rounded-lg border border-black/10 bg-neutral-50 p-4">
+              <div className="mb-3 flex items-start justify-between gap-3">
+                <div className="min-w-0">
+                  <p className="truncate font-black text-neutral-950">
                     {request.area}
-                    {request.street && `  ${request.street}`}
+                    {request.street && ` - ${request.street}`}
                   </p>
-                  <p className="text-sm text-gray-600">
+                  <p className="mt-1 text-sm font-semibold text-neutral-500">
                     {request.joinedHouseholds} households joined
                   </p>
                 </div>
                 <StatusPill status={request.status} />
               </div>
 
-              {/* Progress bar */}
               <div className="mb-3">
-                <div className="flex justify-between items-center mb-1">
-                  <p className="text-xs font-medium text-gray-700">
-                    {request.targetLitres.toLocaleString()} L needed
-                  </p>
-                  <p className="text-xs font-bold text-water-600">
-                    {Math.round(progressPercent)}%
-                  </p>
+                <div className="mb-1 flex items-center justify-between">
+                  <p className="text-xs font-bold text-neutral-600">{request.targetLitres.toLocaleString()} L target</p>
+                  <p className="text-xs font-black text-neutral-950">{Math.round(progressPercent)}%</p>
                 </div>
-                <div className="w-full bg-gray-300 rounded-full h-2 overflow-hidden">
-                  <div
-                    className="bg-water-600 h-full transition-all"
-                    style={{ width: `${Math.min(progressPercent, 100)}%` }}
-                  />
+                <div className="h-2 overflow-hidden rounded-full bg-neutral-200">
+                  <div className="h-full rounded-full bg-neutral-950" style={{ width: `${Math.min(progressPercent, 100)}%` }} />
                 </div>
               </div>
 
-              {/* Cost per household */}
-              <div className="bg-white rounded-lg p-3 mb-3">
-                <p className="text-xs text-gray-600 mb-1">Estimated cost per household</p>
-                <p className="text-xl font-bold text-water-600">
+              <div className="mb-3 rounded-lg bg-white p-3">
+                <p className="text-xs font-bold uppercase text-neutral-500">Per household</p>
+                <p className="mt-1 text-2xl font-black text-neutral-950">
                   {formatPrice(request.estimatedCostPerHousehold)}
                 </p>
               </div>
 
-              <div className="flex gap-2">
-                <button className="flex-1 btn-small">Join Request</button>
-                <button className="flex-1 btn-ghost text-sm">View Details</button>
+              <div className="grid grid-cols-2 gap-2">
+                <button className="btn-small h-11">Join</button>
+                <button className="btn-secondary h-11 px-3 text-sm">Details</button>
               </div>
-            </div>
+            </article>
           );
         })}
       </div>
 
       {bulkRequests.length === 0 && (
-        <div className="text-center py-6">
-          <p className="text-gray-600 mb-3">No bulk requests forming yet.</p>
-          <button className="btn-primary">Start a Bulk Request</button>
+        <div className="py-6 text-center">
+          <p className="mb-3 font-semibold text-neutral-500">No bulk requests forming yet.</p>
+          <button className="btn-primary">Start request</button>
         </div>
       )}
-    </div>
+    </section>
   );
 }

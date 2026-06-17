@@ -13,15 +13,15 @@ interface ReportIssueFormProps {
   }) => void;
 }
 
-const REPORT_TYPES: Array<{ type: ReportType; label: string; emoji: string }> = [
-  { type: 'no_access', label: 'No Water Access', emoji: '' },
-  { type: 'dirty_water', label: 'Dirty Water', emoji: '' },
-  { type: 'broken_pipe', label: 'Broken Pipe', emoji: '' },
-  { type: 'dry_tap', label: 'Dry Tap', emoji: '' },
-  { type: 'failed_delivery', label: 'Failed Delivery', emoji: '' },
-  { type: 'overpricing', label: 'Overpricing', emoji: '' },
-  { type: 'fake_tanker', label: 'Fake Tanker', emoji: '' },
-  { type: 'unsafe_borehole', label: 'Unsafe Borehole', emoji: '' },
+const reportTypes: Array<{ type: ReportType; label: string }> = [
+  { type: 'no_access', label: 'No access' },
+  { type: 'dirty_water', label: 'Dirty water' },
+  { type: 'broken_pipe', label: 'Broken pipe' },
+  { type: 'dry_tap', label: 'Dry tap' },
+  { type: 'failed_delivery', label: 'Failed delivery' },
+  { type: 'overpricing', label: 'Overpricing' },
+  { type: 'fake_tanker', label: 'Fake tanker' },
+  { type: 'unsafe_borehole', label: 'Unsafe borehole' },
 ];
 
 export default function ReportIssueForm({ onSubmit }: ReportIssueFormProps) {
@@ -31,22 +31,17 @@ export default function ReportIssueForm({ onSubmit }: ReportIssueFormProps) {
   const [severity, setSeverity] = useState<'low' | 'medium' | 'high'>('medium');
   const [submitted, setSubmitted] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
 
     if (!selectedType || !selectedArea || !description) {
       alert('Please fill in all fields');
       return;
     }
 
-    onSubmit?.({
-      type: selectedType,
-      area: selectedArea,
-      description,
-      severity,
-    });
-
+    onSubmit?.({ type: selectedType, area: selectedArea, description, severity });
     setSubmitted(true);
+
     setTimeout(() => {
       setSelectedType(null);
       setSelectedArea('');
@@ -58,60 +53,43 @@ export default function ReportIssueForm({ onSubmit }: ReportIssueFormProps) {
 
   if (submitted) {
     return (
-      <div className="card bg-green-50 border-2 border-green-300 text-center">
-        <p className="text-4xl mb-3"></p>
-        <h3 className="heading-md text-green-800 m-0 mb-2">Report Submitted</h3>
-        <p className="text-green-700 mb-4">
-          Thank you for helping Enugu water services improve. We will review this within 24 hours.
+      <div className="rounded-lg border border-emerald-200 bg-emerald-50 p-6 text-center">
+        <h3 className="text-2xl font-black text-emerald-950">Report submitted</h3>
+        <p className="mt-2 text-sm font-semibold text-emerald-800">
+          Thanks. We will review this within 24 hours.
         </p>
-        <button
-          onClick={() => setSubmitted(false)}
-          className="btn-secondary text-green-700 border-green-700 hover:bg-green-100"
-        >
-          Submit Another Report
+        <button onClick={() => setSubmitted(false)} className="btn-secondary mt-5">
+          Submit another report
         </button>
       </div>
     );
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6">
-      {/* Issue Type */}
+    <form onSubmit={handleSubmit} className="space-y-5">
       <div>
-        <label className="block text-sm font-bold text-water-900 mb-3">
-          What's the issue?
-        </label>
-
-        <div className="grid grid-cols-2 gap-2">
-          {REPORT_TYPES.map(({ type, label, emoji }) => (
+        <label className="mb-3 block text-sm font-black text-neutral-900">What happened?</label>
+        <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
+          {reportTypes.map(({ type, label }) => (
             <button
               key={type}
               type="button"
               onClick={() => setSelectedType(type)}
-              className={`p-3 rounded-lg font-medium text-sm transition-all border-2 ${
+              className={`min-h-14 rounded-lg border px-3 text-sm font-black transition ${
                 selectedType === type
-                  ? 'bg-red-100 border-red-500 text-red-900 ring-2 ring-red-300'
-                  : 'bg-white border-water-200 text-water-900 hover:border-water-400'
+                  ? 'border-neutral-950 bg-neutral-950 text-white'
+                  : 'border-black/10 bg-white text-neutral-700 hover:border-neutral-400'
               }`}
             >
-              <span className="text-lg block mb-1">{emoji}</span>
               {label}
             </button>
           ))}
         </div>
       </div>
 
-      {/* Area */}
-      <div>
-        <label className="block text-sm font-bold text-water-900 mb-2">
-          Location
-        </label>
-        <select
-          value={selectedArea}
-          onChange={(e) => setSelectedArea(e.target.value)}
-          className="input-field"
-          required
-        >
+      <label className="block">
+        <span className="mb-2 block text-sm font-black text-neutral-900">Location</span>
+        <select value={selectedArea} onChange={(event) => setSelectedArea(event.target.value)} className="input-field" required>
           <option value="">Select your area</option>
           {ENUGU_AREAS.map((area) => (
             <option key={area} value={area}>
@@ -119,51 +97,41 @@ export default function ReportIssueForm({ onSubmit }: ReportIssueFormProps) {
             </option>
           ))}
         </select>
-      </div>
+      </label>
 
-      {/* Severity */}
       <div>
-        <label className="block text-sm font-bold text-water-900 mb-2">
-          How urgent is this?
-        </label>
-        <div className="flex gap-2">
-          {(['low', 'medium', 'high'] as const).map((sev) => (
+        <label className="mb-2 block text-sm font-black text-neutral-900">Urgency</label>
+        <div className="grid grid-cols-3 gap-2">
+          {(['low', 'medium', 'high'] as const).map((item) => (
             <button
-              key={sev}
+              key={item}
               type="button"
-              onClick={() => setSeverity(sev)}
-              className={`flex-1 py-2 px-3 rounded-lg font-medium transition-all ${
-                severity === sev
-                  ? 'bg-water-600 text-white'
-                  : 'bg-white border-2 border-water-200 text-water-900'
+              onClick={() => setSeverity(item)}
+              className={`h-12 rounded-lg border text-sm font-black capitalize ${
+                severity === item
+                  ? 'border-neutral-950 bg-neutral-950 text-white'
+                  : 'border-black/10 bg-white text-neutral-700'
               }`}
             >
-              {sev === 'low' && ' Low'}
-              {sev === 'medium' && ' Medium'}
-              {sev === 'high' && ' High'}
+              {item}
             </button>
           ))}
         </div>
       </div>
 
-      {/* Description */}
-      <div>
-        <label className="block text-sm font-bold text-water-900 mb-2">
-          Tell us more
-        </label>
+      <label className="block">
+        <span className="mb-2 block text-sm font-black text-neutral-900">Details</span>
         <textarea
           value={description}
-          onChange={(e) => setDescription(e.target.value)}
-          placeholder="Describe the issue in detail..."
-          className="input-field resize-none"
-          rows={4}
+          onChange={(event) => setDescription(event.target.value)}
+          placeholder="Describe the issue clearly..."
+          className="input-field min-h-32 resize-none"
           required
         />
-      </div>
+      </label>
 
-      {/* Submit */}
-      <button type="submit" className="btn-primary w-full">
-        Submit Report
+      <button type="submit" className="btn-primary h-12 w-full">
+        Submit report
       </button>
     </form>
   );
