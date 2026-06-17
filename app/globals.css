@@ -21,6 +21,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   line-height: 1.6;
+  font-size: 15px;
 }
 
 @media (max-width: 767px) {
@@ -32,15 +33,15 @@ body {
 @layer components {
   /* Buttons */
   .btn-primary {
-    @apply rounded-lg bg-neutral-950 px-6 py-3 font-bold text-white transition hover:bg-neutral-800 active:bg-black disabled:cursor-not-allowed disabled:opacity-50;
+    @apply rounded-lg bg-neutral-950 px-5 py-2.5 text-sm font-bold text-white transition hover:bg-neutral-800 active:bg-black disabled:cursor-not-allowed disabled:opacity-50;
   }
 
   .btn-secondary {
-    @apply rounded-lg border border-black/10 bg-white px-6 py-3 font-bold text-neutral-950 transition hover:bg-neutral-100 active:bg-neutral-200;
+    @apply rounded-lg border border-black/10 bg-white px-5 py-2.5 text-sm font-bold text-neutral-950 transition hover:bg-neutral-100 active:bg-neutral-200;
   }
 
   .btn-ghost {
-    @apply rounded-lg px-6 py-3 font-bold text-neutral-600 transition hover:bg-black/5 hover:text-neutral-950;
+    @apply rounded-lg px-5 py-2.5 text-sm font-bold text-neutral-600 transition hover:bg-black/5 hover:text-neutral-950;
   }
 
   .btn-small {
@@ -53,15 +54,15 @@ body {
 
   /* Cards */
   .card {
-    @apply rounded-lg border border-black/10 bg-white p-6 shadow-sm;
+    @apply rounded-lg border border-black/10 bg-white p-4 shadow-sm;
   }
 
   .card-hover {
-    @apply cursor-pointer rounded-lg border border-black/10 bg-white p-6 shadow-sm transition hover:border-neutral-400;
+    @apply cursor-pointer rounded-lg border border-black/10 bg-white p-4 shadow-sm transition hover:border-neutral-400;
   }
 
   .card-large {
-    @apply rounded-lg border border-black/10 bg-white p-8 shadow-sm;
+    @apply rounded-lg border border-black/10 bg-white p-6 shadow-sm;
   }
 
   /* Badges */
@@ -100,15 +101,15 @@ body {
 
   /* Typography */
   .heading-xl {
-    @apply text-5xl font-black leading-tight text-neutral-950 md:text-6xl;
-  }
-
-  .heading-lg {
     @apply text-4xl font-black leading-tight text-neutral-950 md:text-5xl;
   }
 
+  .heading-lg {
+    @apply text-3xl font-black leading-tight text-neutral-950 md:text-4xl;
+  }
+
   .heading-md {
-    @apply text-3xl font-black text-neutral-950 md:text-4xl;
+    @apply text-2xl font-black text-neutral-950 md:text-3xl;
   }
 
   .heading-sm {

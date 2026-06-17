@@ -104,14 +104,14 @@ export default function OpenStreetMap({
             title={marker.label}
           >
             <span
-              className={`flex h-10 min-w-10 items-center justify-center rounded-full px-3 text-lg font-black shadow-xl transition hover:scale-110 ${toneClass(
+              className={`flex h-9 min-w-9 items-center justify-center rounded-full px-2 text-base font-black shadow-lg transition hover:scale-110 ${toneClass(
                 marker.tone,
                 marker.selected
               )}`}
             >
               {marker.value || marker.label.slice(0, 2)}
             </span>
-            {(marker.selected || marker.value) && (
+            {marker.selected && (
               <span className="max-w-36 rounded-md bg-white px-2 py-1 text-xs font-black text-neutral-950 shadow-xl">
                 {marker.label}
               </span>
