@@ -11,6 +11,7 @@ interface WaterSourceListProps {
   selectedSourceId?: string | null;
   onSelectSource?: (id: string) => void;
   compact?: boolean;
+  closestSourceId?: string | null;
 }
 
 export default function WaterSourceList({
@@ -18,6 +19,7 @@ export default function WaterSourceList({
   selectedSourceId,
   onSelectSource,
   compact = false,
+  closestSourceId,
 }: WaterSourceListProps) {
   if (sources.length === 0) {
     return (
@@ -31,6 +33,7 @@ export default function WaterSourceList({
     <div className={`space-y-2 ${!compact ? 'max-h-[520px] overflow-y-auto pr-1' : ''}`}>
       {sources.map((source) => {
         const isSelected = selectedSourceId === source.id;
+        const isClosest = closestSourceId === source.id;
 
         return (
           <button
@@ -50,7 +53,14 @@ export default function WaterSourceList({
                     {getSourceTypeLabel(source.type).slice(0, 2).toUpperCase()}
                   </span>
                   <div className="min-w-0">
-                    <h3 className="truncate font-black text-neutral-950">{source.name}</h3>
+                    <div className="flex items-center gap-2">
+                      <h3 className="truncate font-black text-neutral-950">{source.name}</h3>
+                      {isClosest && (
+                        <span className="shrink-0 rounded-md bg-amber-100 px-2 py-1 text-[10px] font-black text-amber-800">
+                          Closest
+                        </span>
+                      )}
+                    </div>
                     <p className="text-xs font-semibold text-neutral-500">
                       {source.area} - {source.distanceKm} km away
                     </p>

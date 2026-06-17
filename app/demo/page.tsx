@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import Link from 'next/link';
 import TopNav from '@/components/TopNav';
 import WaterMap from '@/components/WaterMap';
@@ -14,7 +14,10 @@ import {
   filterSourcesByAvailability,
   filterSourcesByVerification,
   filterByArea,
+  Coordinates,
+  getClosestSource,
   getSortedSourcesByDistance,
+  getSourcesWithLiveDistance,
 } from '@/lib/utils';
 
 const sourceTypes = [
@@ -31,15 +34,53 @@ export default function DemoPage() {
   const [filterType, setFilterType] = useState<string[]>([]);
   const [onlyAvailable, setOnlyAvailable] = useState(false);
   const [verifiedOnly, setVerifiedOnly] = useState(true);
+  const [userLocation, setUserLocation] = useState<Coordinates | null>(null);
+  const [locationStatus, setLocationStatus] = useState<'idle' | 'loading' | 'ready' | 'error'>('idle');
 
-  let filtered = WATER_SOURCES as WaterSource[];
+  const sourcesWithLiveDistance = useMemo(
+    () => getSourcesWithLiveDistance(WATER_SOURCES, userLocation),
+    [userLocation]
+  );
+
+  let filtered = sourcesWithLiveDistance as WaterSource[];
   filtered = filterByArea(filtered, selectedArea);
   filtered = filterSourcesByType(filtered, filterType);
   filtered = filterSourcesByAvailability(filtered, onlyAvailable);
   filtered = filterSourcesByVerification(filtered, verifiedOnly);
   filtered = getSortedSourcesByDistance(filtered);
 
-  const selectedSource = WATER_SOURCES.find((source) => source.id === selectedSourceId);
+  const closestTanker = userLocation
+    ? getClosestSource(sourcesWithLiveDistance, ['tanker', 'subsidized_truck'])
+    : undefined;
+  const selectedSource = sourcesWithLiveDistance.find((source) => source.id === selectedSourceId);
+
+  const handleUseLocation = () => {
+    if (!navigator.geolocation) {
+      setLocationStatus('error');
+      return;
+    }
+
+    setLocationStatus('loading');
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const nextLocation = {
+          lat: position.coords.latitude,
+          lng: position.coords.longitude,
+        };
+        const nextSources = getSourcesWithLiveDistance(WATER_SOURCES, nextLocation);
+        const nearestTanker = getClosestSource(nextSources, ['tanker', 'subsidized_truck']);
+
+        setUserLocation(nextLocation);
+        setSelectedArea('');
+        setOnlyAvailable(true);
+        setVerifiedOnly(true);
+        setSelectedSourceId(nearestTanker?.id || null);
+        setLocationStatus('ready');
+      },
+      () => setLocationStatus('error'),
+      { enableHighAccuracy: true, maximumAge: 60000, timeout: 10000 }
+    );
+  };
 
   if (role !== 'resident') {
     return (
@@ -72,9 +113,44 @@ export default function DemoPage() {
               Real OpenStreetMap coverage, verified suppliers, live demand, and clean pricing in one dispatch view.
             </p>
           </div>
-          <Link href="/request" className="inline-flex h-12 w-full items-center justify-center rounded-lg bg-neutral-950 px-5 text-sm font-black text-white sm:w-auto">
-            Request water
-          </Link>
+          <div className="grid w-full gap-2 sm:w-auto sm:grid-cols-2">
+            <button
+              type="button"
+              onClick={handleUseLocation}
+              className="h-11 rounded-lg border border-black/10 bg-white px-4 text-sm font-black text-neutral-950"
+            >
+              {locationStatus === 'loading' ? 'Locating...' : 'Use my location'}
+            </button>
+            <Link href="/request" className="inline-flex h-11 items-center justify-center rounded-lg bg-neutral-950 px-5 text-sm font-black text-white">
+              Request water
+            </Link>
+          </div>
+        </div>
+
+        <div className="mb-4 rounded-lg border border-black/10 bg-white p-3">
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <div>
+              <p className="text-xs font-bold uppercase text-neutral-500">Smart match</p>
+              <p className="text-sm font-black text-neutral-950">
+                {closestTanker
+                  ? `${closestTanker.name} is the closest available tanker`
+                  : 'Tap Use my location to find your closest tanker'}
+              </p>
+              {closestTanker && (
+                <p className="text-xs font-semibold text-neutral-500">
+                  {closestTanker.distanceKm} km away - {closestTanker.area}
+                </p>
+              )}
+            </div>
+            <span className="rounded-lg bg-amber-100 px-3 py-2 text-xs font-black text-amber-800">
+              Amber marker = closest
+            </span>
+          </div>
+          {locationStatus === 'error' && (
+            <p className="mt-2 text-xs font-bold text-red-600">
+              Location was not available. You can still select an area manually.
+            </p>
+          )}
         </div>
 
         <select
@@ -144,7 +220,12 @@ export default function DemoPage() {
 
             <section className="card">
               <h2 className="mb-3 text-xl font-black">Nearby supply</h2>
-              <WaterSourceList sources={filtered} selectedSourceId={selectedSourceId} onSelectSource={setSelectedSourceId} />
+              <WaterSourceList
+                sources={filtered}
+                selectedSourceId={selectedSourceId}
+                onSelectSource={setSelectedSourceId}
+                closestSourceId={closestTanker?.id}
+              />
             </section>
           </aside>
 
@@ -154,6 +235,8 @@ export default function DemoPage() {
               selectedSourceId={selectedSourceId}
               onSelectSource={setSelectedSourceId}
               demandMap={selectedArea ? {} : AREA_DEMAND_MAP}
+              userLocation={userLocation}
+              closestSourceId={closestTanker?.id}
             />
 
             <div className="grid gap-4 xl:grid-cols-[1fr_360px]">

@@ -1,11 +1,50 @@
 import { WaterSource } from './types';
 
+export interface Coordinates {
+  lat: number;
+  lng: number;
+}
+
 export function getDistanceFromUser(source: WaterSource): number {
   return source.distanceKm;
 }
 
+export function getDistanceKm(a: Coordinates, b: Coordinates): number {
+  const radiusKm = 6371;
+  const dLat = ((b.lat - a.lat) * Math.PI) / 180;
+  const dLng = ((b.lng - a.lng) * Math.PI) / 180;
+  const lat1 = (a.lat * Math.PI) / 180;
+  const lat2 = (b.lat * Math.PI) / 180;
+  const sinLat = Math.sin(dLat / 2);
+  const sinLng = Math.sin(dLng / 2);
+  const h = sinLat * sinLat + Math.cos(lat1) * Math.cos(lat2) * sinLng * sinLng;
+
+  return radiusKm * 2 * Math.atan2(Math.sqrt(h), Math.sqrt(1 - h));
+}
+
+export function getSourcesWithLiveDistance(
+  sources: WaterSource[],
+  userLocation?: Coordinates | null
+): WaterSource[] {
+  if (!userLocation) return sources;
+
+  return sources.map((source) => ({
+    ...source,
+    distanceKm: Number(getDistanceKm(userLocation, source.coordinates).toFixed(1)),
+  }));
+}
+
 export function getSortedSourcesByDistance(sources: WaterSource[]): WaterSource[] {
   return [...sources].sort((a, b) => a.distanceKm - b.distanceKm);
+}
+
+export function getClosestSource(
+  sources: WaterSource[],
+  types?: WaterSource['type'][]
+): WaterSource | undefined {
+  return getSortedSourcesByDistance(
+    types && types.length ? sources.filter((source) => types.includes(source.type)) : sources
+  ).find((source) => source.status === 'available');
 }
 
 export function getSortedSourcesByRating(sources: WaterSource[]): WaterSource[] {
@@ -17,7 +56,7 @@ export function filterSourcesByType(
   type: string[]
 ): WaterSource[] {
   if (type.length === 0) return sources;
-  return sources.filter((s) => type.includes(s.type));
+  return sources.filter((source) => type.includes(source.type));
 }
 
 export function filterSourcesByAvailability(
@@ -25,7 +64,7 @@ export function filterSourcesByAvailability(
   onlyAvailable: boolean
 ): WaterSource[] {
   if (!onlyAvailable) return sources;
-  return sources.filter((s) => s.status === 'available');
+  return sources.filter((source) => source.status === 'available');
 }
 
 export function filterSourcesByVerification(
@@ -33,25 +72,20 @@ export function filterSourcesByVerification(
   verifiedOnly: boolean
 ): WaterSource[] {
   if (!verifiedOnly) return sources;
-  return sources.filter((s) => s.verified);
+  return sources.filter((source) => source.verified);
 }
 
 export function filterByArea(sources: WaterSource[], area: string): WaterSource[] {
   if (!area) return sources;
-  return sources.filter((s) => s.area === area);
+  return sources.filter((source) => source.area === area);
 }
 
 export function getEstimatedDeliveryTime(
   etaMinutes?: number,
   distanceKm?: number
 ): string {
-  if (etaMinutes) {
-    return `${etaMinutes} mins`;
-  }
-  if (distanceKm) {
-    const estimated = Math.ceil(distanceKm * 8); // rough estimate
-    return `${estimated} mins`;
-  }
+  if (etaMinutes) return `${etaMinutes} mins`;
+  if (distanceKm) return `${Math.ceil(distanceKm * 8)} mins`;
   return 'Est. time TBD';
 }
 
@@ -99,12 +133,12 @@ export function getSourceTypeLabel(type: string): string {
 
 export function getSourceTypeIcon(type: string): string {
   const icons: Record<string, string> = {
-    tanker: '🚛',
-    borehole: '🔵',
-    public_point: '💧',
-    subsidized_truck: '🏛️',
+    tanker: '\u{1F69A}',
+    borehole: 'BH',
+    public_point: 'WP',
+    subsidized_truck: '\u{1F69A}',
   };
-  return icons[type] || '💧';
+  return icons[type] || 'WP';
 }
 
 export function getReportTypeLabel(type: string): string {

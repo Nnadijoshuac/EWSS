@@ -33,6 +33,7 @@ function latLngToTilePoint(lat: number, lng: number, zoom: number) {
 }
 
 function toneClass(tone: Marker['tone'], selected?: boolean) {
+  if (selected && tone === 'amber') return 'bg-amber-500 text-neutral-950 ring-4 ring-white';
   if (selected) return 'bg-neutral-950 text-white ring-4 ring-white';
 
   const tones = {

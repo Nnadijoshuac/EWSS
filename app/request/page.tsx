@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import Link from 'next/link';
 import TopNav from '@/components/TopNav';
 import WaterSourceList from '@/components/WaterSourceList';
@@ -9,7 +9,7 @@ import OpenStreetMap from '@/components/OpenStreetMap';
 import { UserRole, WaterOrder } from '@/lib/types';
 import { WATER_SOURCES, ENUGU_AREAS, DEMO_SUBSIDY_VOUCHER } from '@/lib/mock-data';
 import { calculatePrice, formatPrice } from '@/lib/pricing';
-import { getSortedSourcesByDistance } from '@/lib/utils';
+import { Coordinates, getClosestSource, getSortedSourcesByDistance, getSourcesWithLiveDistance } from '@/lib/utils';
 
 const quantities = [1000, 2500, 5000, 10000];
 const scheduleSlots = ['Today, 4-6 PM', 'Today, 6-8 PM', 'Tomorrow, 8-10 AM'];
@@ -23,11 +23,21 @@ export default function RequestPage() {
   const [deliveryMode, setDeliveryMode] = useState<'now' | 'schedule'>('now');
   const [selectedSchedule, setSelectedSchedule] = useState(scheduleSlots[0]);
   const [createdOrder, setCreatedOrder] = useState<WaterOrder | null>(null);
+  const [userLocation, setUserLocation] = useState<Coordinates | null>(null);
+  const [locationStatus, setLocationStatus] = useState<'idle' | 'loading' | 'ready' | 'error'>('idle');
 
-  const selectedSource = WATER_SOURCES.find((source) => source.id === selectedSourceId);
+  const sourcesWithLiveDistance = useMemo(
+    () => getSourcesWithLiveDistance(WATER_SOURCES, userLocation),
+    [userLocation]
+  );
+
+  const selectedSource = sourcesWithLiveDistance.find((source) => source.id === selectedSourceId);
   const filteredSources = selectedArea
-    ? getSortedSourcesByDistance(WATER_SOURCES.filter((source) => source.area === selectedArea))
-    : getSortedSourcesByDistance(WATER_SOURCES);
+    ? getSortedSourcesByDistance(sourcesWithLiveDistance.filter((source) => source.area === selectedArea))
+    : getSortedSourcesByDistance(sourcesWithLiveDistance);
+  const closestTanker = userLocation
+    ? getClosestSource(sourcesWithLiveDistance, ['tanker', 'subsidized_truck'])
+    : undefined;
 
   const pricing = selectedSource
     ? calculatePrice(
@@ -64,6 +74,32 @@ export default function RequestPage() {
     });
   };
 
+  const handleUseLocation = () => {
+    if (!navigator.geolocation) {
+      setLocationStatus('error');
+      return;
+    }
+
+    setLocationStatus('loading');
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const nextLocation = {
+          lat: position.coords.latitude,
+          lng: position.coords.longitude,
+        };
+        const nextSources = getSourcesWithLiveDistance(WATER_SOURCES, nextLocation);
+        const nearestTanker = getClosestSource(nextSources, ['tanker', 'subsidized_truck']);
+
+        setUserLocation(nextLocation);
+        setSelectedArea('');
+        setSelectedSourceId(nearestTanker?.id || null);
+        setLocationStatus('ready');
+      },
+      () => setLocationStatus('error'),
+      { enableHighAccuracy: true, maximumAge: 60000, timeout: 10000 }
+    );
+  };
+
   return (
     <div className="min-h-screen bg-[#f5f6f2]">
       <TopNav currentRole={role} onRoleChange={() => {}} showRoleSwitcher={false} />
@@ -79,6 +115,18 @@ export default function RequestPage() {
           <p className="mt-2 max-w-2xl text-sm font-semibold text-neutral-500">
             Four decisions, then you are done: where, when, tank size, payment.
           </p>
+          <button
+            type="button"
+            onClick={handleUseLocation}
+            className="mt-3 h-10 rounded-lg border border-black/10 bg-white px-4 text-sm font-black text-neutral-950"
+          >
+            {locationStatus === 'loading' ? 'Finding closest tanker...' : 'Use my location'}
+          </button>
+          {locationStatus === 'error' && (
+            <p className="mt-2 text-xs font-bold text-red-600">
+              Location was not available. You can still choose an area manually.
+            </p>
+          )}
         </div>
 
         {createdOrder ? (
@@ -194,26 +242,48 @@ export default function RequestPage() {
                     sources={filteredSources}
                     selectedSourceId={selectedSourceId}
                     onSelectSource={setSelectedSourceId}
+                    closestSourceId={closestTanker?.id}
                   />
                 </section>
               </aside>
 
               <section className="overflow-hidden rounded-lg border border-black/10 bg-white">
                 <OpenStreetMap
-                  markers={filteredSources.map((source) => ({
-                    id: source.id,
-                    lat: source.coordinates.lat,
-                    lng: source.coordinates.lng,
-                    label: source.name,
-                    selected: selectedSourceId === source.id,
-                    value:
-                      source.type === 'tanker' || source.type === 'subsidized_truck'
-                        ? '\u{1F69A}'
-                        : source.etaMinutes
-                          ? String(source.etaMinutes)
-                          : 'OK',
-                    tone: source.status === 'offline' ? 'red' : 'dark',
-                  }))}
+                  markers={[
+                    ...filteredSources.map((source) => ({
+                      id: source.id,
+                      lat: source.coordinates.lat,
+                      lng: source.coordinates.lng,
+                      label: source.name,
+                      value:
+                        source.type === 'tanker' || source.type === 'subsidized_truck'
+                          ? '\u{1F69A}'
+                          : source.etaMinutes
+                            ? String(source.etaMinutes)
+                            : 'OK',
+                      tone:
+                        closestTanker?.id === source.id
+                          ? ('amber' as const)
+                          : source.status === 'offline'
+                            ? ('red' as const)
+                            : ('dark' as const),
+                      selected: selectedSourceId === source.id || closestTanker?.id === source.id,
+                    })),
+                    ...(userLocation
+                      ? [
+                          {
+                            id: 'user-location',
+                            lat: userLocation.lat,
+                            lng: userLocation.lng,
+                            label: 'Your location',
+                            value: 'You',
+                            tone: 'blue' as const,
+                            selected: true,
+                          },
+                        ]
+                      : []),
+                  ]}
+                  center={userLocation || undefined}
                   heightClass="h-[340px] md:h-[560px]"
                   onMarkerClick={setSelectedSourceId}
                   caption="Delivery route preview"
@@ -224,6 +294,11 @@ export default function RequestPage() {
                   <p className="text-sm font-semibold text-neutral-500">
                     {deliveryTime} - {selectedQuantity.toLocaleString()}L
                   </p>
+                  {closestTanker && (
+                    <p className="mt-1 text-xs font-black text-amber-700">
+                      Closest tanker: {closestTanker.name} - {closestTanker.distanceKm} km away
+                    </p>
+                  )}
                 </div>
               </section>
 

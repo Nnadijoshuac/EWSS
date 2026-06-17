@@ -1,7 +1,7 @@
 'use client';
 
 import { WaterSource } from '@/lib/types';
-import { getSourceTypeLabel } from '@/lib/utils';
+import { Coordinates, getSourceTypeLabel } from '@/lib/utils';
 import OpenStreetMap from './OpenStreetMap';
 
 interface WaterMapProps {
@@ -9,6 +9,8 @@ interface WaterMapProps {
   selectedSourceId?: string | null;
   onSelectSource?: (id: string) => void;
   demandMap?: Record<string, number>;
+  userLocation?: Coordinates | null;
+  closestSourceId?: string | null;
 }
 
 const areaCoordinates: Record<string, { lat: number; lng: number }> = {
@@ -32,6 +34,8 @@ export default function WaterMap({
   selectedSourceId,
   onSelectSource,
   demandMap,
+  userLocation,
+  closestSourceId,
 }: WaterMapProps) {
   const sourceMarkers = sources.map((source) => ({
     id: source.id,
@@ -39,14 +43,18 @@ export default function WaterMap({
     lng: source.coordinates.lng,
     label: `${source.name} - ${getSourceTypeLabel(source.type)}`,
     tone:
-      source.status === 'offline'
-        ? ('red' as const)
-        : source.type === 'subsidized_truck'
-          ? ('blue' as const)
-          : source.type === 'borehole'
-            ? ('green' as const)
-            : ('dark' as const),
-    selected: selectedSourceId === source.id,
+      closestSourceId === source.id
+        ? ('amber' as const)
+        : selectedSourceId === source.id
+          ? ('dark' as const)
+          : source.status === 'offline'
+            ? ('red' as const)
+            : source.type === 'subsidized_truck'
+              ? ('blue' as const)
+              : source.type === 'borehole'
+                ? ('green' as const)
+                : ('dark' as const),
+    selected: selectedSourceId === source.id || closestSourceId === source.id,
     value:
       source.type === 'tanker' || source.type === 'subsidized_truck'
         ? '\u{1F69A}'
@@ -70,21 +78,36 @@ export default function WaterMap({
       })
     : [];
 
+  const userMarker = userLocation
+    ? [
+        {
+          id: 'user-location',
+          lat: userLocation.lat,
+          lng: userLocation.lng,
+          label: 'Your location',
+          tone: 'blue' as const,
+          value: 'You',
+          selected: true,
+        },
+      ]
+    : [];
+
   return (
     <div className="overflow-hidden rounded-lg border border-black/10 bg-white">
       <OpenStreetMap
-        markers={[...demandMarkers, ...sourceMarkers]}
+        markers={[...demandMarkers, ...sourceMarkers, ...userMarker]}
+        center={userLocation || undefined}
         heightClass="h-[460px]"
         onMarkerClick={(id) => {
-          if (!id.startsWith('demand-')) onSelectSource?.(id);
+          if (!id.startsWith('demand-') && id !== 'user-location') onSelectSource?.(id);
         }}
         caption="OpenStreetMap service map"
       />
       <div className="grid grid-cols-2 gap-2 border-t border-black/10 p-3 text-xs font-bold text-neutral-600 sm:grid-cols-4">
         <span>{'\u{1F69A}'} Tanker</span>
-        <span>Green: borehole</span>
-        <span>Blue: subsidy/public</span>
-        <span>Red/Amber: demand risk</span>
+        <span>BH Borehole</span>
+        <span>WP Public point</span>
+        <span>Amber: closest tanker</span>
       </div>
     </div>
   );
