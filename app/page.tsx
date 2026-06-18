@@ -181,10 +181,10 @@ export default function Home() {
                   <span className="text-2xl font-black">NGN {total.toLocaleString()}</span>
                 </span>
                 <Link
-                  href="/request"
+                  href="/demo"
                   className="inline-flex h-10 items-center justify-center rounded-lg bg-white px-4 text-sm font-black text-[#005e97] transition hover:bg-[#eceef0]"
                 >
-                  Confirm
+                  View map
                 </Link>
               </div>
             </div>
