@@ -2,13 +2,12 @@
 
 import { useMemo, useState } from 'react';
 import Link from 'next/link';
-import TopNav from '@/components/TopNav';
 import WaterMap from '@/components/WaterMap';
 import WaterSourceList from '@/components/WaterSourceList';
 import WaterSourcePanel from '@/components/WaterSourcePanel';
 import CommunityBulkRequest from '@/components/CommunityBulkRequest';
 import { WATER_SOURCES, ENUGU_AREAS, AREA_DEMAND_MAP, SAMPLE_BULK_REQUESTS } from '@/lib/mock-data';
-import { WaterSource, UserRole } from '@/lib/types';
+import { WaterSource } from '@/lib/types';
 import {
   filterSourcesByType,
   filterSourcesByAvailability,
@@ -28,7 +27,6 @@ const sourceTypes = [
 ];
 
 export default function DemoPage() {
-  const [role, setRole] = useState<UserRole>('resident');
   const [selectedArea, setSelectedArea] = useState('');
   const [selectedSourceId, setSelectedSourceId] = useState<string | null>('src-005');
   const [filterType, setFilterType] = useState<string[]>([]);
@@ -82,38 +80,46 @@ export default function DemoPage() {
     );
   };
 
-  if (role !== 'resident') {
-    return (
-      <div className="min-h-screen bg-[#f7f9fb]">
-        <TopNav currentRole={role} onRoleChange={setRole} showRoleSwitcher />
-        <div className="container-max section-padding text-center">
-          <p className="text-lg font-semibold text-[#404751]">Switching to {role} view...</p>
-        </div>
-      </div>
-    );
-  }
-
   return (
     <div className="min-h-screen bg-[#f7f9fb] pb-12">
-      <TopNav
-        currentRole={role}
-        onRoleChange={setRole}
-        showRoleSwitcher
-        selectedArea={selectedArea}
-        onAreaChange={setSelectedArea}
-        areas={ENUGU_AREAS}
-      />
-
-      <main className="mx-auto max-w-7xl px-4 pt-24 sm:px-6 lg:px-8">
-        <div className="mb-5 flex flex-wrap items-end justify-between gap-4">
-          <div>
-            <p className="text-xs font-bold uppercase text-[#404751]">Resident app</p>
-            <h1 className="mt-2 text-3xl font-black leading-tight text-[#191c1e] sm:text-4xl">Find water near you.</h1>
-            <p className="mt-2 max-w-2xl text-sm font-semibold text-[#404751]">
-              Real OpenStreetMap coverage, verified suppliers, live demand, and clean pricing in one dispatch view.
-            </p>
+      <main className="mx-auto max-w-7xl px-4 pb-24 pt-4 sm:px-6 lg:px-8">
+        <div className="mb-4 rounded-lg border border-[#c0c7d2]/30 bg-white p-4 shadow-[0_4px_12px_rgba(0,94,151,0.08)]">
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <Link href="/" className="inline-flex items-center gap-2 text-sm font-black text-[#005e97]">
+              <span aria-hidden="true">←</span>
+              Back to Vale
+            </Link>
+            <Link
+              href="/request"
+              className="inline-flex h-10 items-center justify-center rounded-lg bg-[#005e97] px-4 text-sm font-black text-white"
+            >
+              Continue to order
+            </Link>
           </div>
-          <div className="grid w-full gap-2 sm:w-auto sm:grid-cols-2">
+
+          <div className="mt-4 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+            <div>
+              <p className="text-xs font-bold uppercase text-[#404751]">Step 2 of delivery</p>
+              <h1 className="mt-2 text-3xl font-black leading-tight text-[#191c1e] sm:text-4xl">Choose nearby supply.</h1>
+              <p className="mt-2 max-w-2xl text-sm font-semibold text-[#404751]">
+                Pick a verified tanker or water point from the map, then continue to confirm delivery details.
+              </p>
+            </div>
+
+            <div className="grid gap-2 sm:grid-cols-[minmax(180px,240px)_auto]">
+              <select
+                value={selectedArea}
+                onChange={(event) => setSelectedArea(event.target.value)}
+                className="h-11 rounded-lg border border-[#c0c7d2]/30 bg-white px-3 text-sm font-black text-[#191c1e] outline-none focus:border-[#005e97]"
+              >
+                <option value="">All areas</option>
+                {ENUGU_AREAS.map((area) => (
+                  <option key={area} value={area}>
+                    {area}
+                  </option>
+                ))}
+              </select>
+
             <button
               type="button"
               onClick={handleUseLocation}
@@ -121,9 +127,7 @@ export default function DemoPage() {
             >
               {locationStatus === 'loading' ? 'Locating...' : 'Use my location'}
             </button>
-            <Link href="/request" className="inline-flex h-11 items-center justify-center rounded-lg bg-[#005e97] px-5 text-sm font-black text-white">
-              Request water
-            </Link>
+            </div>
           </div>
         </div>
 
@@ -152,19 +156,6 @@ export default function DemoPage() {
             </p>
           )}
         </div>
-
-        <select
-          value={selectedArea}
-          onChange={(event) => setSelectedArea(event.target.value)}
-          className="mb-4 h-12 w-full rounded-lg border border-[#c0c7d2]/30 bg-white px-4 text-sm font-black text-[#191c1e] outline-none sm:hidden"
-        >
-          <option value="">All areas</option>
-          {ENUGU_AREAS.map((area) => (
-            <option key={area} value={area}>
-              {area}
-            </option>
-          ))}
-        </select>
 
         <div className="grid gap-5 lg:grid-cols-[360px_1fr]">
           <aside className="order-2 space-y-4 lg:order-1">
