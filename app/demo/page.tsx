@@ -86,7 +86,7 @@ export default function DemoPage() {
         <div className="mb-4 rounded-lg border border-[#c0c7d2]/30 bg-white p-4 shadow-[0_4px_12px_rgba(0,94,151,0.08)]">
           <div className="flex flex-wrap items-center justify-between gap-3">
             <Link href="/" className="inline-flex items-center gap-2 text-sm font-black text-[#005e97]">
-              <span aria-hidden="true">←</span>
+              <span aria-hidden="true">&lt;-</span>
               Back to Vale
             </Link>
             <Link
