@@ -43,7 +43,7 @@ export default function VerifyPage() {
             <p className="text-5xl mb-3"></p>
             <h2 className="heading-md text-green-900 m-0 mb-2">QR Code Verified</h2>
             <p className="text-green-800">
-              This water source has been verified and registered with Kwnch
+              This water source has been verified and registered with Vale
             </p>
           </div>
 
@@ -128,7 +128,7 @@ export default function VerifyPage() {
             <div className="bg-blue-50 border-2 border-blue-200 rounded-lg p-4 mb-6">
               <p className="text-sm font-bold text-blue-900 mb-2"> Verification Details</p>
               <ul className="text-xs text-blue-900 space-y-1">
-                <li> Registered with Kwnch on Jan 15, 2024</li>
+                <li> Registered with Vale on Jan 15, 2024</li>
                 <li> Regular quality inspections conducted</li>
                 <li> All legal documentation verified</li>
                 <li> {source.complaintCount} complaint{source.complaintCount !== 1 ? 's' : ''} on record</li>
@@ -182,7 +182,7 @@ export default function VerifyPage() {
                 <div>
                   <p className="font-bold">Protected Customers</p>
                   <p className="text-xs opacity-75">
-                    Report issues and get support from Kwnch
+                    Report issues and get support from Vale
                   </p>
                 </div>
               </li>

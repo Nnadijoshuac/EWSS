@@ -118,7 +118,7 @@ export default function OrderTracker({ order, onStatusChange }: OrderTrackerProp
         <div className="bg-green-50 border border-green-300 rounded-lg p-4">
           <p className="text-sm font-bold text-green-800 mb-2"> Order Delivered!</p>
           <p className="text-xs text-green-700">
-            Thank you for using Kwnch. Please rate your experience.
+            Thank you for using Vale. Please rate your experience.
           </p>
           <div className="mt-3 flex gap-1">
             {[1, 2, 3, 4, 5].map((star) => (

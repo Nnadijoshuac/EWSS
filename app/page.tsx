@@ -58,12 +58,12 @@ export default function Home() {
     <main className="min-h-screen bg-[#f7f9fb] text-[#191c1e]">
       <header className="fixed left-0 right-0 top-0 z-50 border-b border-[#c0c7d2]/20 bg-[#f7f9fb]/90 backdrop-blur-xl">
         <div className="mx-auto flex h-14 max-w-6xl items-center justify-between px-4 sm:px-6 lg:px-8">
-          <Link href="/" className="flex items-center gap-3" aria-label="Kwnch home">
+          <Link href="/" className="flex items-center gap-3" aria-label="Vale home">
             <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#005e97] text-xs font-black text-white">
-              KW
+              VA
             </span>
             <span>
-              <span className="block text-sm font-black leading-none">Kwnch</span>
+              <span className="block text-sm font-black leading-none">Vale</span>
               <span className="block text-xs font-semibold text-[#404751]">Water Delivery</span>
             </span>
           </Link>

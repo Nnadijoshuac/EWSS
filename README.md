@@ -1,4 +1,4 @@
-# 💧 Kwnch
+# Vale
 
 **Find water. Request water. Help Enugu see where water is needed.**
 
@@ -16,7 +16,7 @@ Many Enugu residents struggle with:
 
 ## ✨ Solution
 
-Kwnch connects residents to verified water sources while giving government real-time visibility into water demand, supply, and community needs.
+Vale connects residents to verified water sources while giving government real-time visibility into water demand, supply, and community needs.
 
 ### Three Core Value Propositions
 
@@ -158,7 +158,7 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 
 ### Demo Flow
 
-1. **Landing Page** (`/`) - Introduces Kwnch
+1. **Landing Page** (`/`) - Introduces Vale
 2. **Launch Demo** - Switch to resident/supplier/admin role at the top
 3. **Resident Flow** (`/demo`):
    - See water sources on interactive map
@@ -393,5 +393,5 @@ Built as a hackathon prototype. For production use, see licensing and regulatory
 ---
 
 **Let's make water access better for Enugu. 💧**
-#   E W S S  
- 
+# EWSS
+
