@@ -43,13 +43,13 @@ export default function DemandMap({ demandData, supplyData }: DemandMapProps) {
   });
 
   return (
-    <section className="rounded-lg border border-black/10 bg-white p-4 shadow-sm">
+    <section className="rounded-lg border border-[#c0c7d2]/30 bg-white p-4 shadow-sm">
       <div className="mb-4 flex flex-wrap items-end justify-between gap-3">
         <div>
-          <p className="text-xs font-bold uppercase text-neutral-500">Live demand</p>
-          <h3 className="mt-1 text-2xl font-black text-neutral-950">Supply gaps by area</h3>
+          <p className="text-xs font-bold uppercase text-[#404751]">Live demand</p>
+          <h3 className="mt-1 text-2xl font-black text-[#191c1e]">Supply gaps by area</h3>
         </div>
-        <p className="text-sm font-semibold text-neutral-500">OpenStreetMap coverage layer</p>
+        <p className="text-sm font-semibold text-[#404751]">OpenStreetMap coverage layer</p>
       </div>
 
       <OpenStreetMap markers={markers} heightClass="h-[360px]" caption="OpenStreetMap demand map" />
@@ -61,11 +61,11 @@ export default function DemandMap({ demandData, supplyData }: DemandMapProps) {
           const covered = Math.min(100, Math.round((supply / Math.max(demand, 1)) * 100));
 
           return (
-            <div key={area} className="rounded-lg bg-neutral-50 p-3">
+            <div key={area} className="rounded-lg bg-[#f2f4f6] p-3">
               <div className="flex items-center justify-between gap-3">
                 <div>
-                  <p className="font-black text-neutral-950">{area}</p>
-                  <p className="text-xs font-semibold text-neutral-500">
+                  <p className="font-black text-[#191c1e]">{area}</p>
+                  <p className="text-xs font-semibold text-[#404751]">
                     {demand} requests - {supply} suppliers
                   </p>
                 </div>
@@ -74,7 +74,7 @@ export default function DemandMap({ demandData, supplyData }: DemandMapProps) {
                 </span>
               </div>
               <div className="mt-3 h-2 overflow-hidden rounded-full bg-neutral-200">
-                <div className="h-full rounded-full bg-neutral-950" style={{ width: `${covered}%` }} />
+                <div className="h-full rounded-full bg-[#005e97]" style={{ width: `${covered}%` }} />
               </div>
             </div>
           );

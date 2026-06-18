@@ -18,7 +18,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="bg-water-50">
+      <body className="bg-[#f7f9fb]">
         {children}
         <MobileBottomNav />
       </body>

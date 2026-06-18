@@ -26,33 +26,33 @@ export default function OrderTracker({ order, onStatusChange }: OrderTrackerProp
       <div className="flex items-start justify-between mb-4">
         <div>
           <h3 className="heading-sm m-0">Order #{order.id.split('-')[1]}</h3>
-          <p className="text-xs text-gray-600">{order.sourceName}</p>
+          <p className="text-xs text-[#404751]">{order.sourceName}</p>
         </div>
         <StatusPill status={order.status} />
       </div>
 
       {/* Order Details */}
-      <div className="bg-water-50 rounded-lg p-4 mb-4 space-y-2 text-sm">
+      <div className="bg-[#f7f9fb] rounded-lg p-4 mb-4 space-y-2 text-sm">
         <div className="flex justify-between">
-          <span className="text-gray-600">Quantity:</span>
-          <span className="font-bold text-water-900">
+          <span className="text-[#404751]">Quantity:</span>
+          <span className="font-bold text-[#001d34]">
             {order.quantityLitres.toLocaleString()} L
           </span>
         </div>
         <div className="flex justify-between">
-          <span className="text-gray-600">Location:</span>
-          <span className="font-bold text-water-900">{order.residentArea}</span>
+          <span className="text-[#404751]">Location:</span>
+          <span className="font-bold text-[#001d34]">{order.residentArea}</span>
         </div>
         <div className="divider my-2" />
         <div className="flex justify-between">
-          <span className="text-gray-600">Water Cost:</span>
-          <span className="font-medium text-gray-700">
+          <span className="text-[#404751]">Water Cost:</span>
+          <span className="font-medium text-[#404751]">
             {formatPrice(order.price - order.deliveryFee)}
           </span>
         </div>
         <div className="flex justify-between">
-          <span className="text-gray-600">Delivery Fee:</span>
-          <span className="font-medium text-gray-700">
+          <span className="text-[#404751]">Delivery Fee:</span>
+          <span className="font-medium text-[#404751]">
             {formatPrice(order.deliveryFee)}
           </span>
         </div>
@@ -63,7 +63,7 @@ export default function OrderTracker({ order, onStatusChange }: OrderTrackerProp
           </div>
         )}
         <div className="divider my-2" />
-        <div className="flex justify-between text-base font-bold text-water-900">
+        <div className="flex justify-between text-base font-bold text-[#001d34]">
           <span>Total:</span>
           <span>{formatPrice(order.price)}</span>
         </div>
@@ -71,7 +71,7 @@ export default function OrderTracker({ order, onStatusChange }: OrderTrackerProp
 
       {/* Status Timeline */}
       <div className="mb-6">
-        <p className="text-xs font-bold text-gray-600 mb-3 uppercase">Delivery Status</p>
+        <p className="text-xs font-bold text-[#404751] mb-3 uppercase">Delivery Status</p>
         <div className="space-y-3">
           {statuses.map((status, idx) => {
             const isCompleted = idx <= currentIndex;
@@ -83,19 +83,19 @@ export default function OrderTracker({ order, onStatusChange }: OrderTrackerProp
                   className={`w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm flex-shrink-0 transition-all ${
                     isCompleted
                       ? isCurrent
-                        ? 'bg-water-600 text-white ring-4 ring-water-200'
+                        ? 'bg-[#005e97] text-white ring-4 ring-[#cfe5ff]'
                         : 'bg-green-600 text-white'
-                      : 'bg-gray-300 text-gray-600'
+                      : 'bg-[#d8dadc] text-[#404751]'
                   }`}
                 >
                   {isCompleted ? (isCurrent ? '' : '') : idx + 1}
                 </div>
                 <div className="flex-1">
-                  <p className={`font-medium ${isCurrent ? 'text-water-600' : ''}`}>
+                  <p className={`font-medium ${isCurrent ? 'text-[#005e97]' : ''}`}>
                     {getOrderStatusLabel(status)}
                   </p>
                   {isCurrent && (
-                    <p className="text-xs text-gray-600">
+                    <p className="text-xs text-[#404751]">
                       Est. {order.estimatedDeliveryTime}
                     </p>
                   )}

@@ -20,7 +20,7 @@ export default function AccessGapList({ gaps }: AccessGapListProps) {
     <section className="card">
       <div className="mb-4 flex items-center justify-between">
         <h3 className="text-2xl font-black">Access gaps</h3>
-        <span className="rounded-lg bg-neutral-100 px-3 py-2 text-xs font-black text-neutral-600">
+        <span className="rounded-lg bg-[#eceef0] px-3 py-2 text-xs font-black text-[#404751]">
           {gaps.length} active
         </span>
       </div>
@@ -30,7 +30,7 @@ export default function AccessGapList({ gaps }: AccessGapListProps) {
           <div key={`${gap.area}-${index}`} className={`rounded-lg border p-4 ${severityColors[gap.severity]}`}>
             <div className="flex items-start justify-between gap-3">
               <div>
-                <p className="font-black text-neutral-950">{gap.area}</p>
+                <p className="font-black text-[#191c1e]">{gap.area}</p>
                 <p className="mt-1 text-sm font-semibold">{gap.issue}</p>
                 {gap.action && <p className="mt-2 text-xs font-black opacity-75">Action: {gap.action}</p>}
               </div>
@@ -41,7 +41,7 @@ export default function AccessGapList({ gaps }: AccessGapListProps) {
       </div>
 
       {gaps.length === 0 && (
-        <p className="py-6 text-center font-semibold text-neutral-500">No access gaps detected.</p>
+        <p className="py-6 text-center font-semibold text-[#404751]">No access gaps detected.</p>
       )}
     </section>
   );

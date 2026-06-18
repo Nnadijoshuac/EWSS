@@ -23,11 +23,11 @@ export default function BulkPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#f5f6f2]">
+    <div className="min-h-screen bg-[#f7f9fb]">
       <TopNav currentRole="resident" onRoleChange={() => {}} showRoleSwitcher={false} />
 
       <main className="mx-auto max-w-5xl px-4 pb-12 pt-24 sm:px-6 lg:px-8">
-        <Link href="/demo" className="text-sm font-bold text-neutral-600 hover:text-neutral-950">
+        <Link href="/demo" className="text-sm font-bold text-[#404751] hover:text-[#191c1e]">
           Back to map
         </Link>
 
@@ -35,16 +35,16 @@ export default function BulkPage() {
           <>
             <div className="mt-4 grid gap-5 lg:grid-cols-[1fr_360px] lg:items-start">
               <section>
-                <p className="text-xs font-bold uppercase text-neutral-500">Bulk orders</p>
-                <h1 className="mt-2 text-3xl font-black leading-tight text-neutral-950 sm:text-4xl">
+                <p className="text-xs font-bold uppercase text-[#404751]">Bulk orders</p>
+                <h1 className="mt-2 text-3xl font-black leading-tight text-[#191c1e] sm:text-4xl">
                   Share a tanker. Pay less.
                 </h1>
-                <p className="mt-2 text-sm font-semibold text-neutral-500">
+                <p className="mt-2 text-sm font-semibold text-[#404751]">
                   Join neighbors nearby or start a request for your street. The app handles the coordination.
                 </p>
               </section>
 
-              <section className="rounded-lg bg-neutral-950 p-5 text-white">
+              <section className="rounded-lg bg-[#005e97] p-5 text-white">
                 <p className="text-xs font-bold uppercase text-white/45">Smart saving</p>
                 <p className="mt-2 text-3xl font-black">20-30%</p>
                 <p className="mt-2 text-sm font-semibold text-white/65">
@@ -52,7 +52,7 @@ export default function BulkPage() {
                 </p>
                 <button
                   onClick={() => setStep('create')}
-                  className="mt-5 h-12 w-full rounded-lg bg-white text-sm font-black text-neutral-950"
+                  className="mt-5 h-12 w-full rounded-lg bg-white text-sm font-black text-[#191c1e]"
                 >
                   Start bulk request
                 </button>
@@ -64,18 +64,18 @@ export default function BulkPage() {
             </div>
           </>
         ) : (
-          <section className="mx-auto mt-5 max-w-2xl rounded-lg border border-black/10 bg-white p-5 shadow-sm">
-            <button onClick={() => setStep('browse')} className="mb-4 text-sm font-bold text-neutral-600">
+          <section className="mx-auto mt-5 max-w-2xl rounded-lg border border-[#c0c7d2]/30 bg-white p-5 shadow-sm">
+            <button onClick={() => setStep('browse')} className="mb-4 text-sm font-bold text-[#404751]">
               Back
             </button>
-            <h1 className="text-3xl font-black text-neutral-950">Start a bulk request.</h1>
-            <p className="mt-2 text-sm font-semibold text-neutral-500">
+            <h1 className="text-3xl font-black text-[#191c1e]">Start a bulk request.</h1>
+            <p className="mt-2 text-sm font-semibold text-[#404751]">
               Set the area and target volume. Neighbors can join once it is live.
             </p>
 
             <form onSubmit={handleCreateBulkRequest} className="mt-6 space-y-5">
               <label className="block">
-                <span className="mb-2 block text-sm font-black text-neutral-900">Area</span>
+                <span className="mb-2 block text-sm font-black text-[#191c1e]">Area</span>
                 <input
                   type="text"
                   value={formData.area}
@@ -87,7 +87,7 @@ export default function BulkPage() {
               </label>
 
               <label className="block">
-                <span className="mb-2 block text-sm font-black text-neutral-900">Street or estate</span>
+                <span className="mb-2 block text-sm font-black text-[#191c1e]">Street or estate</span>
                 <input
                   type="text"
                   value={formData.street}
@@ -98,7 +98,7 @@ export default function BulkPage() {
               </label>
 
               <div>
-                <p className="mb-2 text-sm font-black text-neutral-900">Target volume</p>
+                <p className="mb-2 text-sm font-black text-[#191c1e]">Target volume</p>
                 <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
                   {[5000, 10000, 15000, 20000].map((quantity) => (
                     <button
@@ -107,8 +107,8 @@ export default function BulkPage() {
                       onClick={() => setFormData({ ...formData, targetLitres: quantity })}
                       className={`h-12 rounded-lg border text-sm font-black ${
                         formData.targetLitres === quantity
-                          ? 'border-neutral-950 bg-neutral-950 text-white'
-                          : 'border-black/10 bg-white text-neutral-900'
+                          ? 'border-[#005e97] bg-[#005e97] text-white'
+                          : 'border-[#c0c7d2]/30 bg-white text-[#191c1e]'
                       }`}
                     >
                       {quantity / 1000}K L

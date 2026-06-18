@@ -84,17 +84,17 @@ export default function DemoPage() {
 
   if (role !== 'resident') {
     return (
-      <div className="min-h-screen bg-[#f5f6f2]">
+      <div className="min-h-screen bg-[#f7f9fb]">
         <TopNav currentRole={role} onRoleChange={setRole} showRoleSwitcher />
         <div className="container-max section-padding text-center">
-          <p className="text-lg font-semibold text-neutral-600">Switching to {role} view...</p>
+          <p className="text-lg font-semibold text-[#404751]">Switching to {role} view...</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-[#f5f6f2] pb-12">
+    <div className="min-h-screen bg-[#f7f9fb] pb-12">
       <TopNav
         currentRole={role}
         onRoleChange={setRole}
@@ -107,9 +107,9 @@ export default function DemoPage() {
       <main className="mx-auto max-w-7xl px-4 pt-24 sm:px-6 lg:px-8">
         <div className="mb-5 flex flex-wrap items-end justify-between gap-4">
           <div>
-            <p className="text-xs font-bold uppercase text-neutral-500">Resident app</p>
-            <h1 className="mt-2 text-3xl font-black leading-tight text-neutral-950 sm:text-4xl">Find water near you.</h1>
-            <p className="mt-2 max-w-2xl text-sm font-semibold text-neutral-500">
+            <p className="text-xs font-bold uppercase text-[#404751]">Resident app</p>
+            <h1 className="mt-2 text-3xl font-black leading-tight text-[#191c1e] sm:text-4xl">Find water near you.</h1>
+            <p className="mt-2 max-w-2xl text-sm font-semibold text-[#404751]">
               Real OpenStreetMap coverage, verified suppliers, live demand, and clean pricing in one dispatch view.
             </p>
           </div>
@@ -117,27 +117,27 @@ export default function DemoPage() {
             <button
               type="button"
               onClick={handleUseLocation}
-              className="h-11 rounded-lg border border-black/10 bg-white px-4 text-sm font-black text-neutral-950"
+              className="h-11 rounded-lg border border-[#c0c7d2]/30 bg-white px-4 text-sm font-black text-[#191c1e]"
             >
               {locationStatus === 'loading' ? 'Locating...' : 'Use my location'}
             </button>
-            <Link href="/request" className="inline-flex h-11 items-center justify-center rounded-lg bg-neutral-950 px-5 text-sm font-black text-white">
+            <Link href="/request" className="inline-flex h-11 items-center justify-center rounded-lg bg-[#005e97] px-5 text-sm font-black text-white">
               Request water
             </Link>
           </div>
         </div>
 
-        <div className="mb-4 rounded-lg border border-black/10 bg-white p-3">
+        <div className="mb-4 rounded-lg border border-[#c0c7d2]/30 bg-white p-3">
           <div className="flex flex-wrap items-center justify-between gap-3">
             <div>
-              <p className="text-xs font-bold uppercase text-neutral-500">Smart match</p>
-              <p className="text-sm font-black text-neutral-950">
+              <p className="text-xs font-bold uppercase text-[#404751]">Smart match</p>
+              <p className="text-sm font-black text-[#191c1e]">
                 {closestTanker
                   ? `${closestTanker.name} is the closest available tanker`
                   : 'Tap Use my location to find your closest tanker'}
               </p>
               {closestTanker && (
-                <p className="text-xs font-semibold text-neutral-500">
+                <p className="text-xs font-semibold text-[#404751]">
                   {closestTanker.distanceKm} km away - {closestTanker.area}
                 </p>
               )}
@@ -156,7 +156,7 @@ export default function DemoPage() {
         <select
           value={selectedArea}
           onChange={(event) => setSelectedArea(event.target.value)}
-          className="mb-4 h-12 w-full rounded-lg border border-black/10 bg-white px-4 text-sm font-black text-neutral-800 outline-none sm:hidden"
+          className="mb-4 h-12 w-full rounded-lg border border-[#c0c7d2]/30 bg-white px-4 text-sm font-black text-[#191c1e] outline-none sm:hidden"
         >
           <option value="">All areas</option>
           {ENUGU_AREAS.map((area) => (
@@ -171,7 +171,7 @@ export default function DemoPage() {
             <section className="card">
               <div className="mb-4 flex items-center justify-between">
                 <h2 className="text-xl font-black">Filters</h2>
-                <span className="rounded-lg bg-neutral-100 px-3 py-1 text-xs font-black text-neutral-600">
+                <span className="rounded-lg bg-[#eceef0] px-3 py-1 text-xs font-black text-[#404751]">
                   {filtered.length} found
                 </span>
               </div>
@@ -187,7 +187,7 @@ export default function DemoPage() {
                         setFilterType(active ? filterType.filter((item) => item !== type) : [...filterType, type])
                       }
                       className={`rounded-lg border px-3 py-3 text-sm font-black transition ${
-                        active ? 'border-neutral-950 bg-neutral-950 text-white' : 'border-black/10 bg-white text-neutral-700'
+                        active ? 'border-[#005e97] bg-[#005e97] text-white' : 'border-[#c0c7d2]/30 bg-white text-[#404751]'
                       }`}
                     >
                       {label}
@@ -197,7 +197,7 @@ export default function DemoPage() {
               </div>
 
               <div className="mt-4 space-y-2">
-                <label className="flex items-center justify-between rounded-lg bg-neutral-50 p-3 text-sm font-bold">
+                <label className="flex items-center justify-between rounded-lg bg-[#f2f4f6] p-3 text-sm font-bold">
                   Available now
                   <input
                     type="checkbox"
@@ -206,7 +206,7 @@ export default function DemoPage() {
                     className="h-4 w-4"
                   />
                 </label>
-                <label className="flex items-center justify-between rounded-lg bg-neutral-50 p-3 text-sm font-bold">
+                <label className="flex items-center justify-between rounded-lg bg-[#f2f4f6] p-3 text-sm font-bold">
                   Verified only
                   <input
                     type="checkbox"
@@ -244,7 +244,7 @@ export default function DemoPage() {
                 <WaterSourcePanel source={selectedSource} onClose={() => setSelectedSourceId(null)} showRequestButton />
               ) : (
                 <div className="card py-10 text-center">
-                  <p className="font-semibold text-neutral-500">Select a marker or supplier to see request details.</p>
+                  <p className="font-semibold text-[#404751]">Select a marker or supplier to see request details.</p>
                 </div>
               )}
               <CommunityBulkRequest bulkRequests={SAMPLE_BULK_REQUESTS.slice(0, 2)} />

@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { useMemo, useState } from 'react';
 import OpenStreetMap from '@/components/OpenStreetMap';
+import TopNav from '@/components/TopNav';
 
 const tankSizes = [
   { label: '1,000L', price: 7200, eta: '18 min' },
@@ -56,32 +57,7 @@ export default function Home() {
 
   return (
     <main className="min-h-screen bg-[#f7f9fb] text-[#191c1e]">
-      <header className="fixed left-0 right-0 top-0 z-50 border-b border-[#c0c7d2]/20 bg-[#f7f9fb]/90 backdrop-blur-xl">
-        <div className="mx-auto flex h-14 max-w-6xl items-center justify-between px-4 sm:px-6 lg:px-8">
-          <Link href="/" className="flex items-center gap-3" aria-label="Vale home">
-            <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#005e97] text-xs font-black text-white">
-              VA
-            </span>
-            <span>
-              <span className="block text-sm font-black leading-none">Vale</span>
-              <span className="block text-xs font-semibold text-[#404751]">Water Delivery</span>
-            </span>
-          </Link>
-
-          <nav className="hidden items-center gap-5 text-sm font-bold text-[#404751] md:flex">
-            <a href="#book">Book</a>
-            <a href="#suppliers">Suppliers</a>
-            <a href="#insights">Insights</a>
-          </nav>
-
-          <Link
-            href="/request"
-            className="inline-flex h-9 items-center rounded-lg bg-[#005e97] px-4 text-sm font-bold text-white transition hover:bg-[#00497a]"
-          >
-            Order water
-          </Link>
-        </div>
-      </header>
+      <TopNav currentRole="resident" onRoleChange={() => {}} showRoleSwitcher={false} />
 
       <section id="book" className="pt-16">
         <div className="mx-auto grid max-w-6xl gap-4 px-4 py-4 sm:px-6 lg:grid-cols-[360px_1fr] lg:px-8 lg:py-5">

@@ -11,7 +11,7 @@ export default function CommunityBulkRequest({ bulkRequests }: CommunityBulkRequ
     <section className="card">
       <div className="mb-4 flex items-center justify-between">
         <h3 className="text-xl font-black">Bulk requests</h3>
-        <span className="rounded-lg bg-neutral-100 px-3 py-2 text-xs font-black text-neutral-600">
+        <span className="rounded-lg bg-[#eceef0] px-3 py-2 text-xs font-black text-[#404751]">
           {bulkRequests.length} live
         </span>
       </div>
@@ -21,14 +21,14 @@ export default function CommunityBulkRequest({ bulkRequests }: CommunityBulkRequ
           const progressPercent = (request.joinedHouseholds / Math.max(request.joinedHouseholds, 10)) * 100;
 
           return (
-            <article key={request.id} className="rounded-lg border border-black/10 bg-neutral-50 p-4">
+            <article key={request.id} className="rounded-lg border border-[#c0c7d2]/30 bg-[#f2f4f6] p-4">
               <div className="mb-3 flex items-start justify-between gap-3">
                 <div className="min-w-0">
-                  <p className="truncate font-black text-neutral-950">
+                  <p className="truncate font-black text-[#191c1e]">
                     {request.area}
                     {request.street && ` - ${request.street}`}
                   </p>
-                  <p className="mt-1 text-sm font-semibold text-neutral-500">
+                  <p className="mt-1 text-sm font-semibold text-[#404751]">
                     {request.joinedHouseholds} households joined
                   </p>
                 </div>
@@ -37,17 +37,17 @@ export default function CommunityBulkRequest({ bulkRequests }: CommunityBulkRequ
 
               <div className="mb-3">
                 <div className="mb-1 flex items-center justify-between">
-                  <p className="text-xs font-bold text-neutral-600">{request.targetLitres.toLocaleString()} L target</p>
-                  <p className="text-xs font-black text-neutral-950">{Math.round(progressPercent)}%</p>
+                  <p className="text-xs font-bold text-[#404751]">{request.targetLitres.toLocaleString()} L target</p>
+                  <p className="text-xs font-black text-[#191c1e]">{Math.round(progressPercent)}%</p>
                 </div>
                 <div className="h-2 overflow-hidden rounded-full bg-neutral-200">
-                  <div className="h-full rounded-full bg-neutral-950" style={{ width: `${Math.min(progressPercent, 100)}%` }} />
+                  <div className="h-full rounded-full bg-[#005e97]" style={{ width: `${Math.min(progressPercent, 100)}%` }} />
                 </div>
               </div>
 
               <div className="mb-3 rounded-lg bg-white p-3">
-                <p className="text-xs font-bold uppercase text-neutral-500">Per household</p>
-                <p className="mt-1 text-2xl font-black text-neutral-950">
+                <p className="text-xs font-bold uppercase text-[#404751]">Per household</p>
+                <p className="mt-1 text-2xl font-black text-[#191c1e]">
                   {formatPrice(request.estimatedCostPerHousehold)}
                 </p>
               </div>
@@ -63,7 +63,7 @@ export default function CommunityBulkRequest({ bulkRequests }: CommunityBulkRequ
 
       {bulkRequests.length === 0 && (
         <div className="py-6 text-center">
-          <p className="mb-3 font-semibold text-neutral-500">No bulk requests forming yet.</p>
+          <p className="mb-3 font-semibold text-[#404751]">No bulk requests forming yet.</p>
           <button className="btn-primary">Start request</button>
         </div>
       )}

@@ -15,7 +15,7 @@ export default function StatusPill({ status, variant = 'order' }: StatusPillProp
       case 'delivered':
         return 'bg-green-100 text-green-800';
       default:
-        return 'bg-gray-100 text-gray-800';
+        return 'bg-[#eceef0] text-[#191c1e]';
     }
   };
 
@@ -28,7 +28,7 @@ export default function StatusPill({ status, variant = 'order' }: StatusPillProp
       case 'resolved':
         return 'bg-green-100 text-green-800';
       default:
-        return 'bg-gray-100 text-gray-800';
+        return 'bg-[#eceef0] text-[#191c1e]';
     }
   };
 
@@ -41,7 +41,7 @@ export default function StatusPill({ status, variant = 'order' }: StatusPillProp
       case 'offline':
         return 'bg-red-100 text-red-800';
       default:
-        return 'bg-gray-100 text-gray-800';
+        return 'bg-[#eceef0] text-[#191c1e]';
     }
   };
 

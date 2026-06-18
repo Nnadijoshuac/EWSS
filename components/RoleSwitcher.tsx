@@ -24,15 +24,15 @@ export default function RoleSwitcher({ currentRole, onRoleChange }: RoleSwitcher
   ];
 
   return (
-    <div className="inline-flex max-w-[44vw] gap-1 overflow-x-auto rounded-lg border border-black/10 bg-white p-1 sm:max-w-none">
+    <div className="inline-flex max-w-[44vw] gap-1 overflow-x-auto rounded-lg border border-[#c0c7d2]/30 bg-white p-1 sm:max-w-none">
       {roles.map(({ role, label }) => (
         <button
           key={role}
           onClick={() => onRoleChange(role)}
           className={`h-9 shrink-0 rounded-md px-3 text-xs font-black transition sm:px-4 sm:text-sm ${
             currentRole === role
-              ? 'bg-neutral-950 text-white shadow-sm'
-              : 'text-neutral-500 hover:bg-neutral-100 hover:text-neutral-950'
+              ? 'bg-[#005e97] text-white shadow-sm'
+              : 'text-[#404751] hover:bg-[#eceef0] hover:text-[#191c1e]'
           }`}
         >
           {label}

@@ -16,10 +16,10 @@ export default function VerifyPage() {
 
   if (!source) {
     return (
-      <div className="bg-water-50 min-h-screen">
+      <div className="bg-[#f7f9fb] min-h-screen">
         <TopNav currentRole="resident" onRoleChange={() => {}} showRoleSwitcher={false} />
         <main className="container-max section-padding text-center">
-          <p className="text-lg text-gray-600">Water source not found.</p>
+          <p className="text-lg text-[#404751]">Water source not found.</p>
           <Link href="/demo">
             <button className="btn-primary mt-4">Back to Map</button>
           </Link>
@@ -29,11 +29,11 @@ export default function VerifyPage() {
   }
 
   return (
-    <div className="bg-water-50 min-h-screen">
+    <div className="bg-[#f7f9fb] min-h-screen">
       <TopNav currentRole="resident" onRoleChange={() => {}} showRoleSwitcher={false} />
 
       <main className="container-max section-padding">
-        <Link href="/demo" className="text-water-600 hover:text-water-700 font-medium mb-8 block">
+        <Link href="/demo" className="mb-8 block font-medium text-[#005e97] hover:text-[#004a79]">
            Back to Map
         </Link>
 
@@ -49,7 +49,7 @@ export default function VerifyPage() {
 
           {/* Source Details */}
           <div className="card mb-8">
-            <div className="flex items-start gap-4 mb-6 pb-6 border-b-2 border-water-200">
+            <div className="flex items-start gap-4 mb-6 pb-6 border-b-2 border-[#cfe5ff]">
               <span className="text-5xl">{getSourceTypeIcon(source.type)}</span>
               <div className="flex-1">
                 <div className="flex items-center gap-3 mb-2">
@@ -59,53 +59,53 @@ export default function VerifyPage() {
                     verificationStatus={source.verificationStatus}
                   />
                 </div>
-                <p className="text-gray-600 mb-2">{getSourceTypeLabel(source.type)}</p>
-                <p className="text-sm text-gray-600">Operator: <strong>{source.operatorName}</strong></p>
+                <p className="text-[#404751] mb-2">{getSourceTypeLabel(source.type)}</p>
+                <p className="text-sm text-[#404751]">Operator: <strong>{source.operatorName}</strong></p>
               </div>
             </div>
 
             {/* Key Info Grid */}
             <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-6">
-              <div className="bg-water-50 rounded-lg p-4">
-                <p className="text-xs text-gray-600 font-bold mb-1 uppercase">Location</p>
-                <p className="font-bold text-water-900">{source.area}</p>
-                <p className="text-xs text-gray-600">{source.distanceKm} km away</p>
+              <div className="bg-[#f7f9fb] rounded-lg p-4">
+                <p className="text-xs text-[#404751] font-bold mb-1 uppercase">Location</p>
+                <p className="font-bold text-[#001d34]">{source.area}</p>
+                <p className="text-xs text-[#404751]">{source.distanceKm} km away</p>
               </div>
 
-              <div className="bg-water-50 rounded-lg p-4">
-                <p className="text-xs text-gray-600 font-bold mb-1 uppercase">Status</p>
+              <div className="bg-[#f7f9fb] rounded-lg p-4">
+                <p className="text-xs text-[#404751] font-bold mb-1 uppercase">Status</p>
                 <p className="font-bold text-green-700"> Available</p>
-                <p className="text-xs text-gray-600">Active Now</p>
+                <p className="text-xs text-[#404751]">Active Now</p>
               </div>
 
-              <div className="bg-water-50 rounded-lg p-4">
-                <p className="text-xs text-gray-600 font-bold mb-1 uppercase">Price</p>
-                <p className="font-bold text-water-600">
+              <div className="bg-[#f7f9fb] rounded-lg p-4">
+                <p className="text-xs text-[#404751] font-bold mb-1 uppercase">Price</p>
+                <p className="font-bold text-[#005e97]">
                   {formatPrice(Math.round(source.pricePerLitre))}
                   <span className="text-sm">/L</span>
                 </p>
               </div>
 
-              <div className="bg-water-50 rounded-lg p-4">
-                <p className="text-xs text-gray-600 font-bold mb-1 uppercase">Capacity</p>
-                <p className="font-bold text-water-900">
+              <div className="bg-[#f7f9fb] rounded-lg p-4">
+                <p className="text-xs text-[#404751] font-bold mb-1 uppercase">Capacity</p>
+                <p className="font-bold text-[#001d34]">
                   {(source.availableLitres / 1000).toFixed(1)}K L
                 </p>
-                <p className="text-xs text-gray-600">Available</p>
+                <p className="text-xs text-[#404751]">Available</p>
               </div>
 
-              <div className="bg-water-50 rounded-lg p-4">
-                <p className="text-xs text-gray-600 font-bold mb-1 uppercase">Rating</p>
-                <p className="font-bold text-water-900">
+              <div className="bg-[#f7f9fb] rounded-lg p-4">
+                <p className="text-xs text-[#404751] font-bold mb-1 uppercase">Rating</p>
+                <p className="font-bold text-[#001d34]">
                    {source.rating.toFixed(1)}/5.0
                 </p>
-                <p className="text-xs text-gray-600">{source.reviewCount} reviews</p>
+                <p className="text-xs text-[#404751]">{source.reviewCount} reviews</p>
               </div>
 
-              <div className="bg-water-50 rounded-lg p-4">
-                <p className="text-xs text-gray-600 font-bold mb-1 uppercase">Last QC</p>
-                <p className="font-bold text-water-900">{source.lastQualityCheck}</p>
-                <p className="text-xs text-gray-600">Quality Check</p>
+              <div className="bg-[#f7f9fb] rounded-lg p-4">
+                <p className="text-xs text-[#404751] font-bold mb-1 uppercase">Last QC</p>
+                <p className="font-bold text-[#001d34]">{source.lastQualityCheck}</p>
+                <p className="text-xs text-[#404751]">Quality Check</p>
               </div>
             </div>
 
@@ -113,11 +113,11 @@ export default function VerifyPage() {
 
             {/* Contact */}
             <div className="mb-6">
-              <p className="text-sm font-bold text-water-900 mb-3"> Contact Operator</p>
+              <p className="text-sm font-bold text-[#001d34] mb-3"> Contact Operator</p>
               {source.operatorPhone && (
                 <a
                   href={`tel:${source.operatorPhone}`}
-                  className="block w-full py-3 px-4 rounded-lg border-2 border-water-600 text-water-600 font-bold hover:bg-water-50 text-center transition"
+                  className="block w-full rounded-lg border-2 border-[#005e97] px-4 py-3 text-center font-bold text-[#005e97] transition hover:bg-[#f7f9fb]"
                 >
                   Call: {source.operatorPhone}
                 </a>

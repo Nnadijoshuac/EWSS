@@ -32,10 +32,10 @@ export default function AdminMetric({
     <div className={`card border-2 ${colorClasses[color]}`}>
       <div className="flex items-start justify-between">
         <div className="flex-1">
-          <p className="text-xs font-medium text-gray-600 mb-1 uppercase tracking-wide">
+          <p className="text-xs font-medium text-[#404751] mb-1 uppercase tracking-wide">
             {label}
           </p>
-          <p className="text-3xl font-bold text-water-900 mb-2">{value}</p>
+          <p className="text-3xl font-bold text-[#001d34] mb-2">{value}</p>
           {trendValue && (
             <div className="flex items-center gap-1 text-xs font-medium">
               <span>{trend && trendIcons[trend]}</span>

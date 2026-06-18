@@ -44,10 +44,10 @@ export default function SupplierPage() {
 
   if (role !== 'supplier') {
     return (
-      <div className="min-h-screen bg-water-50">
+      <div className="min-h-screen bg-[#f7f9fb]">
         <TopNav currentRole={role} onRoleChange={setRole} showRoleSwitcher={true} />
         <div className="container-max section-padding text-center">
-          <p className="text-lg text-gray-600">
+          <p className="text-lg text-[#404751]">
             Switching to {role} view. Redirecting...
           </p>
         </div>
@@ -60,18 +60,18 @@ export default function SupplierPage() {
   const onTheWayOrders = orders.filter((o) => o.status === 'on_the_way');
 
   return (
-    <div className="bg-water-50 min-h-screen">
+    <div className="bg-[#f7f9fb] min-h-screen">
       <TopNav currentRole={role} onRoleChange={setRole} showRoleSwitcher={true} />
 
       <main className="container-max section-padding">
         {/* Supplier Header */}
-        <div className="card border-2 border-water-300 mb-8 bg-gradient-to-r from-water-50 to-blue-50">
-          <div className="flex items-start justify-between mb-6">
+        <div className="card border-2 border-[#9acbff] mb-8 bg-gradient-to-r from-[#f7f9fb] to-blue-50">
+          <div className="mb-6 flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
             <div>
               <h1 className="heading-lg m-0 mb-1">{demoSupplier.name}</h1>
-              <p className="text-gray-600 mb-4">{demoSupplier.area}</p>
+              <p className="text-[#404751] mb-4">{demoSupplier.area}</p>
 
-              <div className="flex items-center gap-4">
+              <div className="flex flex-wrap items-center gap-4">
                 <div>
                   <VerificationBadge
                     verified={demoSupplier.verified}
@@ -79,51 +79,51 @@ export default function SupplierPage() {
                   />
                 </div>
                 <div>
-                  <p className="text-xs text-gray-600">Rating</p>
-                  <p className="font-bold text-water-900">
+                  <p className="text-xs text-[#404751]">Rating</p>
+                  <p className="font-bold text-[#001d34]">
                      {demoSupplier.rating.toFixed(1)} ({demoSupplier.reviewCount} reviews)
                   </p>
                 </div>
                 <div>
-                  <p className="text-xs text-gray-600">Phone</p>
-                  <p className="font-bold text-water-900">{demoSupplier.operatorPhone}</p>
+                  <p className="text-xs text-[#404751]">Phone</p>
+                  <p className="font-bold text-[#001d34]">{demoSupplier.operatorPhone}</p>
                 </div>
               </div>
             </div>
 
-            <div className="text-right">
-              <p className="text-xs text-gray-600 mb-2">Operator: {demoSupplier.operatorName}</p>
-              <p className="text-xs text-gray-600">Contact: {demoSupplier.operatorPhone}</p>
+            <div className="text-left lg:text-right">
+              <p className="text-xs text-[#404751] mb-2">Operator: {demoSupplier.operatorName}</p>
+              <p className="text-xs text-[#404751]">Contact: {demoSupplier.operatorPhone}</p>
             </div>
           </div>
 
           <div className="divider my-6" />
 
           {/* Status & Capacity */}
-          <div className="grid grid-cols-3 gap-6">
+          <div className="grid gap-4 sm:grid-cols-3">
             <div>
-              <p className="text-xs text-gray-600 font-medium mb-1 uppercase">Current Status</p>
+              <p className="text-xs text-[#404751] font-medium mb-1 uppercase">Current Status</p>
               <SupplierStatusToggle
                 status={supplierStatus}
                 onStatusChange={setSupplierStatus}
               />
             </div>
 
-            <div className="bg-white rounded-lg p-4 border-2 border-water-200">
-              <p className="text-xs text-gray-600 font-medium mb-2 uppercase">Water Capacity</p>
-              <p className="heading-md text-water-600 m-0">
+            <div className="bg-white rounded-lg p-4 border-2 border-[#cfe5ff]">
+              <p className="text-xs text-[#404751] font-medium mb-2 uppercase">Water Capacity</p>
+              <p className="heading-md text-[#005e97] m-0">
                 {(demoSupplier.availableLitres / 1000).toFixed(1)}K L
               </p>
-              <p className="text-xs text-gray-600 mt-1">Remaining in tank</p>
+              <p className="text-xs text-[#404751] mt-1">Remaining in tank</p>
             </div>
 
-            <div className="bg-white rounded-lg p-4 border-2 border-water-200">
-              <p className="text-xs text-gray-600 font-medium mb-2 uppercase">Price</p>
-              <p className="heading-md text-water-600 m-0">
+            <div className="bg-white rounded-lg p-4 border-2 border-[#cfe5ff]">
+              <p className="text-xs text-[#404751] font-medium mb-2 uppercase">Price</p>
+              <p className="heading-md text-[#005e97] m-0">
                 {formatPrice(demoSupplier.pricePerLitre)}
                 <span className="text-sm">/L</span>
               </p>
-              <p className="text-xs text-gray-600 mt-1">Per litre</p>
+              <p className="text-xs text-[#404751] mt-1">Per litre</p>
             </div>
           </div>
         </div>
@@ -148,13 +148,13 @@ export default function SupplierPage() {
                 >
                   <div className="flex items-start justify-between mb-3">
                     <div className="flex-1">
-                      <h4 className="font-bold text-water-900 mb-1">
+                      <h4 className="font-bold text-[#001d34] mb-1">
                         {order.residentName}
                       </h4>
-                      <p className="text-sm text-gray-600 mb-2">
+                      <p className="text-sm text-[#404751] mb-2">
                          {order.residentArea}  {order.quantityLitres.toLocaleString()}L
                       </p>
-                      <p className="text-xs text-gray-700">
+                      <p className="text-xs text-[#404751]">
                         Estimated revenue: {formatPrice(order.price)}
                       </p>
                     </div>
@@ -168,7 +168,7 @@ export default function SupplierPage() {
                     >
                        Accept
                     </button>
-                    <button className="flex-1 btn-secondary text-gray-700 border-gray-300">
+                    <button className="flex-1 btn-secondary text-[#404751] border-[#c0c7d2]">
                        Reject
                     </button>
                   </div>
@@ -176,7 +176,7 @@ export default function SupplierPage() {
               ))}
             </div>
           ) : (
-            <div className="text-center py-8 text-gray-500">
+            <div className="text-center py-8 text-[#404751]">
               <p>No incoming requests at the moment.</p>
             </div>
           )}
@@ -200,8 +200,8 @@ export default function SupplierPage() {
                     key={order.id}
                     className="border-l-4 border-blue-500 bg-blue-50 rounded-lg p-3"
                   >
-                    <p className="font-bold text-water-900 mb-1">{order.residentName}</p>
-                    <p className="text-xs text-gray-600 mb-2">
+                    <p className="font-bold text-[#001d34] mb-1">{order.residentName}</p>
+                    <p className="text-xs text-[#404751] mb-2">
                       {order.quantityLitres.toLocaleString()}L  {order.residentArea}
                     </p>
                     <button
@@ -214,7 +214,7 @@ export default function SupplierPage() {
                 ))}
               </div>
             ) : (
-              <p className="text-center text-gray-500 py-6">No accepted orders yet.</p>
+              <p className="text-center text-[#404751] py-6">No accepted orders yet.</p>
             )}
           </div>
 
@@ -234,8 +234,8 @@ export default function SupplierPage() {
                     key={order.id}
                     className="border-l-4 border-cyan-500 bg-cyan-50 rounded-lg p-3"
                   >
-                    <p className="font-bold text-water-900 mb-1">{order.residentName}</p>
-                    <p className="text-xs text-gray-600 mb-2">
+                    <p className="font-bold text-[#001d34] mb-1">{order.residentName}</p>
+                    <p className="text-xs text-[#404751] mb-2">
                       {order.quantityLitres.toLocaleString()}L  {order.residentArea}
                     </p>
                     <button
@@ -248,7 +248,7 @@ export default function SupplierPage() {
                 ))}
               </div>
             ) : (
-              <p className="text-center text-gray-500 py-6">No orders in transit.</p>
+              <p className="text-center text-[#404751] py-6">No orders in transit.</p>
             )}
           </div>
         </div>
@@ -262,8 +262,8 @@ export default function SupplierPage() {
             { label: 'Complaints', value: demoSupplier.complaintCount },
           ].map((stat, idx) => (
             <div key={idx} className="card text-center">
-              <p className="text-3xl font-bold text-water-600 mb-1">{stat.value}</p>
-              <p className="text-xs text-gray-600 font-medium">{stat.label}</p>
+              <p className="text-3xl font-bold text-[#005e97] mb-1">{stat.value}</p>
+              <p className="text-xs text-[#404751] font-medium">{stat.label}</p>
             </div>
           ))}
         </div>

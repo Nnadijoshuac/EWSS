@@ -22,15 +22,15 @@ export default function ComplaintList({ complaints, maxItems = 10 }: ComplaintLi
           <div key={complaint.id} className="rounded-lg border border-red-100 bg-red-50 p-4">
             <div className="mb-2 flex items-start justify-between gap-3">
               <div>
-                <p className="font-black text-neutral-950">{getReportTypeLabel(complaint.type)}</p>
-                <p className="mt-1 text-xs font-semibold text-neutral-500">
+                <p className="font-black text-[#191c1e]">{getReportTypeLabel(complaint.type)}</p>
+                <p className="mt-1 text-xs font-semibold text-[#404751]">
                   {complaint.area} - {getTimeAgo(complaint.createdAt)}
                 </p>
               </div>
               <StatusPill status={complaint.status} variant="report" />
             </div>
 
-            <p className="text-sm font-semibold text-neutral-700">{complaint.description}</p>
+            <p className="text-sm font-semibold text-[#404751]">{complaint.description}</p>
 
             {complaint.status === 'open' && (
               <button className="mt-3 text-xs font-black text-red-700 hover:text-red-900">Review</button>
@@ -40,7 +40,7 @@ export default function ComplaintList({ complaints, maxItems = 10 }: ComplaintLi
       </div>
 
       {complaints.length === 0 && (
-        <p className="py-6 text-center font-semibold text-neutral-500">No complaints reported.</p>
+        <p className="py-6 text-center font-semibold text-[#404751]">No complaints reported.</p>
       )}
     </section>
   );

@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { UserRole } from '@/lib/types';
 import RoleSwitcher from './RoleSwitcher';
 import { useEffect, useState } from 'react';
@@ -14,6 +15,14 @@ interface TopNavProps {
   areas?: string[];
 }
 
+const navItems = [
+  { href: '/', label: 'Home', desktop: 'md:inline-flex' },
+  { href: '/demo', label: 'Map', desktop: 'md:inline-flex' },
+  { href: '/request', label: 'Order', desktop: 'md:inline-flex' },
+  { href: '/bulk', label: 'Bulk', desktop: 'lg:inline-flex' },
+  { href: '/report', label: 'Report', desktop: 'lg:inline-flex' },
+];
+
 export default function TopNav({
   currentRole,
   onRoleChange,
@@ -23,6 +32,7 @@ export default function TopNav({
   areas,
 }: TopNavProps) {
   const [isMounted, setIsMounted] = useState(false);
+  const pathname = usePathname();
 
   useEffect(() => {
     setIsMounted(true);
@@ -31,16 +41,16 @@ export default function TopNav({
   if (!isMounted) return null;
 
   return (
-    <nav className="fixed left-0 right-0 top-0 z-50 border-b border-black/10 bg-[#f5f6f2]/90 backdrop-blur-xl">
+    <nav className="fixed left-0 right-0 top-0 z-50 border-b border-[#c0c7d2]/30 bg-[#f7f9fb]/95 backdrop-blur-xl">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between gap-4">
-          <Link href="/" className="flex items-center gap-3 transition hover:opacity-75">
-            <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-neutral-950 text-sm font-black text-white">
+          <Link href="/" className="flex shrink-0 items-center gap-3 transition hover:opacity-80">
+            <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-[#005e97] text-sm font-black text-white shadow-sm">
               VA
             </span>
             <div>
-              <p className="text-sm font-black leading-none text-neutral-950">Vale</p>
-              <p className="text-xs font-semibold text-neutral-500">Water access</p>
+              <p className="text-sm font-black leading-none text-[#191c1e]">Vale</p>
+              <p className="text-xs font-semibold text-[#404751]">Water access</p>
             </div>
           </Link>
 
@@ -48,8 +58,8 @@ export default function TopNav({
             {onAreaChange && areas && (
               <select
                 value={selectedArea || ''}
-                onChange={(e) => onAreaChange(e.target.value)}
-                className="hidden h-10 max-w-44 rounded-lg border border-black/10 bg-white px-3 text-sm font-bold text-neutral-700 outline-none sm:block"
+                onChange={(event) => onAreaChange(event.target.value)}
+                className="hidden h-10 max-w-44 rounded-lg border border-[#c0c7d2]/40 bg-white px-3 text-sm font-bold text-[#404751] outline-none focus:border-[#005e97] sm:block"
               >
                 <option value="">All areas</option>
                 {areas.map((area) => (
@@ -60,18 +70,22 @@ export default function TopNav({
               </select>
             )}
 
-            <Link
-              href="/demo"
-              className="hidden rounded-lg px-3 py-2 text-sm font-bold text-neutral-600 transition hover:bg-black/5 md:inline-flex"
-            >
-              Map
-            </Link>
-            <Link
-              href="/request"
-              className="hidden rounded-lg px-3 py-2 text-sm font-bold text-neutral-600 transition hover:bg-black/5 md:inline-flex"
-            >
-              Request
-            </Link>
+            {navItems.map((item) => {
+              const active = pathname === item.href || (item.href !== '/' && pathname.startsWith(item.href));
+
+              return (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className={`hidden rounded-lg px-3 py-2 text-sm font-bold transition ${item.desktop} ${
+                    active ? 'bg-[#005e97] text-white shadow-sm' : 'text-[#404751] hover:bg-[#eceef0] hover:text-[#191c1e]'
+                  }`}
+                >
+                  {item.label}
+                </Link>
+              );
+            })}
+
             {showRoleSwitcher && <RoleSwitcher currentRole={currentRole} onRoleChange={onRoleChange} />}
           </div>
         </div>

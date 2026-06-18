@@ -33,15 +33,15 @@ function latLngToTilePoint(lat: number, lng: number, zoom: number) {
 }
 
 function toneClass(tone: Marker['tone'], selected?: boolean) {
-  if (selected && tone === 'amber') return 'bg-amber-500 text-neutral-950 ring-4 ring-white';
-  if (selected) return 'bg-neutral-950 text-white ring-4 ring-white';
+  if (selected && tone === 'amber') return 'bg-amber-500 text-[#191c1e] ring-4 ring-white';
+  if (selected) return 'bg-[#005e97] text-white ring-4 ring-white';
 
   const tones = {
-    dark: 'bg-neutral-950 text-white',
+    dark: 'bg-[#005e97] text-white',
     blue: 'bg-blue-600 text-white',
     green: 'bg-emerald-600 text-white',
     red: 'bg-red-600 text-white',
-    amber: 'bg-amber-500 text-neutral-950',
+    amber: 'bg-amber-500 text-[#191c1e]',
   };
 
   return tones[tone || 'dark'];
@@ -88,7 +88,7 @@ export default function OpenStreetMap({
         )}
       </div>
 
-      <div className="absolute inset-0 bg-neutral-950/5" />
+      <div className="absolute inset-0 bg-[#005e97]/5" />
 
       {markers.map((marker) => {
         const point = latLngToTilePoint(marker.lat, marker.lng, zoom);
@@ -113,7 +113,7 @@ export default function OpenStreetMap({
               {marker.value || marker.label.slice(0, 2)}
             </span>
             {marker.selected && (
-              <span className="max-w-36 rounded-md bg-white px-2 py-1 text-xs font-black text-neutral-950 shadow-xl">
+              <span className="max-w-36 rounded-md bg-white px-2 py-1 text-xs font-black text-[#191c1e] shadow-xl">
                 {marker.label}
               </span>
             )}
@@ -122,14 +122,14 @@ export default function OpenStreetMap({
       })}
 
       <div className="absolute left-3 top-3 rounded-lg bg-white/95 px-3 py-2 shadow-lg">
-        <p className="text-xs font-bold uppercase text-neutral-500">{caption}</p>
+        <p className="text-xs font-bold uppercase text-[#404751]">{caption}</p>
       </div>
 
       <a
         href="https://www.openstreetmap.org/copyright"
         target="_blank"
         rel="noreferrer"
-        className="absolute bottom-2 right-2 rounded bg-white/90 px-2 py-1 text-[10px] font-semibold text-neutral-600"
+        className="absolute bottom-2 right-2 rounded bg-white/90 px-2 py-1 text-[10px] font-semibold text-[#404751]"
       >
         (c) OpenStreetMap contributors
       </a>

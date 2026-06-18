@@ -18,26 +18,26 @@ export default function SubsidyPanel({ vouchers }: SubsidyPanelProps) {
           <p className="text-2xl font-bold text-green-700">
             {activeVouchers.length}
           </p>
-          <p className="text-xs text-gray-600">Active Vouchers</p>
+          <p className="text-xs text-[#404751]">Active Vouchers</p>
         </div>
         <div className="bg-blue-50 border-2 border-blue-200 rounded-lg p-4 text-center">
           <p className="text-2xl font-bold text-blue-700">
             {redeemedVouchers.length}
           </p>
-          <p className="text-xs text-gray-600">Redeemed</p>
+          <p className="text-xs text-[#404751]">Redeemed</p>
         </div>
-        <div className="bg-water-50 border-2 border-water-200 rounded-lg p-4 text-center">
-          <p className="text-2xl font-bold text-water-600">
+        <div className="bg-[#f7f9fb] border-2 border-[#cfe5ff] rounded-lg p-4 text-center">
+          <p className="text-2xl font-bold text-[#005e97]">
             {activeVouchers.reduce((sum, v) => sum + v.maxLitres, 0).toLocaleString()}
           </p>
-          <p className="text-xs text-gray-600">Max Litres</p>
+          <p className="text-xs text-[#404751]">Max Litres</p>
         </div>
       </div>
 
       {/* Active vouchers */}
       {activeVouchers.length > 0 && (
         <div>
-          <p className="text-xs font-bold text-gray-600 mb-3 uppercase">
+          <p className="text-xs font-bold text-[#404751] mb-3 uppercase">
             Active Vouchers
           </p>
           <div className="space-y-2 mb-4">
@@ -59,17 +59,17 @@ export default function SubsidyPanel({ vouchers }: SubsidyPanelProps) {
       {/* Redeemed vouchers */}
       {redeemedVouchers.length > 0 && (
         <div>
-          <p className="text-xs font-bold text-gray-600 mb-3 uppercase">
+          <p className="text-xs font-bold text-[#404751] mb-3 uppercase">
             Recently Redeemed
           </p>
           <div className="space-y-2">
             {redeemedVouchers.slice(0, 3).map((voucher) => (
-              <div key={voucher.id} className="bg-gray-50 rounded-lg p-3 border border-gray-200 opacity-75">
+              <div key={voucher.id} className="bg-[#f2f4f6] rounded-lg p-3 border border-[#c0c7d2]/30 opacity-75">
                 <div className="flex justify-between items-start">
-                  <p className="font-medium text-gray-700">{voucher.residentName}</p>
-                  <span className="badge bg-gray-200 text-gray-800">Redeemed</span>
+                  <p className="font-medium text-[#404751]">{voucher.residentName}</p>
+                  <span className="badge bg-[#e0e3e5] text-[#191c1e]">Redeemed</span>
                 </div>
-                <p className="text-xs text-gray-600">
+                <p className="text-xs text-[#404751]">
                   {voucher.area}
                 </p>
               </div>
@@ -79,7 +79,7 @@ export default function SubsidyPanel({ vouchers }: SubsidyPanelProps) {
       )}
 
       {vouchers.length === 0 && (
-        <p className="text-center text-gray-500 py-6">No subsidy vouchers issued yet.</p>
+        <p className="text-center text-[#404751] py-6">No subsidy vouchers issued yet.</p>
       )}
     </div>
   );

@@ -27,7 +27,7 @@ export default function VerificationBadge({
         ? 'bg-emerald-100 text-emerald-800'
         : verificationStatus === 'pending'
           ? 'bg-amber-100 text-amber-800'
-          : 'bg-neutral-100 text-neutral-700';
+          : 'bg-[#eceef0] text-[#404751]';
 
   return (
     <span className={`inline-flex items-center rounded-md px-2 py-1 text-xs font-black ${classes}`}>
