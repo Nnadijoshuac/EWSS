@@ -94,14 +94,6 @@ export default function Home() {
               </p>
             </div>
 
-            <div className="mb-3 grid grid-cols-4 gap-1 text-center text-[11px] font-black text-[#404751]">
-              {['Where', 'When', 'Tank', 'Pay'].map((step, index) => (
-                <div key={step} className="rounded-md bg-[#eceef0] px-1 py-2">
-                  {index + 1}. {step}
-                </div>
-              ))}
-            </div>
-
             <div className="space-y-3">
               <label className="block">
                 <span className="mb-2 block text-xs font-bold uppercase text-[#404751]">Delivery address</span>
