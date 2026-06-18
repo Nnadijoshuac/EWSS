@@ -120,13 +120,13 @@ export default function DemoPage() {
                 ))}
               </select>
 
-            <button
-              type="button"
-              onClick={handleUseLocation}
-              className="h-11 rounded-lg border border-[#c0c7d2]/30 bg-white px-4 text-sm font-black text-[#191c1e]"
-            >
-              {locationStatus === 'loading' ? 'Locating...' : 'Use my location'}
-            </button>
+              <button
+                type="button"
+                onClick={handleUseLocation}
+                className="h-11 rounded-lg border border-[#c0c7d2]/30 bg-white px-4 text-sm font-black text-[#191c1e]"
+              >
+                {locationStatus === 'loading' ? 'Locating...' : 'Use my location'}
+              </button>
             </div>
           </div>
         </div>
