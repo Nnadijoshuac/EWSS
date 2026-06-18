@@ -3,7 +3,14 @@
     "allow": [
       "Bash(npm create *)",
       "Bash(npm install *)",
-      "Bash(npx next *)"
+      "Bash(npx next *)",
+      "Skill(run)",
+      "Skill(run:*)",
+      "Bash(Get-Content \"C:\\\\Users\\\\chimd\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\c--Users-chimd-Desktop-Serenity-EWSS\\\\f1c63251-37b6-49bb-a9d1-5b751bf3c3c9\\\\tasks\\\\bdnf6ndby.output\" -Tail 20)",
+      "PowerShell(Get-Process -Id 5600 -ErrorAction SilentlyContinue)",
+      "PowerShell(Stop-Process -Force -ErrorAction SilentlyContinue)",
+      "Bash(cd \"c:\\\\Users\\\\chimd\\\\Desktop\\\\Serenity\\\\EWSS\" && npm run dev > /tmp/next.log 2>&1 & *)",
+      "Read(//tmp/**)"
     ]
   }
 }

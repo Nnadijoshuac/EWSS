@@ -36,11 +36,11 @@ export default function TopNav({
         <div className="flex h-16 items-center justify-between gap-4">
           <Link href="/" className="flex items-center gap-3 transition hover:opacity-75">
             <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-neutral-950 text-sm font-black text-white">
-              AT
+              KW
             </span>
             <div>
-              <p className="text-sm font-black leading-none text-neutral-950">AquaTrust</p>
-              <p className="text-xs font-semibold text-neutral-500">WaterLink</p>
+              <p className="text-sm font-black leading-none text-neutral-950">Kwnch</p>
+              <p className="text-xs font-semibold text-neutral-500">Water access</p>
             </div>
           </Link>
 

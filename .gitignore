@@ -22,6 +22,8 @@
 .env.test.local
 .env.production.local
 
+.claude
+
 # debug
 npm-debug.log*
 yarn-debug.log*
