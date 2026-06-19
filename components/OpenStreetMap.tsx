@@ -17,6 +17,8 @@ interface OpenStreetMapProps {
   heightClass?: string;
   onMarkerClick?: (id: string) => void;
   caption?: string;
+  showChrome?: boolean;
+  showSelectedLabels?: boolean;
 }
 
 const TILE_SIZE = 256;
@@ -54,6 +56,8 @@ export default function OpenStreetMap({
   heightClass = 'h-96',
   onMarkerClick,
   caption = 'OpenStreetMap view of Enugu service coverage',
+  showChrome = true,
+  showSelectedLabels = true,
 }: OpenStreetMapProps) {
   const centerPoint = latLngToTilePoint(center.lat, center.lng, zoom);
   const tileX = Math.floor(centerPoint.x / TILE_SIZE);
@@ -112,7 +116,7 @@ export default function OpenStreetMap({
             >
               {marker.value || marker.label.slice(0, 2)}
             </span>
-            {marker.selected && (
+            {showSelectedLabels && marker.selected && (
               <span className="max-w-36 rounded-md bg-white px-2 py-1 text-xs font-black text-[#191c1e] shadow-xl">
                 {marker.label}
               </span>
@@ -121,18 +125,22 @@ export default function OpenStreetMap({
         );
       })}
 
-      <div className="absolute left-3 top-3 rounded-lg bg-white/95 px-3 py-2 shadow-lg">
-        <p className="text-xs font-bold uppercase text-[#404751]">{caption}</p>
-      </div>
+      {showChrome && (
+        <div className="absolute left-3 top-3 rounded-lg bg-white/95 px-3 py-2 shadow-lg">
+          <p className="text-xs font-bold uppercase text-[#404751]">{caption}</p>
+        </div>
+      )}
 
-      <a
-        href="https://www.openstreetmap.org/copyright"
-        target="_blank"
-        rel="noreferrer"
-        className="absolute bottom-2 right-2 rounded bg-white/90 px-2 py-1 text-[10px] font-semibold text-[#404751]"
-      >
-        (c) OpenStreetMap contributors
-      </a>
+      {showChrome && (
+        <a
+          href="https://www.openstreetmap.org/copyright"
+          target="_blank"
+          rel="noreferrer"
+          className="absolute bottom-2 right-2 rounded bg-white/90 px-2 py-1 text-[10px] font-semibold text-[#404751]"
+        >
+          (c) OpenStreetMap contributors
+        </a>
+      )}
     </div>
   );
 }

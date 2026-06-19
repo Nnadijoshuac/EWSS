@@ -13,6 +13,10 @@ const items = [
 export default function MobileBottomNav() {
   const pathname = usePathname();
 
+  if (pathname === '/' || pathname === '/demo') {
+    return null;
+  }
+
   return (
     <nav className="fixed bottom-0 left-0 right-0 z-50 border-t border-[#c0c7d2]/30 bg-white/95 px-3 pb-[max(env(safe-area-inset-bottom),0.75rem)] pt-2 shadow-[0_-12px_40px_rgba(0,94,151,0.10)] backdrop-blur-xl md:hidden">
       <div className="mx-auto grid max-w-md grid-cols-4 gap-2">
