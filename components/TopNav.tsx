@@ -50,7 +50,7 @@ export default function TopNav({
 
         {/* Centered Navigation Island */}
         <div className="hidden flex-1 items-center justify-center md:flex">
-          <div className="rounded-full border border-white/20 bg-white/10 backdrop-blur-md px-2 py-2.5">
+          <div className="rounded-full border border-white/10 bg-black/80 backdrop-blur-md px-2 py-2.5">
             <div className="flex items-center gap-1">
               {navItems.map((item) => {
                 const active =
@@ -83,7 +83,7 @@ export default function TopNav({
             <select
               value={selectedArea || ''}
               onChange={(event) => onAreaChange(event.target.value)}
-              className="hidden h-10 rounded-lg border border-white/20 bg-white/10 backdrop-blur-sm px-4 text-sm font-normal text-white outline-none focus:border-white focus:ring-1 focus:ring-white lg:block transition-colors"
+              className="hidden h-10 rounded-full border border-white/10 bg-black/80 backdrop-blur-sm px-4 text-sm font-normal text-white outline-none focus:border-white focus:ring-1 focus:ring-white lg:block transition-colors"
             >
               <option value="">All areas</option>
               {areas.map((area) => (
@@ -100,7 +100,7 @@ export default function TopNav({
 
       {/* Mobile nav island */}
       <div className="absolute bottom-[-60px] left-1/2 -translate-x-1/2 flex md:hidden">
-        <div className="rounded-full border border-white/20 bg-white/10 backdrop-blur-md px-2 py-2.5">
+        <div className="rounded-full border border-white/10 bg-black/80 backdrop-blur-md px-2 py-2.5">
           <div className="flex items-center gap-1">
             {navItems.map((item) => {
               const active =
