@@ -10,8 +10,8 @@ export default function CommunityBulkRequest({ bulkRequests }: CommunityBulkRequ
   return (
     <section className="card">
       <div className="mb-4 flex items-center justify-between">
-        <h3 className="text-xl font-black">Bulk requests</h3>
-        <span className="rounded-lg bg-[#eceef0] px-3 py-2 text-xs font-black text-[#404751]">
+        <h3 className="text-2xl font-normal tracking-[-0.02em]">Bulk requests</h3>
+        <span className="rounded-full bg-[#f6f6f6] px-3 py-2 text-xs text-black">
           {bulkRequests.length} live
         </span>
       </div>
@@ -21,14 +21,14 @@ export default function CommunityBulkRequest({ bulkRequests }: CommunityBulkRequ
           const progressPercent = (request.joinedHouseholds / Math.max(request.joinedHouseholds, 10)) * 100;
 
           return (
-            <article key={request.id} className="rounded-lg border border-[#c0c7d2]/30 bg-[#f2f4f6] p-4">
+            <article key={request.id} className="rounded-lg bg-[#f6f6f6] p-4 sm:p-5">
               <div className="mb-3 flex items-start justify-between gap-3">
                 <div className="min-w-0">
-                  <p className="truncate font-black text-[#191c1e]">
+                  <p className="truncate font-medium text-black">
                     {request.area}
                     {request.street && ` - ${request.street}`}
                   </p>
-                  <p className="mt-1 text-sm font-semibold text-[#404751]">
+                  <p className="mt-1 text-sm text-[#5e5e5e]">
                     {request.joinedHouseholds} households joined
                   </p>
                 </div>
@@ -37,17 +37,17 @@ export default function CommunityBulkRequest({ bulkRequests }: CommunityBulkRequ
 
               <div className="mb-3">
                 <div className="mb-1 flex items-center justify-between">
-                  <p className="text-xs font-bold text-[#404751]">{request.targetLitres.toLocaleString()} L target</p>
-                  <p className="text-xs font-black text-[#191c1e]">{Math.round(progressPercent)}%</p>
+                  <p className="text-xs text-[#5e5e5e]">{request.targetLitres.toLocaleString()} L target</p>
+                  <p className="text-xs font-medium text-black">{Math.round(progressPercent)}%</p>
                 </div>
-                <div className="h-2 overflow-hidden rounded-full bg-neutral-200">
-                  <div className="h-full rounded-full bg-[#005e97]" style={{ width: `${Math.min(progressPercent, 100)}%` }} />
+                <div className="h-1 overflow-hidden rounded-full bg-[#d8d8d8]">
+                  <div className="h-full rounded-full bg-black" style={{ width: `${Math.min(progressPercent, 100)}%` }} />
                 </div>
               </div>
 
               <div className="mb-3 rounded-lg bg-white p-3">
-                <p className="text-xs font-bold uppercase text-[#404751]">Per household</p>
-                <p className="mt-1 text-2xl font-black text-[#191c1e]">
+                <p className="text-xs text-[#5e5e5e]">Per household</p>
+                <p className="mt-1 text-2xl font-normal text-black">
                   {formatPrice(request.estimatedCostPerHousehold)}
                 </p>
               </div>

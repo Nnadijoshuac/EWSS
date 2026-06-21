@@ -13,7 +13,7 @@ export default function QuantitySelector({
 }: QuantitySelectorProps) {
   return (
     <div>
-      <label className="block text-sm font-bold text-[#001d34] mb-3">
+      <label className="mb-3 block text-sm font-medium text-black">
         How much water do you need?
       </label>
 
@@ -22,10 +22,10 @@ export default function QuantitySelector({
           <button
             key={qty}
             onClick={() => onQuantityChange(qty)}
-            className={`py-3 px-2 rounded-lg font-medium transition-all ${
+            className={`rounded-lg border px-2 py-3 font-medium transition ${
               selectedQuantity === qty
-                ? 'bg-[#005e97] text-white ring-2 ring-[#004a79]'
-                : 'bg-white border-2 border-[#cfe5ff] text-[#001d34] hover:border-[#0077be]'
+                ? 'border-black bg-black text-white'
+                : 'border-[#d8d8d8] bg-white text-black hover:border-black'
             }`}
           >
             {qty < 1000 ? `${qty}L` : `${qty / 1000}K`}
@@ -44,7 +44,7 @@ export default function QuantitySelector({
           min="1"
           max="100000"
         />
-        <span className="flex items-center px-3 py-3 bg-[#f7f9fb] border-2 border-[#cfe5ff] rounded-lg font-medium text-[#005e97]">
+        <span className="flex items-center rounded-lg border border-[#d8d8d8] bg-[#f6f6f6] px-3 py-3 font-medium text-black">
           L
         </span>
       </div>

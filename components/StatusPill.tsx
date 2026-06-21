@@ -7,13 +7,13 @@ export default function StatusPill({ status, variant = 'order' }: StatusPillProp
   const getOrderStatusClass = () => {
     switch (status) {
       case 'requested':
-        return 'bg-yellow-100 text-yellow-800';
+        return 'bg-black text-white';
       case 'accepted':
-        return 'bg-blue-100 text-blue-800';
+        return 'bg-[#333333] text-white';
       case 'on_the_way':
-        return 'bg-cyan-100 text-cyan-800';
+        return 'border border-black bg-white text-black';
       case 'delivered':
-        return 'bg-green-100 text-green-800';
+        return 'bg-[#f6f6f6] text-black';
       default:
         return 'bg-[#eceef0] text-[#191c1e]';
     }
@@ -22,11 +22,11 @@ export default function StatusPill({ status, variant = 'order' }: StatusPillProp
   const getReportStatusClass = () => {
     switch (status) {
       case 'open':
-        return 'bg-red-100 text-red-800';
+        return 'bg-black text-white';
       case 'reviewing':
-        return 'bg-orange-100 text-orange-800';
+        return 'border border-black bg-white text-black';
       case 'resolved':
-        return 'bg-green-100 text-green-800';
+        return 'bg-[#f6f6f6] text-black';
       default:
         return 'bg-[#eceef0] text-[#191c1e]';
     }
@@ -35,11 +35,11 @@ export default function StatusPill({ status, variant = 'order' }: StatusPillProp
   const getSourceStatusClass = () => {
     switch (status) {
       case 'available':
-        return 'bg-green-100 text-green-800';
+        return 'bg-black text-white';
       case 'busy':
-        return 'bg-orange-100 text-orange-800';
+        return 'border border-black bg-white text-black';
       case 'offline':
-        return 'bg-red-100 text-red-800';
+        return 'bg-[#f6f6f6] text-black';
       default:
         return 'bg-[#eceef0] text-[#191c1e]';
     }

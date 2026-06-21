@@ -1,5 +1,4 @@
 import { SubsidyVoucher } from '@/lib/types';
-import { formatPrice } from '@/lib/pricing';
 
 interface SubsidyPanelProps {
   vouchers: SubsidyVoucher[];
@@ -11,44 +10,45 @@ export default function SubsidyPanel({ vouchers }: SubsidyPanelProps) {
 
   return (
     <div className="card">
-      <h3 className="heading-sm mb-4">Subsidy Distribution</h3>
+      <p className="text-sm text-[#5e5e5e]">Public support</p>
+      <h3 className="mb-5 mt-1 text-2xl font-normal tracking-[-0.02em]">Subsidy distribution</h3>
 
-      <div className="grid grid-cols-3 gap-4 mb-6">
-        <div className="bg-green-50 border-2 border-green-200 rounded-lg p-4 text-center">
-          <p className="text-2xl font-bold text-green-700">
+      <div className="mb-6 grid grid-cols-3 gap-px overflow-hidden rounded-lg border border-[#d8d8d8] bg-[#d8d8d8]">
+        <div className="bg-white p-3 text-center">
+          <p className="text-2xl font-normal text-black">
             {activeVouchers.length}
           </p>
-          <p className="text-xs text-[#404751]">Active Vouchers</p>
+          <p className="mt-1 text-[11px] text-[#5e5e5e]">Active</p>
         </div>
-        <div className="bg-blue-50 border-2 border-blue-200 rounded-lg p-4 text-center">
-          <p className="text-2xl font-bold text-blue-700">
+        <div className="bg-white p-3 text-center">
+          <p className="text-2xl font-normal text-black">
             {redeemedVouchers.length}
           </p>
-          <p className="text-xs text-[#404751]">Redeemed</p>
+          <p className="mt-1 text-[11px] text-[#5e5e5e]">Redeemed</p>
         </div>
-        <div className="bg-[#f7f9fb] border-2 border-[#cfe5ff] rounded-lg p-4 text-center">
-          <p className="text-2xl font-bold text-[#005e97]">
+        <div className="bg-white p-3 text-center">
+          <p className="text-2xl font-normal text-black">
             {activeVouchers.reduce((sum, v) => sum + v.maxLitres, 0).toLocaleString()}
           </p>
-          <p className="text-xs text-[#404751]">Max Litres</p>
+          <p className="mt-1 text-[11px] text-[#5e5e5e]">Max litres</p>
         </div>
       </div>
 
       {/* Active vouchers */}
       {activeVouchers.length > 0 && (
         <div>
-          <p className="text-xs font-bold text-[#404751] mb-3 uppercase">
+          <p className="mb-3 text-xs text-[#767676]">
             Active Vouchers
           </p>
           <div className="space-y-2 mb-4">
             {activeVouchers.map((voucher) => (
-              <div key={voucher.id} className="bg-green-50 rounded-lg p-3 border border-green-200">
+              <div key={voucher.id} className="rounded-lg bg-[#f6f6f6] p-4">
                 <div className="flex justify-between items-start mb-1">
-                  <p className="font-bold text-green-900">{voucher.residentName}</p>
-                  <span className="badge badge-success">{voucher.discountPercent}% OFF</span>
+                  <p className="font-medium text-black">{voucher.residentName}</p>
+                  <span className="rounded-full bg-black px-2 py-1 text-xs font-medium text-white">{voucher.discountPercent}% off</span>
                 </div>
-                <p className="text-xs text-green-700">
-                  {voucher.area}  Up to {voucher.maxLitres.toLocaleString()}L
+                <p className="mt-1 text-xs text-[#5e5e5e]">
+                  {voucher.area} · Up to {voucher.maxLitres.toLocaleString()}L
                 </p>
               </div>
             ))}
@@ -59,12 +59,12 @@ export default function SubsidyPanel({ vouchers }: SubsidyPanelProps) {
       {/* Redeemed vouchers */}
       {redeemedVouchers.length > 0 && (
         <div>
-          <p className="text-xs font-bold text-[#404751] mb-3 uppercase">
+          <p className="mb-3 text-xs text-[#767676]">
             Recently Redeemed
           </p>
           <div className="space-y-2">
             {redeemedVouchers.slice(0, 3).map((voucher) => (
-              <div key={voucher.id} className="bg-[#f2f4f6] rounded-lg p-3 border border-[#c0c7d2]/30 opacity-75">
+              <div key={voucher.id} className="rounded-lg bg-[#f6f6f6] p-3 opacity-75">
                 <div className="flex justify-between items-start">
                   <p className="font-medium text-[#404751]">{voucher.residentName}</p>
                   <span className="badge bg-[#e0e3e5] text-[#191c1e]">Redeemed</span>

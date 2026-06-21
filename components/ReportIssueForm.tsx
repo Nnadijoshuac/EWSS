@@ -53,9 +53,9 @@ export default function ReportIssueForm({ onSubmit }: ReportIssueFormProps) {
 
   if (submitted) {
     return (
-      <div className="rounded-lg border border-emerald-200 bg-emerald-50 p-6 text-center">
-        <h3 className="text-2xl font-black text-emerald-950">Report submitted</h3>
-        <p className="mt-2 text-sm font-semibold text-emerald-800">
+      <div className="rounded-lg bg-[#f6f6f6] p-6 text-center sm:p-8">
+        <h3 className="text-2xl font-normal text-black">Report submitted</h3>
+        <p className="mt-2 text-sm text-[#5e5e5e]">
           Thanks. We will review this within 24 hours.
         </p>
         <button onClick={() => setSubmitted(false)} className="btn-secondary mt-5">
@@ -68,17 +68,17 @@ export default function ReportIssueForm({ onSubmit }: ReportIssueFormProps) {
   return (
     <form onSubmit={handleSubmit} className="space-y-5">
       <div>
-        <label className="mb-3 block text-sm font-black text-[#191c1e]">What happened?</label>
+        <label className="mb-3 block text-sm font-medium text-black">What happened?</label>
         <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
           {reportTypes.map(({ type, label }) => (
             <button
               key={type}
               type="button"
               onClick={() => setSelectedType(type)}
-              className={`min-h-14 rounded-lg border px-3 text-sm font-black transition ${
+              className={`min-h-14 rounded-lg border px-3 text-sm font-medium transition ${
                 selectedType === type
-                  ? 'border-[#005e97] bg-[#005e97] text-white'
-                  : 'border-[#c0c7d2]/30 bg-white text-[#404751] hover:border-[#0077be]'
+                  ? 'border-black bg-black text-white'
+                  : 'border-[#d8d8d8] bg-white text-[#5e5e5e] hover:border-black'
               }`}
             >
               {label}
@@ -88,7 +88,7 @@ export default function ReportIssueForm({ onSubmit }: ReportIssueFormProps) {
       </div>
 
       <label className="block">
-        <span className="mb-2 block text-sm font-black text-[#191c1e]">Location</span>
+        <span className="mb-2 block text-sm font-medium text-black">Location</span>
         <select value={selectedArea} onChange={(event) => setSelectedArea(event.target.value)} className="input-field" required>
           <option value="">Select your area</option>
           {ENUGU_AREAS.map((area) => (
@@ -100,17 +100,17 @@ export default function ReportIssueForm({ onSubmit }: ReportIssueFormProps) {
       </label>
 
       <div>
-        <label className="mb-2 block text-sm font-black text-[#191c1e]">Urgency</label>
+        <label className="mb-2 block text-sm font-medium text-black">Urgency</label>
         <div className="grid grid-cols-3 gap-2">
           {(['low', 'medium', 'high'] as const).map((item) => (
             <button
               key={item}
               type="button"
               onClick={() => setSeverity(item)}
-              className={`h-12 rounded-lg border text-sm font-black capitalize ${
+              className={`h-12 rounded-lg border text-sm font-medium capitalize ${
                 severity === item
-                  ? 'border-[#005e97] bg-[#005e97] text-white'
-                  : 'border-[#c0c7d2]/30 bg-white text-[#404751]'
+                  ? 'border-black bg-black text-white'
+                  : 'border-[#d8d8d8] bg-white text-[#5e5e5e]'
               }`}
             >
               {item}
@@ -120,7 +120,7 @@ export default function ReportIssueForm({ onSubmit }: ReportIssueFormProps) {
       </div>
 
       <label className="block">
-        <span className="mb-2 block text-sm font-black text-[#191c1e]">Details</span>
+        <span className="mb-2 block text-sm font-medium text-black">Details</span>
         <textarea
           value={description}
           onChange={(event) => setDescription(event.target.value)}

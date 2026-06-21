@@ -42,26 +42,26 @@ export default function WaterSourceList({
             onClick={() => onSelectSource?.(source.id)}
             className={`w-full rounded-lg border p-4 text-left transition ${
               isSelected
-                ? 'border-[#005e97] bg-[#f2f4f6] shadow-sm'
-                : 'border-[#c0c7d2]/30 bg-white hover:border-[#0077be]'
+                ? 'border-black bg-[#f6f6f6]'
+                : 'border-[#d8d8d8] bg-white hover:border-black'
             }`}
           >
             <div className="flex items-start justify-between gap-4">
               <div className="min-w-0 flex-1">
                 <div className="mb-2 flex items-start gap-3">
-                  <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-[#005e97] text-xs font-black text-white">
+                  <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-black text-xs font-medium text-white">
                     {getSourceTypeLabel(source.type).slice(0, 2).toUpperCase()}
                   </span>
                   <div className="min-w-0">
                     <div className="flex items-center gap-2">
-                      <h3 className="truncate font-black text-[#191c1e]">{source.name}</h3>
+                      <h3 className="truncate font-medium text-black">{source.name}</h3>
                       {isClosest && (
-                        <span className="shrink-0 rounded-md bg-amber-100 px-2 py-1 text-[10px] font-black text-amber-800">
+                        <span className="shrink-0 rounded-full border border-black bg-white px-2 py-1 text-[10px] font-medium text-black">
                           Closest
                         </span>
                       )}
                     </div>
-                    <p className="text-xs font-semibold text-[#404751]">
+                    <p className="text-xs text-[#5e5e5e]">
                       {source.area} - {source.distanceKm} km away
                     </p>
                   </div>
@@ -81,7 +81,7 @@ export default function WaterSourceList({
               </div>
 
               <div className="shrink-0 text-right">
-                <div className="text-lg font-black text-[#191c1e]">
+                <div className="text-lg font-medium text-black">
                   {formatPrice(Math.round(source.pricePerLitre))}
                   <span className="text-xs font-bold text-[#404751]">/L</span>
                 </div>

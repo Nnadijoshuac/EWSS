@@ -93,21 +93,21 @@ export default function WaterMap({
     : [];
 
   return (
-    <div className="overflow-hidden rounded-lg border border-[#c0c7d2]/30 bg-white">
+    <div className="overflow-hidden rounded-lg border border-[#d8d8d8] bg-white">
       <OpenStreetMap
         markers={[...demandMarkers, ...sourceMarkers, ...userMarker]}
         center={userLocation || undefined}
-        heightClass="h-[460px]"
+        heightClass="h-[360px] sm:h-[460px]"
         onMarkerClick={(id) => {
           if (!id.startsWith('demand-') && id !== 'user-location') onSelectSource?.(id);
         }}
         caption="OpenStreetMap service map"
       />
-      <div className="grid grid-cols-2 gap-2 border-t border-[#c0c7d2]/30 p-3 text-xs font-bold text-[#404751] sm:grid-cols-4">
-        <span>{'\u{1F69A}'} Tanker</span>
+      <div className="grid grid-cols-2 gap-2 border-t border-[#d8d8d8] p-3 text-xs text-[#5e5e5e] sm:grid-cols-4">
+        <span>Tanker</span>
         <span>BH Borehole</span>
         <span>WP Public point</span>
-        <span>Amber: closest tanker</span>
+        <span>Filled: closest tanker</span>
       </div>
     </div>
   );

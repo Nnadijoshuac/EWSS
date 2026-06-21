@@ -43,13 +43,13 @@ export default function DemandMap({ demandData, supplyData }: DemandMapProps) {
   });
 
   return (
-    <section className="rounded-lg border border-[#c0c7d2]/30 bg-white p-4 shadow-sm">
+    <section className="rounded-lg border border-[#d8d8d8] bg-white p-5">
       <div className="mb-4 flex flex-wrap items-end justify-between gap-3">
         <div>
-          <p className="text-xs font-bold uppercase text-[#404751]">Live demand</p>
-          <h3 className="mt-1 text-2xl font-black text-[#191c1e]">Supply gaps by area</h3>
+          <p className="text-sm text-[#5e5e5e]">Live demand</p>
+          <h3 className="mt-1 text-2xl font-normal tracking-[-0.02em] text-black">Supply gaps by area</h3>
         </div>
-        <p className="text-sm font-semibold text-[#404751]">OpenStreetMap coverage layer</p>
+        <p className="text-xs text-[#767676]">OpenStreetMap coverage layer</p>
       </div>
 
       <OpenStreetMap markers={markers} heightClass="h-[360px]" caption="OpenStreetMap demand map" />
@@ -61,20 +61,20 @@ export default function DemandMap({ demandData, supplyData }: DemandMapProps) {
           const covered = Math.min(100, Math.round((supply / Math.max(demand, 1)) * 100));
 
           return (
-            <div key={area} className="rounded-lg bg-[#f2f4f6] p-3">
+            <div key={area} className="rounded-lg bg-[#f6f6f6] p-4">
               <div className="flex items-center justify-between gap-3">
                 <div>
-                  <p className="font-black text-[#191c1e]">{area}</p>
-                  <p className="text-xs font-semibold text-[#404751]">
+                  <p className="font-medium text-black">{area}</p>
+                  <p className="mt-1 text-xs text-[#5e5e5e]">
                     {demand} requests - {supply} suppliers
                   </p>
                 </div>
-                <span className={`text-sm font-black ${gap > 15 ? 'text-red-600' : 'text-emerald-700'}`}>
+                <span className="rounded-full border border-[#d8d8d8] bg-white px-2 py-1 text-xs font-medium text-black">
                   {gap > 0 ? `${gap} gap` : 'Covered'}
                 </span>
               </div>
-              <div className="mt-3 h-2 overflow-hidden rounded-full bg-neutral-200">
-                <div className="h-full rounded-full bg-[#005e97]" style={{ width: `${covered}%` }} />
+              <div className="mt-3 h-1 overflow-hidden rounded-full bg-[#d8d8d8]">
+                <div className="h-full rounded-full bg-black" style={{ width: `${covered}%` }} />
               </div>
             </div>
           );

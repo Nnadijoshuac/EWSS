@@ -13,27 +13,27 @@ export default function ComplaintList({ complaints, maxItems = 10 }: ComplaintLi
   return (
     <section className="card">
       <div className="mb-4 flex items-center justify-between">
-        <h3 className="text-2xl font-black">Recent complaints</h3>
-        <span className="rounded-lg bg-red-100 px-3 py-2 text-xs font-black text-red-800">{complaints.length} total</span>
+        <div><p className="text-sm text-[#5e5e5e]">Resident reports</p><h3 className="mt-1 text-2xl font-normal">Recent complaints</h3></div>
+        <span className="rounded-full bg-[#f6f6f6] px-3 py-2 text-xs text-black">{complaints.length} total</span>
       </div>
 
       <div className="max-h-96 space-y-3 overflow-y-auto">
         {displayed.map((complaint) => (
-          <div key={complaint.id} className="rounded-lg border border-red-100 bg-red-50 p-4">
+          <div key={complaint.id} className="rounded-lg bg-[#f6f6f6] p-4">
             <div className="mb-2 flex items-start justify-between gap-3">
               <div>
-                <p className="font-black text-[#191c1e]">{getReportTypeLabel(complaint.type)}</p>
-                <p className="mt-1 text-xs font-semibold text-[#404751]">
+                <p className="font-medium text-black">{getReportTypeLabel(complaint.type)}</p>
+                <p className="mt-1 text-xs text-[#5e5e5e]">
                   {complaint.area} - {getTimeAgo(complaint.createdAt)}
                 </p>
               </div>
               <StatusPill status={complaint.status} variant="report" />
             </div>
 
-            <p className="text-sm font-semibold text-[#404751]">{complaint.description}</p>
+            <p className="text-sm leading-6 text-[#5e5e5e]">{complaint.description}</p>
 
             {complaint.status === 'open' && (
-              <button className="mt-3 text-xs font-black text-red-700 hover:text-red-900">Review</button>
+              <button className="mt-3 text-xs font-medium text-black underline underline-offset-4">Review</button>
             )}
           </div>
         ))}

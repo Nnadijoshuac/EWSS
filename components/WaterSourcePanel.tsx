@@ -19,15 +19,15 @@ export default function WaterSourcePanel({
   showRequestButton = true,
 }: WaterSourcePanelProps) {
   return (
-    <section className="rounded-lg border border-[#c0c7d2]/30 bg-white p-5 shadow-sm">
+    <section className="rounded-lg border border-[#d8d8d8] bg-white p-5 sm:p-6">
       <div className="mb-4 flex items-start justify-between gap-4">
         <div className="flex min-w-0 items-center gap-3">
-          <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-[#005e97] text-sm font-black text-white">
+          <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-black text-sm font-medium text-white">
             {getSourceTypeLabel(source.type).slice(0, 2).toUpperCase()}
           </span>
           <div className="min-w-0">
-            <h2 className="truncate text-2xl font-black text-[#191c1e]">{source.name}</h2>
-            <p className="text-sm font-semibold text-[#404751]">{getSourceTypeLabel(source.type)}</p>
+            <h2 className="truncate text-2xl font-normal text-black">{source.name}</h2>
+            <p className="text-sm text-[#5e5e5e]">{getSourceTypeLabel(source.type)}</p>
           </div>
         </div>
         {onClose && (
@@ -49,11 +49,11 @@ export default function WaterSourcePanel({
         <Metric label="Available" value={`${(source.availableLitres / 1000).toFixed(1)}K L`} />
       </div>
 
-      <div className="mt-4 rounded-lg bg-[#005e97] p-4 text-white">
+      <div className="mt-4 rounded-lg bg-black p-4 text-white">
         <div className="flex items-center justify-between gap-4">
           <div>
             <p className="text-xs font-bold uppercase text-white/45">Estimated arrival</p>
-            <p className="mt-1 text-3xl font-black">
+            <p className="mt-1 text-3xl font-normal">
               {source.etaMinutes ? getEstimatedDeliveryTime(source.etaMinutes) : 'On request'}
             </p>
           </div>
@@ -80,7 +80,7 @@ export default function WaterSourcePanel({
       </div>
 
       {source.complaintCount > 0 && (
-        <div className="mt-4 rounded-lg border border-red-200 bg-red-50 p-3 text-xs font-bold text-red-700">
+        <div className="mt-4 rounded-lg border border-black p-3 text-xs font-medium text-black">
           {source.complaintCount} complaint{source.complaintCount !== 1 ? 's' : ''} reported
         </div>
       )}
@@ -101,10 +101,10 @@ export default function WaterSourcePanel({
 
 function Metric({ label, value, sub }: { label: string; value: string; sub?: string }) {
   return (
-    <div className="rounded-lg bg-[#f2f4f6] p-4">
-      <p className="text-xs font-bold uppercase text-[#404751]">{label}</p>
-      <p className="mt-1 font-black text-[#191c1e]">{value}</p>
-      {sub && <p className="mt-1 text-xs font-semibold text-[#404751]">{sub}</p>}
+    <div className="rounded-lg bg-[#f6f6f6] p-4">
+      <p className="text-xs text-[#5e5e5e]">{label}</p>
+      <p className="mt-1 font-medium text-black">{value}</p>
+      {sub && <p className="mt-1 text-xs text-[#5e5e5e]">{sub}</p>}
     </div>
   );
 }
