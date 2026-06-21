@@ -1,6 +1,5 @@
 'use client';
 
-import Link from 'next/link';
 import TopNav from '@/components/TopNav';
 import ReportIssueForm from '@/components/ReportIssueForm';
 
@@ -10,11 +9,7 @@ export default function ReportPage() {
       <TopNav currentRole="resident" onRoleChange={() => {}} showRoleSwitcher={false} />
 
       <main className="mx-auto w-full max-w-[1200px] px-3 pb-28 pt-24 sm:px-6 sm:pt-28 lg:px-8">
-        <Link href="/demo" className="text-sm text-[#5e5e5e] underline underline-offset-4 hover:text-black">
-          Back to map
-        </Link>
-
-        <div className="mt-8 grid gap-6 lg:grid-cols-[minmax(0,1fr)_340px] lg:items-start">
+        <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_340px] lg:items-start">
           <section className="rounded-lg border border-[#d8d8d8] bg-white p-5 sm:p-8">
             <p className="text-sm text-[#5e5e5e]">Support</p>
             <h1 className="mt-3 text-4xl font-normal leading-[1.1] tracking-[-0.035em] text-black sm:text-[52px]">
