@@ -104,7 +104,7 @@ export default function RequestPage() {
     <div className="min-h-screen bg-white">
       <TopNav currentRole={role} onRoleChange={() => {}} showRoleSwitcher={false} />
 
-      <main className="mx-auto max-w-[1200px] px-4 pb-28 pt-24 sm:px-6 sm:pt-28 lg:px-8">
+      <main className="mx-auto w-full max-w-[1200px] px-3 pb-32 pt-24 sm:px-6 sm:pt-28 lg:px-8 xl:pb-28">
         <div className="mb-8 border-b border-[#d8d8d8] pb-8">
           <Link href="/demo" className="text-sm text-[#5e5e5e] underline underline-offset-4 hover:text-black">
             Back to map
@@ -118,7 +118,7 @@ export default function RequestPage() {
           <button
             type="button"
             onClick={handleUseLocation}
-            className="mt-5 h-11 rounded-lg border border-[#767676] bg-white px-4 text-sm font-medium text-black transition hover:bg-[#f6f6f6]"
+            className="mt-5 h-11 w-full rounded-lg border border-[#767676] bg-white px-4 text-sm font-medium text-black transition hover:bg-[#f6f6f6] sm:w-auto"
           >
             {locationStatus === 'loading' ? 'Finding closest tanker...' : 'Use my location'}
           </button>
@@ -142,8 +142,8 @@ export default function RequestPage() {
           </div>
         ) : (
           <>
-            <div className="grid gap-5 xl:grid-cols-[320px_minmax(0,1fr)_300px]">
-              <aside className="space-y-4">
+            <div className="grid min-w-0 gap-5 lg:grid-cols-[300px_minmax(0,1fr)] xl:grid-cols-[300px_minmax(0,1fr)_280px]">
+              <aside className="min-w-0 space-y-4">
                 <section className="card">
                   <label className="block">
                     <span className="mb-2 block text-xs text-[#5e5e5e]">Delivery area</span>
@@ -239,7 +239,7 @@ export default function RequestPage() {
                 </section>
               </aside>
 
-              <section className="overflow-hidden rounded-lg border border-[#d8d8d8] bg-white">
+              <section className="min-w-0 overflow-hidden rounded-lg border border-[#d8d8d8] bg-white lg:sticky lg:top-24 lg:self-start">
                 <OpenStreetMap
                   markers={[
                     ...filteredSources.map((source) => ({
@@ -276,7 +276,7 @@ export default function RequestPage() {
                       : []),
                   ]}
                   center={userLocation || undefined}
-                  heightClass="h-[340px] sm:h-[460px] xl:h-[620px]"
+                  heightClass="h-[300px] sm:h-[420px] lg:h-[620px]"
                   onMarkerClick={setSelectedSourceId}
                   caption="Delivery route preview"
                 />
@@ -294,7 +294,7 @@ export default function RequestPage() {
                 </div>
               </section>
 
-              <aside className="hidden self-start rounded-lg bg-black p-5 text-white xl:sticky xl:top-24 xl:block">
+              <aside className="hidden min-w-0 self-start rounded-lg bg-black p-5 text-white xl:sticky xl:top-24 xl:block">
                 <p className="text-xs text-[#afafaf]">Order summary</p>
                 <h2 className="mt-2 text-xl font-normal">{selectedSource?.name || 'Select a supplier'}</h2>
                 <p className="mt-1 text-sm text-[#afafaf]">
@@ -329,11 +329,11 @@ export default function RequestPage() {
       </main>
 
       {!createdOrder && pricing && selectedSource && (
-        <div className="fixed bottom-[5.5rem] left-3 right-3 z-40 rounded-lg bg-black p-3 text-white xl:hidden">
+        <div className="fixed bottom-[5.5rem] left-3 right-3 z-40 rounded-lg bg-black p-3 text-white md:bottom-5 md:left-auto md:right-5 md:w-[360px] xl:hidden">
           <div className="flex items-center justify-between gap-3">
-            <div>
+            <div className="min-w-0">
               <p className="text-xs text-[#afafaf]">Total</p>
-              <p className="text-xl font-medium">{formatPrice(pricing.total)}</p>
+              <p className="truncate text-xl font-medium">{formatPrice(pricing.total)}</p>
             </div>
             <button onClick={handleCreateOrder} className="h-12 rounded-lg bg-white px-5 text-sm font-medium text-black">
               Confirm
