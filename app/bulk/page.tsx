@@ -39,7 +39,7 @@ export default function BulkPage() {
                 </p>
               </section>
 
-              <section className="rounded-lg bg-[#10B981] p-6 text-white">
+              <section className="rounded-lg bg-[#FF7B68] p-6 text-white">
                 <p className="text-xs text-[#f0f9ff]">Smart saving</p>
                 <p className="mt-2 text-4xl font-normal">20–30%</p>
                 <p className="mt-2 text-sm leading-6 text-[#f0f9ff]">
@@ -47,7 +47,7 @@ export default function BulkPage() {
                 </p>
                 <button
                   onClick={() => setStep('create')}
-                  className="mt-5 h-12 w-full rounded-lg bg-white text-sm font-medium text-[#10B981]"
+                  className="mt-5 h-12 w-full rounded-lg bg-white text-sm font-medium text-[#FF7B68]"
                 >
                   Start bulk request
                 </button>
@@ -102,7 +102,7 @@ export default function BulkPage() {
                       onClick={() => setFormData({ ...formData, targetLitres: quantity })}
                       className={`h-12 rounded-lg border text-sm font-medium ${
                         formData.targetLitres === quantity
-                          ? 'border-[#10B981] bg-[#10B981] text-white'
+                          ? 'border-[#FF7B68] bg-[#FF7B68] text-white'
                           : 'border-[#d8d8d8] bg-white text-black'
                       }`}
                     >

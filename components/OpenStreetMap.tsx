@@ -56,7 +56,7 @@ function tilePointToLatLng(x: number, y: number, zoom: number) {
 }
 
 function toneClass(tone: Marker['tone'], selected?: boolean) {
-  if (selected) return 'bg-white text-black ring-4 ring-[#10B981]';
+  if (selected) return 'bg-white text-black ring-4 ring-[#FF7B68]';
   if (tone === 'red') return 'bg-black text-white ring-2 ring-white';
   if (tone === 'amber') return 'bg-[#333333] text-white ring-2 ring-white';
   return 'border border-black bg-white text-black';
@@ -261,7 +261,7 @@ export default function OpenStreetMap({
             title={marker.label}
           >
             {marker.imageSrc ? (
-              <span className={`flex items-center justify-center rounded-full bg-white/95 p-1 transition ${marker.selected ? 'ring-4 ring-[#10B981]' : 'ring-1 ring-black/20'}`}>
+              <span className={`flex items-center justify-center rounded-full bg-white/95 p-1 transition ${marker.selected ? 'ring-4 ring-[#FF7B68]' : 'ring-1 ring-black/20'}`}>
                 <img
                   src={marker.imageSrc}
                   alt={marker.imageAlt || marker.label}
@@ -300,7 +300,7 @@ export default function OpenStreetMap({
           <button
             type="button"
             onClick={handleRecenter}
-            className="rounded-lg bg-white/95 border border-[#d8d8d8] px-3 py-2 text-sm font-medium text-black transition hover:bg-white hover:border-[#10B981]"
+            className="rounded-lg bg-white/95 border border-[#d8d8d8] px-3 py-2 text-sm font-medium text-black transition hover:bg-white hover:border-[#FF7B68]"
             title="Recenter map to default location"
           >
             📍 Recenter
@@ -308,7 +308,7 @@ export default function OpenStreetMap({
           <button
             type="button"
             onClick={handleMapStyleToggle}
-            className="rounded-lg bg-white/95 border border-[#d8d8d8] px-3 py-2 text-sm font-medium text-black transition hover:bg-white hover:border-[#10B981]"
+            className="rounded-lg bg-white/95 border border-[#d8d8d8] px-3 py-2 text-sm font-medium text-black transition hover:bg-white hover:border-[#FF7B68]"
             title={`Switch to ${mapStyle === 'street' ? 'satellite' : 'street'} view`}
           >
             {mapStyle === 'street' ? '🛰️ Satellite' : '🗺️ Street'}

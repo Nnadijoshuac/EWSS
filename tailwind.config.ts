@@ -8,7 +8,7 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        primary: '#10B981',
+        primary: '#FF7B68',
         water: {
           50: '#F7FBFF',
           100: '#EBF8FE',

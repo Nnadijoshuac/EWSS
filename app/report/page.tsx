@@ -37,7 +37,7 @@ export default function ReportPage() {
             </div>
           </section>
 
-          <aside className="rounded-lg bg-[#10B981] p-6 text-white lg:sticky lg:top-24">
+          <aside className="rounded-lg bg-[#FF7B68] p-6 text-white lg:sticky lg:top-24">
             <p className="text-xs text-[#f0f9ff]">What happens next</p>
             <h2 className="mt-2 text-2xl font-normal">Reviewed within 24 hours.</h2>
             <div className="mt-5 space-y-4">
@@ -47,7 +47,7 @@ export default function ReportPage() {
                 'Your identity stays private unless you choose otherwise.',
               ].map((text, index) => (
                 <div key={text} className="flex gap-3">
-                  <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-white text-sm font-medium text-[#10B981]">
+                  <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-white text-sm font-medium text-[#FF7B68]">
                     {index + 1}
                   </span>
                   <p className="text-sm leading-6 text-[#f0f9ff]">{text}</p>

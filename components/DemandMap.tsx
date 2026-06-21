@@ -85,15 +85,15 @@ export default function DemandMap({ demandData, supplyData }: DemandMapProps) {
       </div>
 
       {selectedArea && (
-        <div className="mb-4 rounded-lg bg-[#10B981]/10 border border-[#10B981] p-4">
-          <p className="text-sm font-medium text-[#10B981]">Selected Area</p>
+        <div className="mb-4 rounded-lg bg-[#FF7B68]/10 border border-[#FF7B68] p-4">
+          <p className="text-sm font-medium text-[#FF7B68]">Selected Area</p>
           <p className="mt-2 text-lg font-semibold text-black">{selectedArea.area}</p>
           <p className="mt-1 text-sm text-[#5e5e5e]">
             Demand: {demandData[selectedArea.area] || 0} requests | Supply: {supplyData[selectedArea.area] || 0} suppliers
           </p>
           <button
             onClick={() => setSelectedArea(null)}
-            className="mt-3 text-sm font-medium text-[#10B981] hover:underline"
+            className="mt-3 text-sm font-medium text-[#FF7B68] hover:underline"
           >
             Clear selection
           </button>

@@ -149,7 +149,7 @@ export default function RequestPage() {
 
         {createdOrder ? (
           <div className="mx-auto max-w-3xl">
-            <section className="mb-6 rounded-lg bg-[#10B981] p-6 text-white">
+            <section className="mb-6 rounded-lg bg-[#FF7B68] p-6 text-white">
               <p className="text-xs text-[#f0f9ff]">Order confirmed</p>
               <h2 className="mt-2 text-2xl font-normal">Your tanker is being prepared.</h2>
               <p className="mt-2 text-sm text-[#f0f9ff]">
@@ -186,7 +186,7 @@ export default function RequestPage() {
                           type="button"
                           onClick={() => setDeliveryMode(mode.id as 'now' | 'schedule')}
                           className={`h-9 rounded-full text-sm font-medium transition ${
-                            deliveryMode === mode.id ? 'bg-[#10B981] text-white' : 'text-[#5e5e5e]'
+                            deliveryMode === mode.id ? 'bg-[#FF7B68] text-white' : 'text-[#5e5e5e]'
                           }`}
                         >
                           {mode.label}
@@ -204,7 +204,7 @@ export default function RequestPage() {
                           onClick={() => setSelectedSchedule(slot)}
                           className={`h-10 rounded-lg border px-3 text-left text-sm font-medium transition ${
                             selectedSchedule === slot
-                              ? 'border-[#10B981] bg-[#10B981] text-white'
+                              ? 'border-[#FF7B68] bg-[#FF7B68] text-white'
                               : 'border-[#d8d8d8] bg-white text-[#5e5e5e]'
                           }`}
                         >
@@ -224,7 +224,7 @@ export default function RequestPage() {
                           onClick={() => setSelectedQuantity(quantity)}
                           className={`rounded-lg border p-2.5 text-left transition ${
                             selectedQuantity === quantity
-                              ? 'border-[#10B981] bg-[#10B981] text-white'
+                              ? 'border-[#FF7B68] bg-[#FF7B68] text-white'
                               : 'border-[#d8d8d8] bg-white text-black'
                           }`}
                         >
@@ -312,7 +312,7 @@ export default function RequestPage() {
                 </div>
               </section>
 
-              <aside className="hidden min-w-0 self-start rounded-lg bg-[#10B981] p-5 text-white xl:sticky xl:top-24 xl:block">
+              <aside className="hidden min-w-0 self-start rounded-lg bg-[#FF7B68] p-5 text-white xl:sticky xl:top-24 xl:block">
                 <p className="text-xs text-[#f0f9ff]">Order summary</p>
                 <h2 className="mt-2 text-xl font-normal">{selectedSource?.name || 'Select a supplier'}</h2>
                 <p className="mt-1 text-sm text-[#f0f9ff]">
@@ -347,13 +347,13 @@ export default function RequestPage() {
       </main>
 
       {!createdOrder && pricing && selectedSource && (
-        <div className="fixed bottom-[5.5rem] left-3 right-3 z-40 rounded-lg bg-[#10B981] p-3 text-white md:bottom-5 md:left-auto md:right-5 md:w-[360px] xl:hidden">
+        <div className="fixed bottom-[5.5rem] left-3 right-3 z-40 rounded-lg bg-[#FF7B68] p-3 text-white md:bottom-5 md:left-auto md:right-5 md:w-[360px] xl:hidden">
           <div className="flex items-center justify-between gap-3">
             <div className="min-w-0">
               <p className="text-xs text-[#f0f9ff]">Total</p>
               <p className="truncate text-xl font-medium">{formatPrice(pricing.total)}</p>
             </div>
-            <button onClick={handleCreateOrder} className="h-12 rounded-lg bg-white px-5 text-sm font-medium text-[#10B981]">
+            <button onClick={handleCreateOrder} className="h-12 rounded-lg bg-white px-5 text-sm font-medium text-[#FF7B68]">
               Confirm
             </button>
           </div>

@@ -205,7 +205,7 @@ export default function TankerBookingFlow() {
                 setSelectedArea(area.name);
                 setDeliveryPoint(area.coordinates);
               }}
-              className="h-11 w-full rounded-lg border border-[#d8d8d8] bg-white px-3 text-sm font-medium outline-none focus:border-[#10B981] focus:ring-1 focus:ring-[#10B981]"
+              className="h-11 w-full rounded-lg border border-[#d8d8d8] bg-white px-3 text-sm font-medium outline-none focus:border-[#FF7B68] focus:ring-1 focus:ring-[#FF7B68]"
             >
               {!selectedArea && <option value="">Using precise location</option>}
               {deliveryAreas.map((area) => <option key={area.name} value={area.name}>{area.name}</option>)}
@@ -214,7 +214,7 @@ export default function TankerBookingFlow() {
           <label className="block">
             <span className="mb-1 block text-xs text-[#5e5e5e]">Street, estate, or landmark</span>
           <div className="flex min-w-0 items-center gap-3 rounded-lg bg-[#f6f6f6] px-3 py-3">
-            <span className="h-2.5 w-2.5 shrink-0 bg-[#10B981]" aria-hidden="true" />
+            <span className="h-2.5 w-2.5 shrink-0 bg-[#FF7B68]" aria-hidden="true" />
             <input
               value={address}
               onChange={(event) => setAddress(event.target.value)}
@@ -254,7 +254,7 @@ export default function TankerBookingFlow() {
           <button
             type="button"
             onClick={handleRecenter}
-            className="flex-1 rounded-lg border border-[#d8d8d8] bg-white px-3 py-2.5 text-xs font-medium text-black transition hover:border-[#10B981] hover:bg-[#f0f9ff]"
+            className="flex-1 rounded-lg border border-[#d8d8d8] bg-white px-3 py-2.5 text-xs font-medium text-black transition hover:border-[#FF7B68] hover:bg-[#f0f9ff]"
             title="Return to default location"
           >
             📍 Recenter
@@ -267,7 +267,7 @@ export default function TankerBookingFlow() {
                 onClick={() => setMapStyle(style)}
                 className={`rounded-md px-3 py-1.5 text-xs font-medium transition ${
                   mapStyle === style
-                    ? 'bg-[#10B981] text-white'
+                    ? 'bg-[#FF7B68] text-white'
                     : 'text-[#5e5e5e] hover:bg-[#f6f6f6]'
                 }`}
               >
@@ -322,7 +322,7 @@ export default function TankerBookingFlow() {
                     type="button"
                     onClick={() => setQuantity(option)}
                     className={`rounded-lg border px-2 py-3 text-sm font-medium transition ${
-                      quantity === option ? 'border-[#10B981] bg-[#10B981] text-white' : 'border-[#d8d8d8] bg-white text-black'
+                      quantity === option ? 'border-[#FF7B68] bg-[#FF7B68] text-white' : 'border-[#d8d8d8] bg-white text-black'
                     }`}
                   >
                     {option.toLocaleString()}L
@@ -339,7 +339,7 @@ export default function TankerBookingFlow() {
                     key={mode.id}
                     type="button"
                     onClick={() => setDeliveryMode(mode.id as 'now' | 'schedule')}
-                    className={`h-10 rounded-full text-sm font-medium transition ${deliveryMode === mode.id ? 'bg-[#10B981] text-white' : 'text-[#5e5e5e]'}`}
+                    className={`h-10 rounded-full text-sm font-medium transition ${deliveryMode === mode.id ? 'bg-[#FF7B68] text-white' : 'text-[#5e5e5e]'}`}
                   >
                     {mode.label}
                   </button>
@@ -360,7 +360,7 @@ export default function TankerBookingFlow() {
                       key={source.id}
                       type="button"
                       onClick={() => setSelectedSourceId(source.id)}
-                      className={`w-full rounded-lg border p-3 text-left transition ${active ? 'border-[#10B981] bg-[#f0f9ff]' : 'border-[#d8d8d8] bg-white'}`}
+                      className={`w-full rounded-lg border p-3 text-left transition ${active ? 'border-[#FF7B68] bg-[#f0f9ff]' : 'border-[#d8d8d8] bg-white'}`}
                     >
                       <span className="flex items-start justify-between gap-3">
                         <span className="min-w-0">
@@ -389,7 +389,7 @@ export default function TankerBookingFlow() {
             href={reviewUrl}
             aria-disabled={!selectedSource}
             className={`mt-4 flex h-14 w-full shrink-0 items-center justify-center rounded-lg text-base font-medium transition ${
-              selectedSource ? 'bg-[#10B981] text-white hover:bg-[#34D399]' : 'pointer-events-none bg-[#d8d8d8] text-[#767676]'
+              selectedSource ? 'bg-[#FF7B68] text-white hover:bg-[#34D399]' : 'pointer-events-none bg-[#d8d8d8] text-[#767676]'
             }`}
           >
             {selectedSource ? `Review order · NGN ${selectedSource.total.toLocaleString()}` : 'No tanker available'}
