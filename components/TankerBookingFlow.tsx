@@ -279,11 +279,11 @@ export default function TankerBookingFlow() {
       </section>
 
       <section
-        className={`absolute bottom-[76px] left-3 right-3 z-30 flex overflow-hidden rounded-2xl bg-white transition-[height] duration-300 ease-out sm:left-4 sm:right-4 md:bottom-auto md:left-auto md:right-6 md:top-20 md:h-auto md:max-h-[calc(100dvh-96px)] md:w-[420px] md:rounded-lg md:left-auto lg:right-[max(24px,calc((100vw-1200px)/2))] ${
-          sheetExpanded ? 'h-[72dvh]' : 'h-auto min-h-[200px] sm:min-h-[240px]'
+        className={`absolute bottom-[76px] left-2 right-2 z-30 flex overflow-hidden rounded-2xl bg-white shadow-lg transition-[height] duration-300 ease-out sm:left-3 sm:right-3 md:bottom-auto md:left-auto md:right-6 md:top-20 md:h-auto md:max-h-[calc(100dvh-96px)] md:w-[420px] md:rounded-lg md:left-auto lg:right-[max(24px,calc((100vw-1200px)/2))] ${
+          sheetExpanded ? 'h-[72dvh]' : 'h-auto'
         }`}
       >
-        <div className="flex min-h-0 w-full flex-col p-3 sm:p-4 pb-[max(env(safe-area-inset-bottom),1rem)] md:p-5">
+        <div className="flex min-h-0 w-full flex-col p-4 sm:p-5 pb-4 md:p-5">
           <button
             type="button"
             aria-expanded={sheetExpanded}
@@ -314,15 +314,16 @@ export default function TankerBookingFlow() {
           )}
 
           <div className={`${sheetExpanded ? 'flex' : 'hidden'} min-h-0 flex-1 flex-col md:flex`}>
-            <div className="mt-4 min-h-0 flex-1 overflow-y-auto pr-1">
+            <div className="mt-3 min-h-0 flex-1 overflow-y-auto pr-1">
+              <p className="mb-2 text-xs font-medium text-[#5e5e5e]">Tank size</p>
               <div className="grid grid-cols-3 gap-2">
                 {quantities.map((option) => (
                   <button
                     key={option}
                     type="button"
                     onClick={() => setQuantity(option)}
-                    className={`rounded-lg border px-2 py-3 text-sm font-medium transition ${
-                      quantity === option ? 'border-[#FF7B68] bg-[#FF7B68] text-white' : 'border-[#d8d8d8] bg-white text-black'
+                    className={`rounded-lg border px-3 py-3 text-xs sm:text-sm font-medium transition ${
+                      quantity === option ? 'border-[#FF7B68] bg-[#FF7B68] text-white' : 'border-[#d8d8d8] bg-white text-black hover:border-[#FF7B68]'
                     }`}
                   >
                     {option.toLocaleString()}L
@@ -339,15 +340,15 @@ export default function TankerBookingFlow() {
                     key={mode.id}
                     type="button"
                     onClick={() => setDeliveryMode(mode.id as 'now' | 'schedule')}
-                    className={`h-10 rounded-full text-sm font-medium transition ${deliveryMode === mode.id ? 'bg-[#FF7B68] text-white' : 'text-[#5e5e5e]'}`}
+                    className={`h-10 rounded-full text-xs sm:text-sm font-medium transition ${deliveryMode === mode.id ? 'bg-[#FF7B68] text-white shadow-md' : 'text-[#5e5e5e] hover:text-black'}`}
                   >
                     {mode.label}
                   </button>
                 ))}
               </div>
 
-              <div className="mb-2 flex items-center justify-between gap-3">
-                <p className="text-sm font-medium">Nearby verified tankers</p>
+              <div className="mb-3 flex items-center justify-between gap-3">
+                <p className="text-xs sm:text-sm font-medium">Nearby verified tankers</p>
                 <span className="text-xs text-[#5e5e5e]">{deliveryCell.slice(0, 8)}…</span>
               </div>
 
@@ -360,18 +361,18 @@ export default function TankerBookingFlow() {
                       key={source.id}
                       type="button"
                       onClick={() => setSelectedSourceId(source.id)}
-                      className={`w-full rounded-lg border p-3 text-left transition ${active ? 'border-[#FF7B68] bg-[#f0f9ff]' : 'border-[#d8d8d8] bg-white'}`}
+                      className={`w-full rounded-lg border p-2.5 sm:p-3 text-left transition ${active ? 'border-[#FF7B68] bg-[#f0f9ff] shadow-sm' : 'border-[#d8d8d8] bg-white hover:border-[#FF7B68]'}`}
                     >
-                      <span className="flex items-start justify-between gap-3">
+                      <span className="flex items-start justify-between gap-2 sm:gap-3">
                         <span className="min-w-0">
-                          <span className="block truncate font-medium">{source.name}</span>
-                          <span className="mt-1 block text-xs text-[#5e5e5e]">
-                            {source.etaMinutes} min · {source.zonesAway <= 6 ? `${source.zonesAway} H3 zones away` : 'Extended service area'}
+                          <span className="block truncate text-xs sm:text-sm font-medium">{source.name}</span>
+                          <span className="mt-0.5 block text-xs text-[#5e5e5e]">
+                            {source.etaMinutes} min · {source.zonesAway <= 6 ? `${source.zonesAway} zones` : 'Extended'}
                           </span>
                         </span>
                         <span className="shrink-0 text-right">
-                          <span className="block font-medium">NGN {source.total.toLocaleString()}</span>
-                          <span className="text-xs text-[#5e5e5e]">fee included</span>
+                          <span className="block text-xs sm:text-sm font-medium">NGN {source.total.toLocaleString()}</span>
+                          <span className="text-xs text-[#5e5e5e]">fee</span>
                         </span>
                       </span>
                     </button>
@@ -388,11 +389,11 @@ export default function TankerBookingFlow() {
           <Link
             href={reviewUrl}
             aria-disabled={!selectedSource}
-            className={`mt-4 flex h-14 w-full shrink-0 items-center justify-center rounded-lg text-base font-medium transition ${
-              selectedSource ? 'bg-[#FF7B68] text-white hover:bg-[#34D399]' : 'pointer-events-none bg-[#d8d8d8] text-[#767676]'
+            className={`mt-5 flex h-12 sm:h-14 w-full shrink-0 items-center justify-center rounded-lg text-sm sm:text-base font-medium transition shadow-md ${
+              selectedSource ? 'bg-[#FF7B68] text-white hover:bg-[#FF9B8E] active:scale-95' : 'pointer-events-none bg-[#d8d8d8] text-[#767676]'
             }`}
           >
-            {selectedSource ? `Review order · NGN ${selectedSource.total.toLocaleString()}` : 'No tanker available'}
+            {selectedSource ? `Review · NGN ${selectedSource.total.toLocaleString()}` : 'No tanker available'}
           </Link>
         </div>
       </section>
