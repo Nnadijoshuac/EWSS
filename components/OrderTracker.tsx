@@ -78,7 +78,7 @@ export default function OrderTracker({ order, onStatusChange }: OrderTrackerProp
             const isCurrent = idx === currentIndex;
 
             return (
-              <div key={status} className="flex items-center gap-3">
+              <div key={status} className="flex flex-wrap items-center gap-3 sm:flex-nowrap">
                 <div
                   className={`w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm flex-shrink-0 transition-all ${
                     isCompleted
@@ -103,7 +103,7 @@ export default function OrderTracker({ order, onStatusChange }: OrderTrackerProp
                 {isCurrent && onStatusChange && idx < statuses.length - 1 && (
                   <button
                     onClick={() => onStatusChange(statuses[idx + 1])}
-                    className="btn-small whitespace-nowrap"
+                    className="btn-small ml-11 w-full sm:ml-0 sm:w-auto sm:whitespace-nowrap"
                   >
                     Mark Next
                   </button>
