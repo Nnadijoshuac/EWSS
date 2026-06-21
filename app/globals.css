@@ -4,6 +4,52 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Responsive Typography */
+@layer base {
+  html {
+    @apply scroll-smooth;
+  }
+
+  /* Mobile-first approach */
+  body {
+    @apply text-sm;
+  }
+
+  /* Tablet and up */
+  @media (min-width: 768px) {
+    body {
+      @apply text-base;
+    }
+  }
+}
+
+/* Responsive Utilities */
+@layer components {
+  .container-responsive {
+    @apply mx-auto w-full px-3 sm:px-4 md:px-6 lg:px-8 xl:px-12;
+  }
+
+  .text-responsive-lg {
+    @apply text-xl sm:text-2xl md:text-3xl lg:text-4xl;
+  }
+
+  .text-responsive-md {
+    @apply text-base sm:text-lg md:text-xl;
+  }
+
+  .text-responsive-sm {
+    @apply text-xs sm:text-sm md:text-base;
+  }
+
+  .gap-responsive {
+    @apply gap-2 sm:gap-3 md:gap-4 lg:gap-6;
+  }
+
+  .p-responsive {
+    @apply p-3 sm:p-4 md:p-5 lg:p-6;
+  }
+}
+
 * {
   margin: 0;
   padding: 0;

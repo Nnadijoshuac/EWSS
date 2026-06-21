@@ -125,7 +125,7 @@ export default function RequestPage() {
     <div className="min-h-screen bg-white">
       <TopNav currentRole={role} onRoleChange={() => {}} showRoleSwitcher={false} />
 
-      <main className="mx-auto w-full max-w-[1200px] px-3 pb-32 pt-24 sm:px-6 sm:pt-28 lg:px-8 xl:pb-28">
+      <main className="mx-auto w-full max-w-[1200px] px-3 pb-32 pt-20 sm:px-4 sm:pt-24 md:px-6 md:pt-28 lg:px-8 xl:pb-28">
         <div className="mb-8 border-b border-[#d8d8d8] pb-8">
           <h1 className="text-4xl font-normal leading-[1.1] tracking-[-0.035em] text-black sm:text-[52px]">
             Confirm your water delivery.

@@ -193,8 +193,8 @@ export default function TankerBookingFlow() {
 
       <TopNav currentRole="resident" onRoleChange={() => {}} showRoleSwitcher={false} />
 
-      <section className="absolute left-3 right-3 top-20 z-20 rounded-lg bg-white p-3 md:left-6 md:right-auto md:w-[390px] lg:left-[max(24px,calc((100vw-1200px)/2))]">
-        <div className="hidden md:grid gap-2">
+      <section className="absolute left-3 right-3 top-16 z-20 rounded-lg bg-white p-3 sm:left-4 sm:right-4 sm:top-20 md:left-6 md:right-auto md:w-[390px] md:p-4 lg:left-[max(24px,calc((100vw-1200px)/2))]">
+        <div className="hidden md:grid gap-2 md:gap-3">
           <label className="block">
             <span className="mb-1 block text-xs text-[#5e5e5e]">Delivery area</span>
             <select
@@ -279,11 +279,11 @@ export default function TankerBookingFlow() {
       </section>
 
       <section
-        className={`absolute bottom-[76px] left-0 right-0 z-30 flex overflow-hidden rounded-t-2xl bg-white transition-[height] duration-300 ease-out md:bottom-auto md:left-auto md:right-6 md:top-20 md:h-auto md:max-h-[calc(100dvh-96px)] md:w-[420px] md:rounded-lg lg:right-[max(24px,calc((100vw-1200px)/2))] ${
-          sheetExpanded ? 'h-[72dvh]' : 'h-[236px]'
+        className={`absolute bottom-[76px] left-3 right-3 z-30 flex overflow-hidden rounded-2xl bg-white transition-[height] duration-300 ease-out sm:left-4 sm:right-4 md:bottom-auto md:left-auto md:right-6 md:top-20 md:h-auto md:max-h-[calc(100dvh-96px)] md:w-[420px] md:rounded-lg md:left-auto lg:right-[max(24px,calc((100vw-1200px)/2))] ${
+          sheetExpanded ? 'h-[72dvh]' : 'h-auto min-h-[200px] sm:min-h-[240px]'
         }`}
       >
-        <div className="flex min-h-0 w-full flex-col p-4 pb-[max(env(safe-area-inset-bottom),1rem)] md:p-5">
+        <div className="flex min-h-0 w-full flex-col p-3 sm:p-4 pb-[max(env(safe-area-inset-bottom),1rem)] md:p-5">
           <button
             type="button"
             aria-expanded={sheetExpanded}
