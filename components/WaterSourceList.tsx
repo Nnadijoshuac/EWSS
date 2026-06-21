@@ -40,20 +40,20 @@ export default function WaterSourceList({
             key={source.id}
             type="button"
             onClick={() => onSelectSource?.(source.id)}
-            className={`w-full rounded-lg border p-4 text-left transition ${
+            className={`w-full min-w-0 rounded-lg border p-3 text-left transition sm:p-4 ${
               isSelected
                 ? 'border-black bg-[#f6f6f6]'
                 : 'border-[#d8d8d8] bg-white hover:border-black'
             }`}
           >
-            <div className="flex items-start justify-between gap-4">
+            <div className="flex min-w-0 flex-col gap-3 sm:flex-row sm:items-start sm:justify-between sm:gap-4">
               <div className="min-w-0 flex-1">
                 <div className="mb-2 flex items-start gap-3">
                   <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-black text-xs font-medium text-white">
                     {getSourceTypeLabel(source.type).slice(0, 2).toUpperCase()}
                   </span>
                   <div className="min-w-0">
-                    <div className="flex items-center gap-2">
+                    <div className="flex min-w-0 items-center gap-2">
                       <h3 className="truncate font-medium text-black">{source.name}</h3>
                       {isClosest && (
                         <span className="shrink-0 rounded-full border border-black bg-white px-2 py-1 text-[10px] font-medium text-black">
@@ -80,12 +80,12 @@ export default function WaterSourceList({
                 </div>
               </div>
 
-              <div className="shrink-0 text-right">
+              <div className="flex shrink-0 items-end justify-between gap-3 border-t border-[#d8d8d8] pt-3 text-left sm:block sm:border-0 sm:pt-0 sm:text-right">
                 <div className="text-lg font-medium text-black">
                   {formatPrice(Math.round(source.pricePerLitre))}
                   <span className="text-xs font-bold text-[#404751]">/L</span>
                 </div>
-                <p className="mt-1 text-xs font-bold text-[#404751]">
+                <p className="text-xs font-medium text-[#5e5e5e] sm:mt-1">
                   {source.etaMinutes
                     ? getEstimatedDeliveryTime(source.etaMinutes)
                     : `${(source.availableLitres / 1000).toFixed(1)}K L`}
