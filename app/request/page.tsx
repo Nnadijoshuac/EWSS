@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import TopNav from '@/components/TopNav';
 import WaterSourceList from '@/components/WaterSourceList';
 import OrderTracker from '@/components/OrderTracker';
@@ -10,11 +11,13 @@ import { UserRole, WaterOrder } from '@/lib/types';
 import { WATER_SOURCES, ENUGU_AREAS, DEMO_SUBSIDY_VOUCHER } from '@/lib/mock-data';
 import { calculatePrice, formatPrice } from '@/lib/pricing';
 import { Coordinates, getClosestSource, getSortedSourcesByDistance, getSourcesWithLiveDistance } from '@/lib/utils';
+import { saveResidentOrder } from '@/lib/order-storage';
 
 const quantities = [1000, 2500, 5000, 10000];
 const scheduleSlots = ['Today, 4-6 PM', 'Today, 6-8 PM', 'Tomorrow, 8-10 AM'];
 
 export default function RequestPage() {
+  const router = useRouter();
   const [role] = useState<UserRole>('resident');
   const [selectedArea, setSelectedArea] = useState('New Haven');
   const [selectedQuantity, setSelectedQuantity] = useState(2500);
@@ -72,7 +75,7 @@ export default function RequestPage() {
   const handleCreateOrder = () => {
     if (!selectedSource || !pricing) return;
 
-    setCreatedOrder({
+    const order: WaterOrder = {
       id: `order-${Date.now()}`,
       residentName: 'Joshua Nnadi',
       residentArea: selectedArea,
@@ -86,7 +89,11 @@ export default function RequestPage() {
       deliveryFee: pricing.deliveryFee,
       createdAt: new Date().toISOString(),
       estimatedDeliveryTime: deliveryTime,
-    });
+    };
+
+    saveResidentOrder(order);
+    setCreatedOrder(order);
+    router.push(`/orders?created=${order.id}`);
   };
 
   const handleUseLocation = () => {
