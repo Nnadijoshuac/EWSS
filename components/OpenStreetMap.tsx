@@ -19,6 +19,7 @@ interface OpenStreetMapProps {
   caption?: string;
   showChrome?: boolean;
   showSelectedLabels?: boolean;
+  mapStyle?: 'street' | 'satellite';
 }
 
 const TILE_SIZE = 256;
@@ -50,6 +51,7 @@ export default function OpenStreetMap({
   caption = 'OpenStreetMap view of Enugu service coverage',
   showChrome = true,
   showSelectedLabels = true,
+  mapStyle = 'street',
 }: OpenStreetMapProps) {
   const centerPoint = latLngToTilePoint(center.lat, center.lng, zoom);
   const tileX = Math.floor(centerPoint.x / TILE_SIZE);
@@ -67,12 +69,17 @@ export default function OpenStreetMap({
             const x = tileX + xOffset;
             const y = tileY + yOffset;
 
+            const tileUrl =
+              mapStyle === 'satellite'
+                ? `https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/${zoom}/${y}/${x}`
+                : `https://tile.openstreetmap.org/${zoom}/${x}/${y}.png`;
+
             return (
               <img
                 key={`${x}-${y}`}
-                src={`https://tile.openstreetmap.org/${zoom}/${x}/${y}.png`}
+                src={tileUrl}
                 alt=""
-                className="absolute h-64 w-64 select-none grayscale"
+                className={`absolute h-64 w-64 select-none ${mapStyle === 'street' ? 'grayscale' : ''}`}
                 draggable={false}
                 style={{
                   left: 256 + xOffset * TILE_SIZE - centerOffsetX,
@@ -84,7 +91,7 @@ export default function OpenStreetMap({
         )}
       </div>
 
-      <div className="absolute inset-0 bg-white/10" />
+      <div className={`absolute inset-0 ${mapStyle === 'satellite' ? 'bg-black/10' : 'bg-white/10'}`} />
 
       {markers.map((marker) => {
         const point = latLngToTilePoint(marker.lat, marker.lng, zoom);
@@ -125,12 +132,12 @@ export default function OpenStreetMap({
 
       {showChrome && (
         <a
-          href="https://www.openstreetmap.org/copyright"
+          href={mapStyle === 'satellite' ? 'https://www.esri.com/en-us/legal/terms/full-master-agreement' : 'https://www.openstreetmap.org/copyright'}
           target="_blank"
           rel="noreferrer"
           className="absolute bottom-2 right-2 rounded bg-white/90 px-2 py-1 text-[10px] font-semibold text-[#404751]"
         >
-          (c) OpenStreetMap contributors
+          {mapStyle === 'satellite' ? 'Source: Esri, Vantor, Earthstar Geographics' : '(c) OpenStreetMap contributors'}
         </a>
       )}
     </div>
