@@ -9,6 +9,7 @@ import { SAMPLE_ORDERS } from '@/lib/mock-data';
 import { readResidentOrders } from '@/lib/order-storage';
 import { WaterOrder } from '@/lib/types';
 import { formatPrice } from '@/lib/pricing';
+import LiveTankerMap from '@/components/LiveTankerMap';
 
 const demoCurrentOrder: WaterOrder = {
   id: 'order-live-001',
@@ -96,7 +97,10 @@ export default function OrdersPage() {
 
           {primaryOrder ? (
             <div className="grid gap-5 lg:grid-cols-[minmax(0,1.3fr)_minmax(300px,0.7fr)] lg:items-start">
-              <OrderTracker order={primaryOrder} />
+              <div className="space-y-5">
+                {(primaryOrder.status === 'on_the_way' || primaryOrder.status === 'accepted') && <LiveTankerMap order={primaryOrder} />}
+                <OrderTracker order={primaryOrder} />
+              </div>
               <aside className="space-y-3">
                 {currentOrders.slice(1).map((order) => (
                   <article key={order.id} className="rounded-lg bg-[#f6f6f6] p-5">
