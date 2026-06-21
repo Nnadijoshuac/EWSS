@@ -1,5 +1,7 @@
 'use client';
 
+import { useState, useRef, useEffect } from 'react';
+
 type Marker = {
   id: string;
   lat: number;
@@ -21,6 +23,7 @@ interface OpenStreetMapProps {
   zoom?: number;
   heightClass?: string;
   onMarkerClick?: (id: string) => void;
+  onMapClick?: (lat: number, lng: number) => void;
   caption?: string;
   showChrome?: boolean;
   showSelectedLabels?: boolean;
@@ -30,6 +33,8 @@ interface OpenStreetMapProps {
 
 const TILE_SIZE = 256;
 const DEFAULT_CENTER = { lat: 6.4433, lng: 7.4988 };
+const MIN_ZOOM = 10;
+const MAX_ZOOM = 18;
 
 function latLngToTilePoint(lat: number, lng: number, zoom: number) {
   const sinLat = Math.sin((lat * Math.PI) / 180);
@@ -41,8 +46,16 @@ function latLngToTilePoint(lat: number, lng: number, zoom: number) {
   };
 }
 
+function tilePointToLatLng(x: number, y: number, zoom: number) {
+  const scale = TILE_SIZE * 2 ** zoom;
+  const lng = (x / scale) * 360 - 180;
+  const n = Math.PI - (2 * Math.PI * y) / scale;
+  const lat = (180 / Math.PI) * Math.atan(Math.sinh(n));
+  return { lat, lng };
+}
+
 function toneClass(tone: Marker['tone'], selected?: boolean) {
-  if (selected) return 'bg-white text-black ring-4 ring-black';
+  if (selected) return 'bg-white text-black ring-4 ring-[#10B981]';
   if (tone === 'red') return 'bg-black text-white ring-2 ring-white';
   if (tone === 'amber') return 'bg-[#333333] text-white ring-2 ring-white';
   return 'border border-black bg-white text-black';
@@ -51,28 +64,114 @@ function toneClass(tone: Marker['tone'], selected?: boolean) {
 export default function OpenStreetMap({
   markers = [],
   center = DEFAULT_CENTER,
-  zoom = 12,
+  zoom: initialZoom = 12,
   heightClass = 'h-96',
   onMarkerClick,
+  onMapClick,
   caption = 'OpenStreetMap view of Enugu service coverage',
   showChrome = true,
   showSelectedLabels = true,
   mapStyle = 'street',
   route = [],
 }: OpenStreetMapProps) {
-  const centerPoint = latLngToTilePoint(center.lat, center.lng, zoom);
+  const [mapCenter, setMapCenter] = useState(center);
+  const [mapZoom, setMapZoom] = useState(initialZoom);
+  const [isDragging, setIsDragging] = useState(false);
+  const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
+  const mapRef = useRef<HTMLDivElement>(null);
+
+  const centerPoint = latLngToTilePoint(mapCenter.lat, mapCenter.lng, mapZoom);
   const tileX = Math.floor(centerPoint.x / TILE_SIZE);
   const tileY = Math.floor(centerPoint.y / TILE_SIZE);
   const centerOffsetX = centerPoint.x - tileX * TILE_SIZE;
   const centerOffsetY = centerPoint.y - tileY * TILE_SIZE;
 
-  // Cover large desktop viewports without constraining the map to a fixed canvas.
-  // Tiles are anchored to the geographic center in viewport pixel space.
   const horizontalTileOffsets = [-4, -3, -2, -1, 0, 1, 2, 3, 4];
   const verticalTileOffsets = [-3, -2, -1, 0, 1, 2, 3];
 
+  const handleMouseDown = (e: React.MouseEvent) => {
+    if ((e.target as HTMLElement).closest('button, a')) return;
+    setIsDragging(true);
+    setDragStart({ x: e.clientX, y: e.clientY });
+  };
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!isDragging || !mapRef.current) return;
+
+    const dx = e.clientX - dragStart.x;
+    const dy = e.clientY - dragStart.y;
+
+    const scale = TILE_SIZE * 2 ** mapZoom;
+    const newX = centerPoint.x - dx;
+    const newY = centerPoint.y - dy;
+
+    const newLatLng = tilePointToLatLng(newX, newY, mapZoom);
+    setMapCenter(newLatLng);
+    setDragStart({ x: e.clientX, y: e.clientY });
+  };
+
+  const handleMouseUp = () => {
+    setIsDragging(false);
+  };
+
+  const handleWheel = (e: React.WheelEvent) => {
+    e.preventDefault();
+
+    if (!mapRef.current) return;
+    const rect = mapRef.current.getBoundingClientRect();
+    const mouseX = e.clientX - rect.left;
+    const mouseY = e.clientY - rect.top;
+
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
+
+    const worldX = centerPoint.x + (mouseX - centerX);
+    const worldY = centerPoint.y + (mouseY - centerY);
+
+    const newZoom = Math.max(MIN_ZOOM, Math.min(MAX_ZOOM, mapZoom + (e.deltaY < 0 ? 1 : -1)));
+    const zoomDiff = newZoom - mapZoom;
+
+    const scale1 = TILE_SIZE * 2 ** mapZoom;
+    const scale2 = TILE_SIZE * 2 ** newZoom;
+    const scaleFactor = scale2 / scale1;
+
+    const newCenterX = worldX * scaleFactor - (mouseX - centerX) * (scaleFactor - 1);
+    const newCenterY = worldY * scaleFactor - (mouseY - centerY) * (scaleFactor - 1);
+
+    const newLatLng = tilePointToLatLng(newCenterX, newCenterY, newZoom);
+    setMapZoom(newZoom);
+    setMapCenter(newLatLng);
+  };
+
+  const handleMapClick = (e: React.MouseEvent) => {
+    if ((e.target as HTMLElement).closest('button, a') || isDragging) return;
+
+    if (!mapRef.current) return;
+    const rect = mapRef.current.getBoundingClientRect();
+    const mouseX = e.clientX - rect.left;
+    const mouseY = e.clientY - rect.top;
+
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
+
+    const worldX = centerPoint.x + (mouseX - centerX);
+    const worldY = centerPoint.y + (mouseY - centerY);
+
+    const { lat, lng } = tilePointToLatLng(worldX, worldY, mapZoom);
+    onMapClick?.(lat, lng);
+  };
+
   return (
-    <div className={`relative overflow-hidden rounded-lg bg-neutral-200 ${heightClass}`}>
+    <div
+      ref={mapRef}
+      className={`relative overflow-hidden rounded-lg bg-neutral-200 ${heightClass} cursor-grab active:cursor-grabbing`}
+      onMouseDown={handleMouseDown}
+      onMouseMove={handleMouseMove}
+      onMouseUp={handleMouseUp}
+      onMouseLeave={handleMouseUp}
+      onWheel={handleWheel}
+      onClick={handleMapClick}
+    >
       <div className="absolute inset-0 overflow-hidden">
         {horizontalTileOffsets.flatMap((xOffset) =>
           verticalTileOffsets.map((yOffset) => {
@@ -81,8 +180,8 @@ export default function OpenStreetMap({
 
             const tileUrl =
               mapStyle === 'satellite'
-                ? `https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/${zoom}/${y}/${x}`
-                : `https://tile.openstreetmap.org/${zoom}/${x}/${y}.png`;
+                ? `https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/${mapZoom}/${y}/${x}`
+                : `https://tile.openstreetmap.org/${mapZoom}/${x}/${y}.png`;
 
             return (
               <img
@@ -108,8 +207,8 @@ export default function OpenStreetMap({
 
       {route.slice(0, -1).map((point, index) => {
         const nextPoint = route[index + 1];
-        const start = latLngToTilePoint(point.lat, point.lng, zoom);
-        const end = latLngToTilePoint(nextPoint.lat, nextPoint.lng, zoom);
+        const start = latLngToTilePoint(point.lat, point.lng, mapZoom);
+        const end = latLngToTilePoint(nextPoint.lat, nextPoint.lng, mapZoom);
         const startX = start.x - centerPoint.x;
         const startY = start.y - centerPoint.y;
         const deltaX = end.x - start.x;
@@ -134,7 +233,7 @@ export default function OpenStreetMap({
       })}
 
       {markers.map((marker) => {
-        const point = latLngToTilePoint(marker.lat, marker.lng, zoom);
+        const point = latLngToTilePoint(marker.lat, marker.lng, mapZoom);
         const x = point.x - centerPoint.x;
         const y = point.y - centerPoint.y;
 
@@ -148,7 +247,7 @@ export default function OpenStreetMap({
             title={marker.label}
           >
             {marker.imageSrc ? (
-              <span className={`flex items-center justify-center rounded-full bg-white/95 p-1 transition hover:scale-105 ${marker.selected ? 'ring-4 ring-black' : 'ring-1 ring-black/20'}`}>
+              <span className={`flex items-center justify-center rounded-full bg-white/95 p-1 transition ${marker.selected ? 'ring-4 ring-[#10B981]' : 'ring-1 ring-black/20'}`}>
                 <img
                   src={marker.imageSrc}
                   alt={marker.imageAlt || marker.label}
@@ -158,7 +257,7 @@ export default function OpenStreetMap({
               </span>
             ) : (
               <span
-                className={`flex h-9 min-w-9 items-center justify-center rounded-full px-2 text-sm font-medium transition hover:scale-110 ${toneClass(
+                className={`flex h-9 min-w-9 items-center justify-center rounded-full px-2 text-sm font-medium transition ${toneClass(
                   marker.tone,
                   marker.selected
                 )}`}
@@ -178,6 +277,7 @@ export default function OpenStreetMap({
       {showChrome && (
         <div className="absolute left-3 top-3 rounded-lg border border-[#d8d8d8] bg-white/95 px-3 py-2">
           <p className="text-xs text-[#5e5e5e]">{caption}</p>
+          <p className="mt-1 text-xs font-medium text-[#5e5e5e]">Zoom: {mapZoom} | Drag to pan, scroll to zoom</p>
         </div>
       )}
 

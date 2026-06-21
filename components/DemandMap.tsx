@@ -1,8 +1,17 @@
+'use client';
+
+import { useState } from 'react';
 import OpenStreetMap from './OpenStreetMap';
 
 interface DemandMapProps {
   demandData: Record<string, number>;
   supplyData: Record<string, number>;
+}
+
+interface AreaDetails {
+  area: string;
+  lat: number;
+  lng: number;
 }
 
 const areaCoordinates: Record<string, { lat: number; lng: number }> = {
@@ -22,6 +31,8 @@ const areaCoordinates: Record<string, { lat: number; lng: number }> = {
 };
 
 export default function DemandMap({ demandData, supplyData }: DemandMapProps) {
+  const [selectedArea, setSelectedArea] = useState<AreaDetails | null>(null);
+
   const sortedAreas = Object.entries(demandData)
     .sort((a, b) => b[1] - a[1])
     .slice(0, 7);
@@ -39,8 +50,29 @@ export default function DemandMap({ demandData, supplyData }: DemandMapProps) {
       label: `${area}: ${gap} supply gap`,
       tone: gap > 25 ? ('red' as const) : gap > 10 ? ('amber' as const) : ('green' as const),
       value: String(gap || supply),
+      selected: selectedArea?.area === area,
     };
   });
+
+  const handleMapClick = (lat: number, lng: number) => {
+    const closest = sortedAreas.reduce((prev, [area]) => {
+      const coords = areaCoordinates[area];
+      if (!coords) return prev;
+      const distance = Math.hypot(coords.lat - lat, coords.lng - lng);
+      return distance < prev.distance ? { area, distance } : prev;
+    }, { area: '', distance: Infinity });
+
+    if (closest.distance < 0.1) {
+      setSelectedArea({ area: closest.area, lat, lng });
+    }
+  };
+
+  const handleMarkerClick = (id: string) => {
+    const coords = areaCoordinates[id];
+    if (coords) {
+      setSelectedArea({ area: id, lat: coords.lat, lng: coords.lng });
+    }
+  }
 
   return (
     <section className="rounded-lg border border-[#d8d8d8] bg-white p-5">
@@ -49,10 +81,32 @@ export default function DemandMap({ demandData, supplyData }: DemandMapProps) {
           <p className="text-sm text-[#5e5e5e]">Live demand</p>
           <h3 className="mt-1 text-2xl font-normal tracking-[-0.02em] text-black">Supply gaps by area</h3>
         </div>
-        <p className="text-xs text-[#767676]">OpenStreetMap coverage layer</p>
+        <p className="text-xs text-[#767676]">Click on markers or map to select area</p>
       </div>
 
-      <OpenStreetMap markers={markers} heightClass="h-[600px]" caption="OpenStreetMap demand map" />
+      {selectedArea && (
+        <div className="mb-4 rounded-lg bg-[#10B981]/10 border border-[#10B981] p-4">
+          <p className="text-sm font-medium text-[#10B981]">Selected Area</p>
+          <p className="mt-2 text-lg font-semibold text-black">{selectedArea.area}</p>
+          <p className="mt-1 text-sm text-[#5e5e5e]">
+            Demand: {demandData[selectedArea.area] || 0} requests | Supply: {supplyData[selectedArea.area] || 0} suppliers
+          </p>
+          <button
+            onClick={() => setSelectedArea(null)}
+            className="mt-3 text-sm font-medium text-[#10B981] hover:underline"
+          >
+            Clear selection
+          </button>
+        </div>
+      )}
+
+      <OpenStreetMap
+        markers={markers}
+        heightClass="h-[600px]"
+        caption="OpenStreetMap demand map"
+        onMarkerClick={handleMarkerClick}
+        onMapClick={handleMapClick}
+      />
 
       <div className="mt-4 grid gap-2 md:grid-cols-2">
         {sortedAreas.map(([area, demand]) => {
