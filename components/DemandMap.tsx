@@ -52,7 +52,7 @@ export default function DemandMap({ demandData, supplyData }: DemandMapProps) {
         <p className="text-xs text-[#767676]">OpenStreetMap coverage layer</p>
       </div>
 
-      <OpenStreetMap markers={markers} heightClass="h-[360px]" caption="OpenStreetMap demand map" />
+      <OpenStreetMap markers={markers} heightClass="h-[600px]" caption="OpenStreetMap demand map" />
 
       <div className="mt-4 grid gap-2 md:grid-cols-2">
         {sortedAreas.map(([area, demand]) => {
