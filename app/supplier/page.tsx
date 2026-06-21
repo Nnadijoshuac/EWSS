@@ -38,7 +38,7 @@ export default function SupplierPage() {
     <div className="min-h-screen bg-white">
       <TopNav currentRole={role} onRoleChange={setRole} showRoleSwitcher />
 
-      <main className="mx-auto max-w-[1200px] px-4 pb-28 pt-24 sm:px-6 sm:pt-28 lg:px-8">
+      <main className="mx-auto w-full max-w-[1200px] px-3 pb-28 pt-24 sm:px-6 sm:pt-28 lg:px-8">
         <header className="border-b border-[#d8d8d8] pb-10">
           <div className="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
             <div>
@@ -68,10 +68,10 @@ export default function SupplierPage() {
         </section>
 
         <section className="mb-12">
-          <div className="mb-6 flex items-end justify-between gap-4">
+          <div className="mb-6 flex flex-col items-start gap-4 sm:flex-row sm:items-end sm:justify-between">
             <div>
               <p className="text-sm text-[#5e5e5e]">Dispatch queue</p>
-              <h2 className="mt-1 text-4xl font-normal tracking-[-0.03em]">Incoming requests</h2>
+              <h2 className="mt-1 text-3xl font-normal tracking-[-0.03em] sm:text-4xl">Incoming requests</h2>
             </div>
             <span className="rounded-full bg-[#f6f6f6] px-4 py-2 text-sm">{incomingOrders.length} waiting</span>
           </div>
