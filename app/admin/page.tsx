@@ -64,7 +64,7 @@ export default function AdminPage() {
     <div className="min-h-screen bg-white">
       <TopNav currentRole={role} onRoleChange={setRole} showRoleSwitcher />
 
-      <main className="mx-auto max-w-[1200px] px-4 pb-24 pt-28 sm:px-6 lg:px-8">
+      <main className="mx-auto w-full max-w-[1200px] px-3 pb-28 pt-24 sm:px-6 sm:pt-28 lg:px-8">
         <header className="mb-12 grid gap-8 border-b border-[#d8d8d8] pb-10 lg:grid-cols-[1fr_auto] lg:items-end">
           <div>
             <div className="mb-5 flex items-center gap-3 text-sm">
@@ -72,7 +72,7 @@ export default function AdminPage() {
               <span>Enugu State</span>
               <span className="rounded-full bg-[#f6f6f6] px-3 py-1 text-xs font-medium">Government console</span>
             </div>
-            <h1 className="max-w-3xl text-[42px] font-normal leading-[1.1] tracking-[-0.035em] text-black sm:text-[52px]">
+            <h1 className="max-w-3xl text-4xl font-normal leading-[1.1] tracking-[-0.035em] text-black sm:text-[52px]">
               Water operations,<br />live and accountable.
             </h1>
             <p className="mt-5 max-w-2xl text-base leading-7 text-[#5e5e5e]">
@@ -92,10 +92,10 @@ export default function AdminPage() {
           <Metric label="Subsidy coverage" value="68%" note="New Haven leads" />
         </section>
 
-        <div className="mb-8 flex items-end justify-between gap-4">
+        <div className="mb-8 flex flex-col items-start gap-4 sm:flex-row sm:items-end sm:justify-between">
           <div>
             <p className="text-sm text-[#5e5e5e]">Today&apos;s network</p>
-            <h2 className="mt-1 text-4xl font-normal tracking-[-0.03em]">Where attention is needed</h2>
+            <h2 className="mt-1 text-3xl font-normal tracking-[-0.03em] sm:text-4xl">Where attention is needed</h2>
           </div>
           <span className="hidden rounded-full border border-[#d8d8d8] px-4 py-2 text-sm sm:inline-flex">Live demand</span>
         </div>
@@ -123,10 +123,10 @@ export default function AdminPage() {
         </div>
 
         <section className="mt-16 border-t border-[#d8d8d8] pt-10">
-          <div className="mb-6 flex items-end justify-between gap-4">
+          <div className="mb-6 flex flex-col items-start gap-4 sm:flex-row sm:items-end sm:justify-between">
             <div>
               <p className="text-sm text-[#5e5e5e]">Supplier verification</p>
-              <h2 className="mt-1 text-4xl font-normal tracking-[-0.03em]">Pending reviews</h2>
+              <h2 className="mt-1 text-3xl font-normal tracking-[-0.03em] sm:text-4xl">Pending reviews</h2>
             </div>
             <span className="rounded-full bg-[#f6f6f6] px-4 py-2 text-sm">2 pending</span>
           </div>
