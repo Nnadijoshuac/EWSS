@@ -7,11 +7,11 @@ export default function StatusPill({ status, variant = 'order' }: StatusPillProp
   const getOrderStatusClass = () => {
     switch (status) {
       case 'requested':
-        return 'bg-black text-white';
+        return 'bg-[#10B981] text-white';
       case 'accepted':
-        return 'bg-[#333333] text-white';
+        return 'bg-[#34D399] text-white';
       case 'on_the_way':
-        return 'border border-black bg-white text-black';
+        return 'border border-[#10B981] bg-white text-[#10B981]';
       case 'delivered':
         return 'bg-[#f6f6f6] text-black';
       default:

@@ -27,7 +27,7 @@ export default function MobileBottomNav() {
               key={item.href}
               href={item.href}
               className={`flex h-12 min-w-0 items-center justify-center rounded-lg px-1 text-xs font-medium transition sm:text-sm ${
-                active ? 'bg-[#0891B2] text-white' : 'text-white hover:bg-[#333333]'
+                active ? 'bg-[#10B981] text-white' : 'text-white hover:bg-[#333333]'
               }`}
             >
               {item.label}

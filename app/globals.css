@@ -33,9 +33,9 @@ body {
   --color-ash-gray: #afafaf;
   --color-slate: #5e5e5e;
   --color-faded-teal: #9dcdd6;
-  --color-primary-teal: #0891B2;
-  --color-primary-teal-light: #06B6D4;
-  --color-primary-teal-dark: #0E7490;
+  --color-primary-green: #10B981;
+  --color-primary-green-light: #34D399;
+  --color-primary-green-dark: #059669;
 }
 
 ::selection {
@@ -46,7 +46,7 @@ body {
 @layer components {
   /* Buttons */
   .btn-primary {
-    @apply rounded-lg bg-[#0891B2] px-5 py-3 text-sm font-medium text-white transition hover:bg-[#06B6D4] active:bg-[#0E7490] disabled:cursor-not-allowed disabled:opacity-50;
+    @apply rounded-lg bg-[#10B981] px-5 py-3 text-sm font-medium text-white transition hover:bg-[#34D399] active:bg-[#059669] disabled:cursor-not-allowed disabled:opacity-50;
   }
 
   .btn-secondary {
@@ -58,7 +58,7 @@ body {
   }
 
   .btn-small {
-    @apply rounded-lg bg-[#0891B2] px-4 py-2 text-sm font-medium text-white transition hover:bg-[#06B6D4];
+    @apply rounded-lg bg-[#10B981] px-4 py-2 text-sm font-medium text-white transition hover:bg-[#34D399];
   }
 
   .btn-icon {
@@ -105,7 +105,7 @@ body {
 
   /* Forms */
   .input-field {
-    @apply w-full rounded-lg border border-[#767676] bg-white px-4 py-3 font-normal placeholder:text-[#767676] focus:border-[#0891B2] focus:outline-none focus:ring-1 focus:ring-[#0891B2];
+    @apply w-full rounded-lg border border-[#767676] bg-white px-4 py-3 font-normal placeholder:text-[#767676] focus:border-[#10B981] focus:outline-none focus:ring-1 focus:ring-[#10B981];
   }
 
   .input-field:disabled {
