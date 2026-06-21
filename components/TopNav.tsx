@@ -43,7 +43,7 @@ export default function TopNav({
   return (
     <nav className="fixed left-0 right-0 top-0 z-50">
       {/* Background blur effect */}
-      <div className="absolute inset-0 bg-black/80 backdrop-blur-md" />
+      <div className="absolute inset-0 bg-black/30 backdrop-blur-md" />
 
       <div className="relative mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-8">
         <div className="flex h-20 items-center justify-between gap-4">
