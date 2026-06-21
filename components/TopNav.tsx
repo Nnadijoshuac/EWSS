@@ -101,8 +101,8 @@ export default function TopNav({
         </div>
       </nav>
 
-      {/* Mobile nav island - Fixed at bottom */}
-      <nav className="fixed bottom-4 left-0 right-0 z-50 flex md:hidden items-center justify-center px-4">
+      {/* Mobile nav island - Fixed at bottom with safe area */}
+      <nav className="fixed bottom-[max(1rem,env(safe-area-inset-bottom))] left-0 right-0 z-40 flex md:hidden items-center justify-center px-4">
         <div className="rounded-full border border-white/10 bg-black/80 backdrop-blur-md px-3 py-2.5">
           <div className="flex items-center gap-2">
             {/* Area selector on mobile */}
