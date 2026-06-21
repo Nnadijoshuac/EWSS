@@ -18,7 +18,7 @@ export default function VerifyPage() {
         <TopNav currentRole="resident" onRoleChange={() => {}} showRoleSwitcher={false} />
         <main className="mx-auto max-w-[1200px] px-4 pb-28 pt-32 sm:px-6 lg:px-8">
           <h1 className="text-4xl font-normal tracking-[-0.03em]">Water source not found.</h1>
-          <Link href="/demo" className="btn-primary mt-6 inline-flex">Back to map</Link>
+          <Link href="/" className="btn-primary mt-6 inline-flex">Return home</Link>
         </main>
       </div>
     );
@@ -38,9 +38,7 @@ export default function VerifyPage() {
       <TopNav currentRole="resident" onRoleChange={() => {}} showRoleSwitcher={false} />
 
       <main className="mx-auto w-full max-w-[1200px] px-3 pb-28 pt-24 sm:px-6 sm:pt-28 lg:px-8">
-        <Link href="/demo" className="text-sm text-[#5e5e5e] underline underline-offset-4 hover:text-black">Back to map</Link>
-
-        <div className="mt-8 grid gap-6 lg:grid-cols-[minmax(0,1fr)_340px] lg:items-start">
+        <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_340px] lg:items-start">
           <section>
             <div className="rounded-lg bg-black p-6 text-white sm:p-8">
               <p className="text-sm text-[#afafaf]">Verification complete</p>
