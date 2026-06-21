@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect, useMemo, useState } from 'react';
-import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import TopNav from '@/components/TopNav';
 import WaterSourceList from '@/components/WaterSourceList';
@@ -128,10 +127,7 @@ export default function RequestPage() {
 
       <main className="mx-auto w-full max-w-[1200px] px-3 pb-32 pt-24 sm:px-6 sm:pt-28 lg:px-8 xl:pb-28">
         <div className="mb-8 border-b border-[#d8d8d8] pb-8">
-          <Link href="/demo" className="text-sm text-[#5e5e5e] underline underline-offset-4 hover:text-black">
-            Back to map
-          </Link>
-          <h1 className="mt-5 text-4xl font-normal leading-[1.1] tracking-[-0.035em] text-black sm:text-[52px]">
+          <h1 className="text-4xl font-normal leading-[1.1] tracking-[-0.035em] text-black sm:text-[52px]">
             Confirm your water delivery.
           </h1>
           <p className="mt-4 max-w-2xl text-sm leading-6 text-[#5e5e5e] sm:text-base">
@@ -153,10 +149,10 @@ export default function RequestPage() {
 
         {createdOrder ? (
           <div className="mx-auto max-w-3xl">
-            <section className="mb-6 rounded-lg bg-black p-6 text-white">
-              <p className="text-xs text-[#afafaf]">Order confirmed</p>
+            <section className="mb-6 rounded-lg bg-[#10B981] p-6 text-white">
+              <p className="text-xs text-[#f0f9ff]">Order confirmed</p>
               <h2 className="mt-2 text-2xl font-normal">Your tanker is being prepared.</h2>
-              <p className="mt-2 text-sm text-[#afafaf]">
+              <p className="mt-2 text-sm text-[#f0f9ff]">
                 Order #{createdOrder.id.split('-')[1]} - {createdOrder.estimatedDeliveryTime}
               </p>
             </section>
@@ -190,7 +186,7 @@ export default function RequestPage() {
                           type="button"
                           onClick={() => setDeliveryMode(mode.id as 'now' | 'schedule')}
                           className={`h-9 rounded-full text-sm font-medium transition ${
-                            deliveryMode === mode.id ? 'bg-black text-white' : 'text-[#5e5e5e]'
+                            deliveryMode === mode.id ? 'bg-[#10B981] text-white' : 'text-[#5e5e5e]'
                           }`}
                         >
                           {mode.label}
@@ -208,7 +204,7 @@ export default function RequestPage() {
                           onClick={() => setSelectedSchedule(slot)}
                           className={`h-10 rounded-lg border px-3 text-left text-sm font-medium transition ${
                             selectedSchedule === slot
-                              ? 'border-black bg-black text-white'
+                              ? 'border-[#10B981] bg-[#10B981] text-white'
                               : 'border-[#d8d8d8] bg-white text-[#5e5e5e]'
                           }`}
                         >
@@ -228,7 +224,7 @@ export default function RequestPage() {
                           onClick={() => setSelectedQuantity(quantity)}
                           className={`rounded-lg border p-2.5 text-left transition ${
                             selectedQuantity === quantity
-                              ? 'border-black bg-black text-white'
+                              ? 'border-[#10B981] bg-[#10B981] text-white'
                               : 'border-[#d8d8d8] bg-white text-black'
                           }`}
                         >
@@ -316,13 +312,13 @@ export default function RequestPage() {
                 </div>
               </section>
 
-              <aside className="hidden min-w-0 self-start rounded-lg bg-black p-5 text-white xl:sticky xl:top-24 xl:block">
-                <p className="text-xs text-[#afafaf]">Order summary</p>
+              <aside className="hidden min-w-0 self-start rounded-lg bg-[#10B981] p-5 text-white xl:sticky xl:top-24 xl:block">
+                <p className="text-xs text-[#f0f9ff]">Order summary</p>
                 <h2 className="mt-2 text-xl font-normal">{selectedSource?.name || 'Select a supplier'}</h2>
-                <p className="mt-1 text-sm text-[#afafaf]">
+                <p className="mt-1 text-sm text-[#f0f9ff]">
                   {selectedQuantity.toLocaleString()}L to {selectedArea}
                 </p>
-                <p className="mt-3 rounded-lg bg-[#333333] px-3 py-2 text-sm font-medium">{deliveryTime}</p>
+                <p className="mt-3 rounded-lg bg-[#059669] px-3 py-2 text-sm font-medium">{deliveryTime}</p>
 
                 {pricing && selectedSource && (
                   <>
@@ -351,13 +347,13 @@ export default function RequestPage() {
       </main>
 
       {!createdOrder && pricing && selectedSource && (
-        <div className="fixed bottom-[5.5rem] left-3 right-3 z-40 rounded-lg bg-black p-3 text-white md:bottom-5 md:left-auto md:right-5 md:w-[360px] xl:hidden">
+        <div className="fixed bottom-[5.5rem] left-3 right-3 z-40 rounded-lg bg-[#10B981] p-3 text-white md:bottom-5 md:left-auto md:right-5 md:w-[360px] xl:hidden">
           <div className="flex items-center justify-between gap-3">
             <div className="min-w-0">
-              <p className="text-xs text-[#afafaf]">Total</p>
+              <p className="text-xs text-[#f0f9ff]">Total</p>
               <p className="truncate text-xl font-medium">{formatPrice(pricing.total)}</p>
             </div>
-            <button onClick={handleCreateOrder} className="h-12 rounded-lg bg-white px-5 text-sm font-medium text-black">
+            <button onClick={handleCreateOrder} className="h-12 rounded-lg bg-white px-5 text-sm font-medium text-[#10B981]">
               Confirm
             </button>
           </div>
