@@ -29,6 +29,7 @@ interface OpenStreetMapProps {
   showSelectedLabels?: boolean;
   mapStyle?: 'street' | 'satellite';
   route?: MapPoint[];
+  onMapStyleChange?: (style: 'street' | 'satellite') => void;
 }
 
 const TILE_SIZE = 256;
@@ -71,14 +72,27 @@ export default function OpenStreetMap({
   caption = 'OpenStreetMap view of Enugu service coverage',
   showChrome = true,
   showSelectedLabels = true,
-  mapStyle = 'street',
+  mapStyle: initialMapStyle = 'street',
   route = [],
+  onMapStyleChange,
 }: OpenStreetMapProps) {
   const [mapCenter, setMapCenter] = useState(center);
   const [mapZoom, setMapZoom] = useState(initialZoom);
+  const [mapStyle, setMapStyle] = useState<'street' | 'satellite'>(initialMapStyle);
   const [isDragging, setIsDragging] = useState(false);
   const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
   const mapRef = useRef<HTMLDivElement>(null);
+
+  const handleRecenter = () => {
+    setMapCenter(center);
+    setMapZoom(initialZoom);
+  };
+
+  const handleMapStyleToggle = () => {
+    const newStyle = mapStyle === 'street' ? 'satellite' : 'street';
+    setMapStyle(newStyle);
+    onMapStyleChange?.(newStyle);
+  };
 
   const centerPoint = latLngToTilePoint(mapCenter.lat, mapCenter.lng, mapZoom);
   const tileX = Math.floor(centerPoint.x / TILE_SIZE);
@@ -278,6 +292,27 @@ export default function OpenStreetMap({
         <div className="absolute left-3 top-3 rounded-lg border border-[#d8d8d8] bg-white/95 px-3 py-2">
           <p className="text-xs text-[#5e5e5e]">{caption}</p>
           <p className="mt-1 text-xs font-medium text-[#5e5e5e]">Zoom: {mapZoom} | Drag to pan, scroll to zoom</p>
+        </div>
+      )}
+
+      {showChrome && (
+        <div className="absolute right-3 top-3 flex flex-col gap-2">
+          <button
+            type="button"
+            onClick={handleRecenter}
+            className="rounded-lg bg-white/95 border border-[#d8d8d8] px-3 py-2 text-sm font-medium text-black transition hover:bg-white hover:border-[#10B981]"
+            title="Recenter map to default location"
+          >
+            📍 Recenter
+          </button>
+          <button
+            type="button"
+            onClick={handleMapStyleToggle}
+            className="rounded-lg bg-white/95 border border-[#d8d8d8] px-3 py-2 text-sm font-medium text-black transition hover:bg-white hover:border-[#10B981]"
+            title={`Switch to ${mapStyle === 'street' ? 'satellite' : 'street'} view`}
+          >
+            {mapStyle === 'street' ? '🛰️ Satellite' : '🗺️ Street'}
+          </button>
         </div>
       )}
 
