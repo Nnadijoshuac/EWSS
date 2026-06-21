@@ -104,7 +104,27 @@ export default function TopNav({
       {/* Mobile nav island - Fixed at bottom */}
       <nav className="fixed bottom-4 left-0 right-0 z-50 flex md:hidden items-center justify-center px-4">
         <div className="rounded-full border border-white/10 bg-black/80 backdrop-blur-md px-3 py-2.5">
-          <div className="flex items-center gap-1">
+          <div className="flex items-center gap-2">
+            {/* Area selector on mobile */}
+            {onAreaChange && areas && (
+              <select
+                value={selectedArea || ''}
+                onChange={(event) => onAreaChange(event.target.value)}
+                className="h-8 rounded-full border border-white/20 bg-black/40 px-3 text-xs font-normal text-white outline-none focus:border-white transition-colors"
+              >
+                <option value="">All areas</option>
+                {areas.map((area) => (
+                  <option key={area} value={area}>
+                    {area}
+                  </option>
+                ))}
+              </select>
+            )}
+
+            {/* Divider */}
+            {onAreaChange && areas && <div className="w-px h-5 bg-white/20" />}
+
+            {/* Nav items */}
             {navItems.map((item) => {
               const active =
                 pathname === item.href ||
