@@ -175,6 +175,7 @@ export default function TankerBookingFlow() {
   return (
     <main className="relative h-[100dvh] overflow-hidden bg-black text-black">
       <OpenStreetMap
+        key={`${deliveryPoint.lat}-${deliveryPoint.lng}`}
         markers={markers}
         center={deliveryPoint}
         zoom={13}
@@ -213,7 +214,7 @@ export default function TankerBookingFlow() {
           <label className="block">
             <span className="mb-1 block text-xs text-[#5e5e5e]">Street, estate, or landmark</span>
           <div className="flex min-w-0 items-center gap-3 rounded-lg bg-[#f6f6f6] px-3 py-3">
-            <span className="h-2.5 w-2.5 shrink-0 bg-black" aria-hidden="true" />
+            <span className="h-2.5 w-2.5 shrink-0 bg-[#10B981]" aria-hidden="true" />
             <input
               value={address}
               onChange={(event) => setAddress(event.target.value)}
@@ -223,6 +224,28 @@ export default function TankerBookingFlow() {
             <button type="button" onClick={useCurrentLocation} className="shrink-0 text-xs font-medium underline underline-offset-4">
               {locationStatus === 'loading' ? 'Locating…' : 'Use location'}
             </button>
+          </div>
+          <div className="mt-2 h-[120px] rounded-lg border border-[#d8d8d8] overflow-hidden">
+            <OpenStreetMap
+              markers={[
+                {
+                  id: 'delivery-point',
+                  lat: deliveryPoint.lat,
+                  lng: deliveryPoint.lng,
+                  label: 'Delivery location',
+                  value: '📍',
+                  tone: 'blue' as const,
+                  selected: true,
+                },
+              ]}
+              center={deliveryPoint}
+              zoom={14}
+              heightClass="h-full"
+              showChrome={false}
+              showSelectedLabels={false}
+              mapStyle={mapStyle}
+              caption="Address location preview"
+            />
           </div>
           </label>
         </div>
