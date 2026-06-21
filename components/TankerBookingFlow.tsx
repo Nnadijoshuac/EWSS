@@ -204,7 +204,7 @@ export default function TankerBookingFlow() {
                 setSelectedArea(area.name);
                 setDeliveryPoint(area.coordinates);
               }}
-              className="h-11 w-full rounded-lg border border-[#d8d8d8] bg-white px-3 text-sm font-medium outline-none focus:border-black"
+              className="h-11 w-full rounded-lg border border-[#d8d8d8] bg-white px-3 text-sm font-medium outline-none focus:border-[#10B981] focus:ring-1 focus:ring-[#10B981]"
             >
               {!selectedArea && <option value="">Using precise location</option>}
               {deliveryAreas.map((area) => <option key={area.name} value={area.name}>{area.name}</option>)}
@@ -365,8 +365,8 @@ export default function TankerBookingFlow() {
           <Link
             href={reviewUrl}
             aria-disabled={!selectedSource}
-            className={`mt-4 flex h-14 w-full shrink-0 items-center justify-center rounded-lg text-base font-medium ${
-              selectedSource ? 'bg-black text-white hover:bg-[#333333]' : 'pointer-events-none bg-[#d8d8d8] text-[#767676]'
+            className={`mt-4 flex h-14 w-full shrink-0 items-center justify-center rounded-lg text-base font-medium transition ${
+              selectedSource ? 'bg-[#10B981] text-white hover:bg-[#34D399]' : 'pointer-events-none bg-[#d8d8d8] text-[#767676]'
             }`}
           >
             {selectedSource ? `Review order · NGN ${selectedSource.total.toLocaleString()}` : 'No tanker available'}
