@@ -44,15 +44,19 @@ export default function TopNav({
     <>
       {/* Desktop Navbar */}
       <nav className="hidden md:fixed md:left-0 md:right-0 md:top-0 md:z-50 md:flex md:items-center md:justify-center px-4 pt-3 md:px-4 md:pt-3 lg:px-8">
-        <div className="flex w-full items-center justify-between gap-6">
-          {/* Logo */}
-          <Link href="/" className="flex shrink-0 items-center transition hover:opacity-80">
-            <BrandLogo className="text-2xl text-white sm:text-3xl" />
-          </Link>
+        <div className="flex w-full items-center justify-center gap-6">
+          {/* Centered Navigation Island with Logo */}
+          <div className="flex items-center justify-center">
+            <div className="rounded-full border border-white/10 bg-black/80 backdrop-blur-md px-3 py-2.5 flex items-center gap-3">
+              {/* Logo in navbar */}
+              <Link href="/" className="flex shrink-0 items-center transition hover:opacity-80">
+                <BrandLogo className="text-xl text-white" />
+              </Link>
 
-          {/* Centered Navigation Island */}
-          <div className="flex flex-1 items-center justify-center">
-            <div className="rounded-full border border-white/10 bg-black/80 backdrop-blur-md px-2 py-2.5">
+              {/* Divider */}
+              <div className="w-px h-6 bg-white/20" />
+
+              {/* Navigation items */}
               <div className="flex items-center gap-1">
                 {navItems.map((item) => {
                   const active =
