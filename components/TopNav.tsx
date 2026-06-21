@@ -44,10 +44,10 @@ export default function TopNav({
     <>
       {/* Desktop Navbar */}
       <nav className="hidden md:fixed md:left-0 md:right-0 md:top-0 md:z-50 md:flex md:items-center md:justify-center px-4 pt-3 md:px-4 md:pt-3 lg:px-8">
-        <div className="flex w-full items-center justify-between gap-4">
+        <div className="flex w-full items-center justify-between gap-6">
           {/* Logo */}
           <Link href="/" className="flex shrink-0 items-center transition hover:opacity-80">
-            <BrandLogo className="text-2xl text-black sm:text-3xl" />
+            <BrandLogo className="text-2xl text-white sm:text-3xl" />
           </Link>
 
           {/* Centered Navigation Island */}
