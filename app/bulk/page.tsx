@@ -23,59 +23,59 @@ export default function BulkPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#f7f9fb]">
+    <div className="min-h-screen bg-white">
       <TopNav currentRole="resident" onRoleChange={() => {}} showRoleSwitcher={false} />
 
-      <main className="mx-auto max-w-5xl px-4 pb-12 pt-24 sm:px-6 lg:px-8">
-        <Link href="/demo" className="text-sm font-bold text-[#404751] hover:text-[#191c1e]">
+      <main className="mx-auto max-w-[1200px] px-4 pb-28 pt-24 sm:px-6 sm:pt-28 lg:px-8">
+        <Link href="/demo" className="text-sm text-[#5e5e5e] underline underline-offset-4 hover:text-black">
           Back to map
         </Link>
 
         {step === 'browse' ? (
           <>
-            <div className="mt-4 grid gap-5 lg:grid-cols-[1fr_360px] lg:items-start">
+            <div className="mt-8 grid gap-8 border-b border-[#d8d8d8] pb-12 lg:grid-cols-[1fr_360px] lg:items-end">
               <section>
-                <p className="text-xs font-bold uppercase text-[#404751]">Bulk orders</p>
-                <h1 className="mt-2 text-3xl font-black leading-tight text-[#191c1e] sm:text-4xl">
+                <p className="text-sm text-[#5e5e5e]">Bulk orders</p>
+                <h1 className="mt-3 text-4xl font-normal leading-[1.1] tracking-[-0.035em] text-black sm:text-[52px]">
                   Share a tanker. Pay less.
                 </h1>
-                <p className="mt-2 text-sm font-semibold text-[#404751]">
+                <p className="mt-4 max-w-2xl text-sm leading-6 text-[#5e5e5e] sm:text-base">
                   Join neighbors nearby or start a request for your street. The app handles the coordination.
                 </p>
               </section>
 
-              <section className="rounded-lg bg-[#005e97] p-5 text-white">
-                <p className="text-xs font-bold uppercase text-white/45">Smart saving</p>
-                <p className="mt-2 text-3xl font-black">20-30%</p>
-                <p className="mt-2 text-sm font-semibold text-white/65">
+              <section className="rounded-lg bg-black p-6 text-white">
+                <p className="text-xs text-[#afafaf]">Smart saving</p>
+                <p className="mt-2 text-4xl font-normal">20–30%</p>
+                <p className="mt-2 text-sm leading-6 text-[#afafaf]">
                   Typical savings when households share delivery and volume pricing.
                 </p>
                 <button
                   onClick={() => setStep('create')}
-                  className="mt-5 h-12 w-full rounded-lg bg-white text-sm font-black text-[#191c1e]"
+                  className="mt-5 h-12 w-full rounded-lg bg-white text-sm font-medium text-black"
                 >
                   Start bulk request
                 </button>
               </section>
             </div>
 
-            <div className="mt-5">
+            <div className="mt-12">
               <CommunityBulkRequest bulkRequests={SAMPLE_BULK_REQUESTS} />
             </div>
           </>
         ) : (
-          <section className="mx-auto mt-5 max-w-2xl rounded-lg border border-[#c0c7d2]/30 bg-white p-5 shadow-sm">
-            <button onClick={() => setStep('browse')} className="mb-4 text-sm font-bold text-[#404751]">
+          <section className="mx-auto mt-8 max-w-2xl rounded-lg border border-[#d8d8d8] bg-white p-5 sm:p-8">
+            <button onClick={() => setStep('browse')} className="mb-5 text-sm text-[#5e5e5e] underline underline-offset-4">
               Back
             </button>
-            <h1 className="text-3xl font-black text-[#191c1e]">Start a bulk request.</h1>
-            <p className="mt-2 text-sm font-semibold text-[#404751]">
+            <h1 className="text-4xl font-normal tracking-[-0.03em] text-black">Start a bulk request.</h1>
+            <p className="mt-3 text-sm leading-6 text-[#5e5e5e]">
               Set the area and target volume. Neighbors can join once it is live.
             </p>
 
             <form onSubmit={handleCreateBulkRequest} className="mt-6 space-y-5">
               <label className="block">
-                <span className="mb-2 block text-sm font-black text-[#191c1e]">Area</span>
+                <span className="mb-2 block text-sm font-medium text-black">Area</span>
                 <input
                   type="text"
                   value={formData.area}
@@ -87,7 +87,7 @@ export default function BulkPage() {
               </label>
 
               <label className="block">
-                <span className="mb-2 block text-sm font-black text-[#191c1e]">Street or estate</span>
+                <span className="mb-2 block text-sm font-medium text-black">Street or estate</span>
                 <input
                   type="text"
                   value={formData.street}
@@ -98,17 +98,17 @@ export default function BulkPage() {
               </label>
 
               <div>
-                <p className="mb-2 text-sm font-black text-[#191c1e]">Target volume</p>
+                <p className="mb-2 text-sm font-medium text-black">Target volume</p>
                 <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
                   {[5000, 10000, 15000, 20000].map((quantity) => (
                     <button
                       key={quantity}
                       type="button"
                       onClick={() => setFormData({ ...formData, targetLitres: quantity })}
-                      className={`h-12 rounded-lg border text-sm font-black ${
+                      className={`h-12 rounded-lg border text-sm font-medium ${
                         formData.targetLitres === quantity
-                          ? 'border-[#005e97] bg-[#005e97] text-white'
-                          : 'border-[#c0c7d2]/30 bg-white text-[#191c1e]'
+                          ? 'border-black bg-black text-white'
+                          : 'border-[#d8d8d8] bg-white text-black'
                       }`}
                     >
                       {quantity / 1000}K L
@@ -117,12 +117,12 @@ export default function BulkPage() {
                 </div>
               </div>
 
-              <div className="rounded-lg bg-emerald-50 p-4">
-                <p className="text-xs font-bold uppercase text-emerald-700">Estimated per household</p>
-                <p className="mt-1 text-3xl font-black text-emerald-950">
+              <div className="rounded-lg bg-[#f6f6f6] p-4">
+                <p className="text-xs text-[#5e5e5e]">Estimated per household</p>
+                <p className="mt-1 text-3xl font-normal text-black">
                   {formatPrice(Math.round((formData.targetLitres * 35) / 5))}
                 </p>
-                <p className="mt-1 text-xs font-bold text-emerald-700">Assuming 5 households. Cost drops as more join.</p>
+                <p className="mt-1 text-xs text-[#5e5e5e]">Assuming 5 households. Cost drops as more join.</p>
               </div>
 
               <div className="grid gap-3 sm:grid-cols-2">

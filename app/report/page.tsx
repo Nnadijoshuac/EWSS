@@ -6,21 +6,21 @@ import ReportIssueForm from '@/components/ReportIssueForm';
 
 export default function ReportPage() {
   return (
-    <div className="min-h-screen bg-[#f7f9fb]">
+    <div className="min-h-screen bg-white">
       <TopNav currentRole="resident" onRoleChange={() => {}} showRoleSwitcher={false} />
 
-      <main className="mx-auto max-w-5xl px-4 pb-12 pt-24 sm:px-6 lg:px-8">
-        <Link href="/demo" className="text-sm font-bold text-[#404751] hover:text-[#191c1e]">
+      <main className="mx-auto max-w-[1200px] px-4 pb-28 pt-24 sm:px-6 sm:pt-28 lg:px-8">
+        <Link href="/demo" className="text-sm text-[#5e5e5e] underline underline-offset-4 hover:text-black">
           Back to map
         </Link>
 
-        <div className="mt-4 grid gap-5 lg:grid-cols-[1fr_340px] lg:items-start">
-          <section className="rounded-lg border border-[#c0c7d2]/30 bg-white p-5 shadow-sm">
-            <p className="text-xs font-bold uppercase text-[#404751]">Support</p>
-            <h1 className="mt-2 text-3xl font-black leading-tight text-[#191c1e] sm:text-4xl">
+        <div className="mt-8 grid gap-6 lg:grid-cols-[minmax(0,1fr)_340px] lg:items-start">
+          <section className="rounded-lg border border-[#d8d8d8] bg-white p-5 sm:p-8">
+            <p className="text-sm text-[#5e5e5e]">Support</p>
+            <h1 className="mt-3 text-4xl font-normal leading-[1.1] tracking-[-0.035em] text-black sm:text-[52px]">
               Report a water issue.
             </h1>
-            <p className="mt-2 text-sm font-semibold text-[#404751]">
+            <p className="mt-4 max-w-2xl text-sm leading-6 text-[#5e5e5e] sm:text-base">
               Tell us what happened. Reports help protect residents and keep suppliers accountable.
             </p>
 
@@ -33,9 +33,9 @@ export default function ReportPage() {
             </div>
           </section>
 
-          <aside className="rounded-lg bg-[#005e97] p-5 text-white">
-            <p className="text-xs font-bold uppercase text-white/45">What happens next</p>
-            <h2 className="mt-2 text-2xl font-black">Reviewed within 24 hours.</h2>
+          <aside className="rounded-lg bg-black p-6 text-white lg:sticky lg:top-24">
+            <p className="text-xs text-[#afafaf]">What happens next</p>
+            <h2 className="mt-2 text-2xl font-normal">Reviewed within 24 hours.</h2>
             <div className="mt-5 space-y-4">
               {[
                 'High-severity reports are prioritized first.',
@@ -43,10 +43,10 @@ export default function ReportPage() {
                 'Your identity stays private unless you choose otherwise.',
               ].map((text, index) => (
                 <div key={text} className="flex gap-3">
-                  <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-white text-sm font-black text-[#191c1e]">
+                  <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-white text-sm font-medium text-black">
                     {index + 1}
                   </span>
-                  <p className="text-sm font-semibold leading-6 text-white/70">{text}</p>
+                  <p className="text-sm leading-6 text-[#afafaf]">{text}</p>
                 </div>
               ))}
             </div>

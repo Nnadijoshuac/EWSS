@@ -101,29 +101,29 @@ export default function RequestPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#f7f9fb]">
+    <div className="min-h-screen bg-white">
       <TopNav currentRole={role} onRoleChange={() => {}} showRoleSwitcher={false} />
 
-      <main className="mx-auto max-w-6xl px-4 pb-12 pt-20 sm:px-6 lg:px-8">
-        <div className="mb-4">
-          <Link href="/demo" className="text-sm font-bold text-[#404751] hover:text-[#191c1e]">
+      <main className="mx-auto max-w-[1200px] px-4 pb-28 pt-24 sm:px-6 sm:pt-28 lg:px-8">
+        <div className="mb-8 border-b border-[#d8d8d8] pb-8">
+          <Link href="/demo" className="text-sm text-[#5e5e5e] underline underline-offset-4 hover:text-black">
             Back to map
           </Link>
-          <h1 className="mt-2 text-2xl font-black leading-tight text-[#191c1e] sm:text-3xl">
+          <h1 className="mt-5 text-4xl font-normal leading-[1.1] tracking-[-0.035em] text-black sm:text-[52px]">
             Confirm your water delivery.
           </h1>
-          <p className="mt-2 max-w-2xl text-sm font-semibold text-[#404751]">
+          <p className="mt-4 max-w-2xl text-sm leading-6 text-[#5e5e5e] sm:text-base">
             Choose delivery details, select a verified supplier, and confirm with transparent pricing.
           </p>
           <button
             type="button"
             onClick={handleUseLocation}
-            className="mt-3 h-10 rounded-lg border border-[#c0c7d2]/30 bg-white px-4 text-sm font-black text-[#191c1e]"
+            className="mt-5 h-11 rounded-lg border border-[#767676] bg-white px-4 text-sm font-medium text-black transition hover:bg-[#f6f6f6]"
           >
             {locationStatus === 'loading' ? 'Finding closest tanker...' : 'Use my location'}
           </button>
           {locationStatus === 'error' && (
-            <p className="mt-2 text-xs font-bold text-red-600">
+            <p className="mt-2 text-xs font-medium text-black">
               Location was not available. You can still choose an area manually.
             </p>
           )}
@@ -131,10 +131,10 @@ export default function RequestPage() {
 
         {createdOrder ? (
           <div className="mx-auto max-w-3xl">
-            <section className="mb-6 rounded-lg bg-[#005e97] p-5 text-white">
-              <p className="text-xs font-bold uppercase text-white/45">Order confirmed</p>
-              <h2 className="mt-2 text-2xl font-black">Your tanker is being prepared.</h2>
-              <p className="mt-2 text-sm font-semibold text-white/65">
+            <section className="mb-6 rounded-lg bg-black p-6 text-white">
+              <p className="text-xs text-[#afafaf]">Order confirmed</p>
+              <h2 className="mt-2 text-2xl font-normal">Your tanker is being prepared.</h2>
+              <p className="mt-2 text-sm text-[#afafaf]">
                 Order #{createdOrder.id.split('-')[1]} - {createdOrder.estimatedDeliveryTime}
               </p>
             </section>
@@ -142,11 +142,11 @@ export default function RequestPage() {
           </div>
         ) : (
           <>
-            <div className="grid gap-4 lg:grid-cols-[330px_1fr_300px]">
+            <div className="grid gap-5 xl:grid-cols-[320px_minmax(0,1fr)_300px]">
               <aside className="space-y-4">
                 <section className="card">
                   <label className="block">
-                    <span className="mb-2 block text-xs font-bold uppercase text-[#404751]">Delivery area</span>
+                    <span className="mb-2 block text-xs text-[#5e5e5e]">Delivery area</span>
                     <select value={selectedArea} onChange={(event) => setSelectedArea(event.target.value)} className="input-field">
                       {ENUGU_AREAS.map((area) => (
                         <option key={area} value={area}>
@@ -157,8 +157,8 @@ export default function RequestPage() {
                   </label>
 
                   <div className="mt-4">
-                    <p className="mb-2 text-xs font-bold uppercase text-[#404751]">Delivery time</p>
-                    <div className="grid grid-cols-2 rounded-lg bg-[#eceef0] p-1">
+                    <p className="mb-2 text-xs text-[#5e5e5e]">Delivery time</p>
+                    <div className="grid grid-cols-2 rounded-full bg-[#f6f6f6] p-1">
                       {[
                         { id: 'now', label: 'Now' },
                         { id: 'schedule', label: 'Schedule' },
@@ -167,8 +167,8 @@ export default function RequestPage() {
                           key={mode.id}
                           type="button"
                           onClick={() => setDeliveryMode(mode.id as 'now' | 'schedule')}
-                          className={`h-9 rounded-md text-sm font-black transition ${
-                            deliveryMode === mode.id ? 'bg-white text-[#191c1e] shadow-sm' : 'text-[#404751]'
+                          className={`h-9 rounded-full text-sm font-medium transition ${
+                            deliveryMode === mode.id ? 'bg-black text-white' : 'text-[#5e5e5e]'
                           }`}
                         >
                           {mode.label}
@@ -184,10 +184,10 @@ export default function RequestPage() {
                           key={slot}
                           type="button"
                           onClick={() => setSelectedSchedule(slot)}
-                          className={`h-9 rounded-lg border px-3 text-left text-sm font-black transition ${
+                          className={`h-10 rounded-lg border px-3 text-left text-sm font-medium transition ${
                             selectedSchedule === slot
-                              ? 'border-[#005e97] bg-[#005e97] text-white'
-                              : 'border-[#c0c7d2]/30 bg-white text-[#404751]'
+                              ? 'border-black bg-black text-white'
+                              : 'border-[#d8d8d8] bg-white text-[#5e5e5e]'
                           }`}
                         >
                           {slot}
@@ -197,7 +197,7 @@ export default function RequestPage() {
                   )}
 
                   <div className="mt-4">
-                    <p className="mb-2 text-xs font-bold uppercase text-[#404751]">Tank size</p>
+                    <p className="mb-2 text-xs text-[#5e5e5e]">Tank size</p>
                     <div className="grid grid-cols-2 gap-2">
                       {quantities.map((quantity) => (
                         <button
@@ -206,18 +206,18 @@ export default function RequestPage() {
                           onClick={() => setSelectedQuantity(quantity)}
                           className={`rounded-lg border p-2.5 text-left transition ${
                             selectedQuantity === quantity
-                              ? 'border-[#005e97] bg-[#005e97] text-white'
-                              : 'border-[#c0c7d2]/30 bg-white text-[#191c1e]'
+                              ? 'border-black bg-black text-white'
+                              : 'border-[#d8d8d8] bg-white text-black'
                           }`}
                         >
-                          <span className="block text-sm font-black">{quantity.toLocaleString()}L</span>
-                          <span className="text-xs font-semibold opacity-70">Tank delivery</span>
+                          <span className="block text-sm font-medium">{quantity.toLocaleString()}L</span>
+                          <span className="text-xs opacity-70">Tank delivery</span>
                         </button>
                       ))}
                     </div>
                   </div>
 
-                  <label className="mt-4 flex items-center justify-between rounded-lg bg-emerald-50 p-3 text-sm font-bold text-emerald-800">
+                  <label className="mt-4 flex items-center justify-between rounded-lg bg-[#f6f6f6] p-3 text-sm font-medium text-black">
                     Apply subsidy
                     <input
                       type="checkbox"
@@ -229,7 +229,7 @@ export default function RequestPage() {
                 </section>
 
                 <section className="card">
-                  <h2 className="mb-3 text-lg font-black">Supplier</h2>
+                  <h2 className="mb-3 text-xl font-normal">Supplier</h2>
                   <WaterSourceList
                     sources={filteredSources}
                     selectedSourceId={selectedSourceId}
@@ -239,7 +239,7 @@ export default function RequestPage() {
                 </section>
               </aside>
 
-              <section className="overflow-hidden rounded-lg border border-[#c0c7d2]/30 bg-white">
+              <section className="overflow-hidden rounded-lg border border-[#d8d8d8] bg-white">
                 <OpenStreetMap
                   markers={[
                     ...filteredSources.map((source) => ({
@@ -276,31 +276,31 @@ export default function RequestPage() {
                       : []),
                   ]}
                   center={userLocation || undefined}
-                  heightClass="h-[340px] md:h-[560px]"
+                  heightClass="h-[340px] sm:h-[460px] xl:h-[620px]"
                   onMarkerClick={setSelectedSourceId}
                   caption="Delivery route preview"
                 />
-                <div className="border-t border-[#c0c7d2]/30 p-3">
-                  <p className="text-xs font-bold uppercase text-[#404751]">Selected supplier</p>
-                  <p className="mt-1 text-base font-black text-[#191c1e]">{selectedSource?.name || 'Choose a supplier'}</p>
-                  <p className="text-sm font-semibold text-[#404751]">
+                <div className="border-t border-[#d8d8d8] p-4">
+                  <p className="text-xs text-[#5e5e5e]">Selected supplier</p>
+                  <p className="mt-1 text-base font-medium text-black">{selectedSource?.name || 'Choose a supplier'}</p>
+                  <p className="text-sm text-[#5e5e5e]">
                     {deliveryTime} - {selectedQuantity.toLocaleString()}L
                   </p>
                   {closestTanker && (
-                    <p className="mt-1 text-xs font-black text-amber-700">
+                    <p className="mt-1 text-xs font-medium text-black">
                       Closest tanker: {closestTanker.name} - {closestTanker.distanceKm} km away
                     </p>
                   )}
                 </div>
               </section>
 
-              <aside className="self-start rounded-lg bg-[#005e97] p-4 text-white shadow-xl">
-                <p className="text-xs font-bold uppercase text-white/45">Order summary</p>
-                <h2 className="mt-2 text-xl font-black">{selectedSource?.name || 'Select a supplier'}</h2>
-                <p className="mt-1 text-sm font-semibold text-white/60">
+              <aside className="hidden self-start rounded-lg bg-black p-5 text-white xl:sticky xl:top-24 xl:block">
+                <p className="text-xs text-[#afafaf]">Order summary</p>
+                <h2 className="mt-2 text-xl font-normal">{selectedSource?.name || 'Select a supplier'}</h2>
+                <p className="mt-1 text-sm text-[#afafaf]">
                   {selectedQuantity.toLocaleString()}L to {selectedArea}
                 </p>
-                <p className="mt-2 rounded-lg bg-white/10 px-3 py-2 text-sm font-black">{deliveryTime}</p>
+                <p className="mt-3 rounded-lg bg-[#333333] px-3 py-2 text-sm font-medium">{deliveryTime}</p>
 
                 {pricing && selectedSource && (
                   <>
@@ -313,11 +313,11 @@ export default function RequestPage() {
                     </div>
                     <div className="mb-4 flex items-end justify-between">
                       <span>
-                        <span className="block text-xs font-bold uppercase text-white/45">Total</span>
-                        <span className="text-2xl font-black">{formatPrice(pricing.total)}</span>
+                        <span className="block text-xs text-[#afafaf]">Total</span>
+                        <span className="text-2xl font-normal">{formatPrice(pricing.total)}</span>
                       </span>
                     </div>
-                    <button onClick={handleCreateOrder} className="h-10 w-full rounded-lg bg-white text-sm font-black text-[#005e97]">
+                    <button onClick={handleCreateOrder} className="h-11 w-full rounded-lg bg-white text-sm font-medium text-black">
                       Confirm order
                     </button>
                   </>
@@ -329,13 +329,13 @@ export default function RequestPage() {
       </main>
 
       {!createdOrder && pricing && selectedSource && (
-        <div className="fixed bottom-20 left-3 right-3 z-40 rounded-lg bg-[#005e97] p-3 text-white shadow-2xl md:hidden">
+        <div className="fixed bottom-[5.5rem] left-3 right-3 z-40 rounded-lg bg-black p-3 text-white xl:hidden">
           <div className="flex items-center justify-between gap-3">
             <div>
-              <p className="text-xs font-bold uppercase text-white/45">Total</p>
-              <p className="text-xl font-black">{formatPrice(pricing.total)}</p>
+              <p className="text-xs text-[#afafaf]">Total</p>
+              <p className="text-xl font-medium">{formatPrice(pricing.total)}</p>
             </div>
-            <button onClick={handleCreateOrder} className="h-12 rounded-lg bg-white px-5 text-sm font-black text-[#005e97]">
+            <button onClick={handleCreateOrder} className="h-12 rounded-lg bg-white px-5 text-sm font-medium text-black">
               Confirm
             </button>
           </div>
@@ -348,8 +348,8 @@ export default function RequestPage() {
 function Row({ label, value, positive = false }: { label: string; value: string; positive?: boolean }) {
   return (
     <div className="flex items-center justify-between">
-      <span className="font-semibold text-white/60">{label}</span>
-      <span className={`font-black ${positive ? 'text-emerald-300' : 'text-white'}`}>{value}</span>
+      <span className="text-[#afafaf]">{label}</span>
+      <span className="font-medium text-white">{value}</span>
     </div>
   );
 }

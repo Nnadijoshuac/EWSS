@@ -5,189 +5,95 @@ import { useParams } from 'next/navigation';
 import TopNav from '@/components/TopNav';
 import VerificationBadge from '@/components/VerificationBadge';
 import { WATER_SOURCES } from '@/lib/mock-data';
-import { getSourceTypeLabel, getSourceTypeIcon, getTimeAgo } from '@/lib/utils';
+import { getSourceTypeLabel } from '@/lib/utils';
 import { formatPrice } from '@/lib/pricing';
 
 export default function VerifyPage() {
   const params = useParams();
-  const sourceId = params?.id as string;
-
-  const source = WATER_SOURCES.find((s) => s.id === sourceId);
+  const source = WATER_SOURCES.find((item) => item.id === (params?.id as string));
 
   if (!source) {
     return (
-      <div className="bg-[#f7f9fb] min-h-screen">
+      <div className="min-h-screen bg-white">
         <TopNav currentRole="resident" onRoleChange={() => {}} showRoleSwitcher={false} />
-        <main className="container-max section-padding text-center">
-          <p className="text-lg text-[#404751]">Water source not found.</p>
-          <Link href="/demo">
-            <button className="btn-primary mt-4">Back to Map</button>
-          </Link>
+        <main className="mx-auto max-w-[1200px] px-4 pb-28 pt-32 sm:px-6 lg:px-8">
+          <h1 className="text-4xl font-normal tracking-[-0.03em]">Water source not found.</h1>
+          <Link href="/demo" className="btn-primary mt-6 inline-flex">Back to map</Link>
         </main>
       </div>
     );
   }
 
+  const facts = [
+    { label: 'Location', value: source.area, note: `${source.distanceKm} km away` },
+    { label: 'Status', value: 'Available', note: 'Active now' },
+    { label: 'Price', value: `${formatPrice(Math.round(source.pricePerLitre))}/L` },
+    { label: 'Capacity', value: `${(source.availableLitres / 1000).toFixed(1)}K L`, note: 'Available' },
+    { label: 'Rating', value: `${source.rating.toFixed(1)}/5.0`, note: `${source.reviewCount} reviews` },
+    { label: 'Last quality check', value: source.lastQualityCheck },
+  ];
+
   return (
-    <div className="bg-[#f7f9fb] min-h-screen">
+    <div className="min-h-screen bg-white">
       <TopNav currentRole="resident" onRoleChange={() => {}} showRoleSwitcher={false} />
 
-      <main className="container-max section-padding">
-        <Link href="/demo" className="mb-8 block font-medium text-[#005e97] hover:text-[#004a79]">
-           Back to Map
-        </Link>
+      <main className="mx-auto max-w-[1200px] px-4 pb-28 pt-24 sm:px-6 sm:pt-28 lg:px-8">
+        <Link href="/demo" className="text-sm text-[#5e5e5e] underline underline-offset-4 hover:text-black">Back to map</Link>
 
-        <div className="max-w-2xl">
-          {/* QR Scan Result */}
-          <div className="card border-4 border-green-400 bg-green-50 mb-8 text-center">
-            <p className="text-5xl mb-3"></p>
-            <h2 className="heading-md text-green-900 m-0 mb-2">QR Code Verified</h2>
-            <p className="text-green-800">
-              This water source has been verified and registered with Vale
-            </p>
-          </div>
+        <div className="mt-8 grid gap-6 lg:grid-cols-[minmax(0,1fr)_340px] lg:items-start">
+          <section>
+            <div className="rounded-lg bg-black p-6 text-white sm:p-8">
+              <p className="text-sm text-[#afafaf]">Verification complete</p>
+              <h1 className="mt-3 max-w-2xl text-4xl font-normal leading-[1.1] tracking-[-0.035em] sm:text-[52px]">This source is registered with Vale.</h1>
+            </div>
 
-          {/* Source Details */}
-          <div className="card mb-8">
-            <div className="flex items-start gap-4 mb-6 pb-6 border-b-2 border-[#cfe5ff]">
-              <span className="text-5xl">{getSourceTypeIcon(source.type)}</span>
-              <div className="flex-1">
-                <div className="flex items-center gap-3 mb-2">
-                  <h1 className="heading-lg m-0">{source.name}</h1>
-                  <VerificationBadge
-                    verified={source.verified}
-                    verificationStatus={source.verificationStatus}
-                  />
+            <div className="mt-6 rounded-lg border border-[#d8d8d8] p-5 sm:p-8">
+              <div className="flex flex-col gap-5 border-b border-[#d8d8d8] pb-8 sm:flex-row sm:items-start sm:justify-between">
+                <div>
+                  <p className="text-sm text-[#5e5e5e]">{getSourceTypeLabel(source.type)}</p>
+                  <h2 className="mt-2 text-3xl font-normal tracking-[-0.03em] text-black sm:text-4xl">{source.name}</h2>
+                  <p className="mt-3 text-sm text-[#5e5e5e]">Operated by {source.operatorName}</p>
                 </div>
-                <p className="text-[#404751] mb-2">{getSourceTypeLabel(source.type)}</p>
-                <p className="text-sm text-[#404751]">Operator: <strong>{source.operatorName}</strong></p>
-              </div>
-            </div>
-
-            {/* Key Info Grid */}
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-6">
-              <div className="bg-[#f7f9fb] rounded-lg p-4">
-                <p className="text-xs text-[#404751] font-bold mb-1 uppercase">Location</p>
-                <p className="font-bold text-[#001d34]">{source.area}</p>
-                <p className="text-xs text-[#404751]">{source.distanceKm} km away</p>
+                <VerificationBadge verified={source.verified} verificationStatus={source.verificationStatus} />
               </div>
 
-              <div className="bg-[#f7f9fb] rounded-lg p-4">
-                <p className="text-xs text-[#404751] font-bold mb-1 uppercase">Status</p>
-                <p className="font-bold text-green-700"> Available</p>
-                <p className="text-xs text-[#404751]">Active Now</p>
+              <div className="mt-8 grid grid-cols-2 gap-px overflow-hidden rounded-lg border border-[#d8d8d8] bg-[#d8d8d8] md:grid-cols-3">
+                {facts.map((fact) => (
+                  <div key={fact.label} className="min-w-0 bg-white p-4 sm:p-5">
+                    <p className="text-xs text-[#5e5e5e]">{fact.label}</p>
+                    <p className="mt-2 break-words font-medium text-black">{fact.value}</p>
+                    {fact.note && <p className="mt-1 text-xs text-[#767676]">{fact.note}</p>}
+                  </div>
+                ))}
               </div>
 
-              <div className="bg-[#f7f9fb] rounded-lg p-4">
-                <p className="text-xs text-[#404751] font-bold mb-1 uppercase">Price</p>
-                <p className="font-bold text-[#005e97]">
-                  {formatPrice(Math.round(source.pricePerLitre))}
-                  <span className="text-sm">/L</span>
-                </p>
-              </div>
-
-              <div className="bg-[#f7f9fb] rounded-lg p-4">
-                <p className="text-xs text-[#404751] font-bold mb-1 uppercase">Capacity</p>
-                <p className="font-bold text-[#001d34]">
-                  {(source.availableLitres / 1000).toFixed(1)}K L
-                </p>
-                <p className="text-xs text-[#404751]">Available</p>
-              </div>
-
-              <div className="bg-[#f7f9fb] rounded-lg p-4">
-                <p className="text-xs text-[#404751] font-bold mb-1 uppercase">Rating</p>
-                <p className="font-bold text-[#001d34]">
-                   {source.rating.toFixed(1)}/5.0
-                </p>
-                <p className="text-xs text-[#404751]">{source.reviewCount} reviews</p>
-              </div>
-
-              <div className="bg-[#f7f9fb] rounded-lg p-4">
-                <p className="text-xs text-[#404751] font-bold mb-1 uppercase">Last QC</p>
-                <p className="font-bold text-[#001d34]">{source.lastQualityCheck}</p>
-                <p className="text-xs text-[#404751]">Quality Check</p>
-              </div>
-            </div>
-
-            <div className="divider my-6" />
-
-            {/* Contact */}
-            <div className="mb-6">
-              <p className="text-sm font-bold text-[#001d34] mb-3"> Contact Operator</p>
               {source.operatorPhone && (
-                <a
-                  href={`tel:${source.operatorPhone}`}
-                  className="block w-full rounded-lg border-2 border-[#005e97] px-4 py-3 text-center font-bold text-[#005e97] transition hover:bg-[#f7f9fb]"
-                >
-                  Call: {source.operatorPhone}
-                </a>
+                <a href={`tel:${source.operatorPhone}`} className="btn-secondary mt-6 block w-full text-center">Call {source.operatorPhone}</a>
               )}
             </div>
+          </section>
 
-            {/* Security Info */}
-            <div className="bg-blue-50 border-2 border-blue-200 rounded-lg p-4 mb-6">
-              <p className="text-sm font-bold text-blue-900 mb-2"> Verification Details</p>
-              <ul className="text-xs text-blue-900 space-y-1">
-                <li> Registered with Vale on Jan 15, 2024</li>
-                <li> Regular quality inspections conducted</li>
-                <li> All legal documentation verified</li>
-                <li> {source.complaintCount} complaint{source.complaintCount !== 1 ? 's' : ''} on record</li>
+          <aside className="space-y-5 lg:sticky lg:top-24">
+            <section className="rounded-lg bg-[#f6f6f6] p-6">
+              <p className="text-sm text-[#5e5e5e]">Verification details</p>
+              <ul className="mt-4 space-y-3 text-sm leading-6 text-black">
+                <li>Registered with Vale since January 2024</li>
+                <li>Regular quality inspections conducted</li>
+                <li>Legal documentation verified</li>
+                <li>{source.complaintCount} complaint{source.complaintCount !== 1 ? 's' : ''} on record</li>
               </ul>
-            </div>
+            </section>
 
-            {/* Actions */}
-            <div className="flex flex-col gap-3">
-              <Link href="/demo">
-                <button className="btn-primary w-full">
-                  Request Water from {source.name.split(' ')[0]}
-                </button>
-              </Link>
-              <Link href="/report">
-                <button className="btn-secondary w-full">
-                  Report Issue
-                </button>
-              </Link>
-            </div>
-          </div>
+            <section className="rounded-lg border border-[#d8d8d8] p-6">
+              <h3 className="text-2xl font-normal tracking-[-0.02em]">Why trust this source?</h3>
+              <p className="mt-3 text-sm leading-6 text-[#5e5e5e]">Credentials are verified, quality is checked regularly, and community reports remain attached to the operator record.</p>
+            </section>
 
-          {/* Trust Information */}
-          <div className="card border-2 border-green-200 bg-green-50">
-            <h3 className="heading-sm text-green-900 mb-4"> Why Trust This Source?</h3>
-            <ul className="space-y-2 text-sm text-green-900">
-              <li className="flex gap-3">
-                <span className="text-lg"></span>
-                <div>
-                  <p className="font-bold">Verified Operator</p>
-                  <p className="text-xs opacity-75">We've verified all credentials and legal status</p>
-                </div>
-              </li>
-              <li className="flex gap-3">
-                <span className="text-lg"></span>
-                <div>
-                  <p className="font-bold">Regular Quality Checks</p>
-                  <p className="text-xs opacity-75">Water tested monthly by independent lab</p>
-                </div>
-              </li>
-              <li className="flex gap-3">
-                <span className="text-lg"></span>
-                <div>
-                  <p className="font-bold">Community Rated</p>
-                  <p className="text-xs opacity-75">
-                    {source.reviewCount} residents have reviewed this source
-                  </p>
-                </div>
-              </li>
-              <li className="flex gap-3">
-                <span className="text-lg"></span>
-                <div>
-                  <p className="font-bold">Protected Customers</p>
-                  <p className="text-xs opacity-75">
-                    Report issues and get support from Vale
-                  </p>
-                </div>
-              </li>
-            </ul>
-          </div>
+            <div className="grid gap-3">
+              <Link href="/request" className="btn-primary text-center">Request water</Link>
+              <Link href="/report" className="btn-secondary text-center">Report an issue</Link>
+            </div>
+          </aside>
         </div>
       </main>
     </div>

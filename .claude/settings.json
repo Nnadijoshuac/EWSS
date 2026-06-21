@@ -10,7 +10,8 @@
       "PowerShell(Get-Process -Id 5600 -ErrorAction SilentlyContinue)",
       "PowerShell(Stop-Process -Force -ErrorAction SilentlyContinue)",
       "Bash(cd \"c:\\\\Users\\\\chimd\\\\Desktop\\\\Serenity\\\\EWSS\" && npm run dev > /tmp/next.log 2>&1 & *)",
-      "Read(//tmp/**)"
+      "Read(//tmp/**)",
+      "Bash(git commit *)"
     ]
   }
 }
