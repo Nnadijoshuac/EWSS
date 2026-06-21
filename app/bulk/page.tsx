@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import Link from 'next/link';
 import TopNav from '@/components/TopNav';
 import CommunityBulkRequest from '@/components/CommunityBulkRequest';
 import { SAMPLE_BULK_REQUESTS } from '@/lib/mock-data';
@@ -27,10 +26,6 @@ export default function BulkPage() {
       <TopNav currentRole="resident" onRoleChange={() => {}} showRoleSwitcher={false} />
 
       <main className="mx-auto w-full max-w-[1200px] px-3 pb-28 pt-24 sm:px-6 sm:pt-28 lg:px-8">
-        <Link href="/demo" className="text-sm text-[#5e5e5e] underline underline-offset-4 hover:text-black">
-          Back to map
-        </Link>
-
         {step === 'browse' ? (
           <>
             <div className="mt-8 grid gap-8 border-b border-[#d8d8d8] pb-12 lg:grid-cols-[1fr_360px] lg:items-end">
