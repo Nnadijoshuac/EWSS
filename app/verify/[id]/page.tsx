@@ -37,7 +37,7 @@ export default function VerifyPage() {
     <div className="min-h-screen bg-white">
       <TopNav currentRole="resident" onRoleChange={() => {}} showRoleSwitcher={false} />
 
-      <main className="mx-auto max-w-[1200px] px-4 pb-28 pt-24 sm:px-6 sm:pt-28 lg:px-8">
+      <main className="mx-auto w-full max-w-[1200px] px-3 pb-28 pt-24 sm:px-6 sm:pt-28 lg:px-8">
         <Link href="/demo" className="text-sm text-[#5e5e5e] underline underline-offset-4 hover:text-black">Back to map</Link>
 
         <div className="mt-8 grid gap-6 lg:grid-cols-[minmax(0,1fr)_340px] lg:items-start">
@@ -57,7 +57,7 @@ export default function VerifyPage() {
                 <VerificationBadge verified={source.verified} verificationStatus={source.verificationStatus} />
               </div>
 
-              <div className="mt-8 grid grid-cols-2 gap-px overflow-hidden rounded-lg border border-[#d8d8d8] bg-[#d8d8d8] md:grid-cols-3">
+              <div className="mt-8 grid grid-cols-1 gap-px overflow-hidden rounded-lg border border-[#d8d8d8] bg-[#d8d8d8] sm:grid-cols-2 md:grid-cols-3">
                 {facts.map((fact) => (
                   <div key={fact.label} className="min-w-0 bg-white p-4 sm:p-5">
                     <p className="text-xs text-[#5e5e5e]">{fact.label}</p>
