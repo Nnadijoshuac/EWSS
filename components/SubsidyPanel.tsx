@@ -15,19 +15,19 @@ export default function SubsidyPanel({ vouchers }: SubsidyPanelProps) {
 
       <div className="mb-6 grid grid-cols-3 gap-px overflow-hidden rounded-lg border border-[#d8d8d8] bg-[#d8d8d8]">
         <div className="bg-white p-3 text-center">
-          <p className="text-2xl font-normal text-black">
+          <p className="text-xl font-normal text-black sm:text-2xl">
             {activeVouchers.length}
           </p>
           <p className="mt-1 text-[11px] text-[#5e5e5e]">Active</p>
         </div>
         <div className="bg-white p-3 text-center">
-          <p className="text-2xl font-normal text-black">
+          <p className="text-xl font-normal text-black sm:text-2xl">
             {redeemedVouchers.length}
           </p>
           <p className="mt-1 text-[11px] text-[#5e5e5e]">Redeemed</p>
         </div>
         <div className="bg-white p-3 text-center">
-          <p className="text-2xl font-normal text-black">
+          <p className="break-words text-xl font-normal text-black sm:text-2xl">
             {activeVouchers.reduce((sum, v) => sum + v.maxLitres, 0).toLocaleString()}
           </p>
           <p className="mt-1 text-[11px] text-[#5e5e5e]">Max litres</p>
