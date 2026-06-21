@@ -45,7 +45,7 @@ export default function TopNav({
       <div className="flex w-full items-center justify-between gap-4">
         {/* Logo */}
         <Link href="/" className="flex shrink-0 items-center transition hover:opacity-80">
-          <BrandLogo className="text-2xl text-white drop-shadow-lg sm:text-3xl" />
+          <BrandLogo className="text-2xl text-black sm:text-3xl" />
         </Link>
 
         {/* Centered Navigation Island */}
