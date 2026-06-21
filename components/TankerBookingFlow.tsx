@@ -250,7 +250,7 @@ export default function TankerBookingFlow() {
           </label>
         </div>
         {locationStatus === 'error' && <p className="mt-2 text-xs text-black">Location is unavailable. Enter your address instead.</p>}
-        <div className="mt-3 flex gap-2">
+        <div className="hidden md:flex mt-3 gap-2">
           <button
             type="button"
             onClick={handleRecenter}
