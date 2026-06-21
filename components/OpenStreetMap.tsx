@@ -59,13 +59,16 @@ export default function OpenStreetMap({
   const centerOffsetX = centerPoint.x - tileX * TILE_SIZE;
   const centerOffsetY = centerPoint.y - tileY * TILE_SIZE;
 
-  const tileOffsets = [-1, 0, 1];
+  // Cover large desktop viewports without constraining the map to a fixed canvas.
+  // Tiles are anchored to the geographic center in viewport pixel space.
+  const horizontalTileOffsets = [-4, -3, -2, -1, 0, 1, 2, 3, 4];
+  const verticalTileOffsets = [-3, -2, -1, 0, 1, 2, 3];
 
   return (
     <div className={`relative overflow-hidden rounded-lg bg-neutral-200 ${heightClass}`}>
-      <div className="absolute left-1/2 top-1/2 h-[768px] w-[768px] -translate-x-1/2 -translate-y-1/2">
-        {tileOffsets.flatMap((xOffset) =>
-          tileOffsets.map((yOffset) => {
+      <div className="absolute inset-0 overflow-hidden">
+        {horizontalTileOffsets.flatMap((xOffset) =>
+          verticalTileOffsets.map((yOffset) => {
             const x = tileX + xOffset;
             const y = tileY + yOffset;
 
@@ -81,9 +84,12 @@ export default function OpenStreetMap({
                 alt=""
                 className={`absolute h-64 w-64 select-none ${mapStyle === 'street' ? 'grayscale' : ''}`}
                 draggable={false}
+                decoding="async"
                 style={{
-                  left: 256 + xOffset * TILE_SIZE - centerOffsetX,
-                  top: 256 + yOffset * TILE_SIZE - centerOffsetY,
+                  left: '50%',
+                  top: '50%',
+                  marginLeft: xOffset * TILE_SIZE - centerOffsetX,
+                  marginTop: yOffset * TILE_SIZE - centerOffsetY,
                 }}
               />
             );
@@ -95,8 +101,8 @@ export default function OpenStreetMap({
 
       {markers.map((marker) => {
         const point = latLngToTilePoint(marker.lat, marker.lng, zoom);
-        const x = 50 + ((point.x - centerPoint.x) / 768) * 100;
-        const y = 50 + ((point.y - centerPoint.y) / 768) * 100;
+        const x = point.x - centerPoint.x;
+        const y = point.y - centerPoint.y;
 
         return (
           <button
@@ -104,7 +110,7 @@ export default function OpenStreetMap({
             type="button"
             onClick={() => onMarkerClick?.(marker.id)}
             className="absolute z-10 flex -translate-x-1/2 -translate-y-1/2 flex-col items-center gap-2"
-            style={{ left: `${x}%`, top: `${y}%` }}
+            style={{ left: '50%', top: '50%', marginLeft: x, marginTop: y }}
             title={marker.label}
           >
             <span

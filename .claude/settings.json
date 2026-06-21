@@ -11,7 +11,9 @@
       "PowerShell(Stop-Process -Force -ErrorAction SilentlyContinue)",
       "Bash(cd \"c:\\\\Users\\\\chimd\\\\Desktop\\\\Serenity\\\\EWSS\" && npm run dev > /tmp/next.log 2>&1 & *)",
       "Read(//tmp/**)",
-      "Bash(git commit *)"
+      "Bash(git commit *)",
+      "Bash(Start-Sleep -Seconds 5)",
+      "Bash(curl -s http://localhost:3000/admin -o /dev/null -w \"%{http_code}\")"
     ]
   }
 }
