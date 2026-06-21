@@ -9,7 +9,7 @@ export default function ReportPage() {
     <div className="min-h-screen bg-white">
       <TopNav currentRole="resident" onRoleChange={() => {}} showRoleSwitcher={false} />
 
-      <main className="mx-auto max-w-[1200px] px-4 pb-28 pt-24 sm:px-6 sm:pt-28 lg:px-8">
+      <main className="mx-auto w-full max-w-[1200px] px-3 pb-28 pt-24 sm:px-6 sm:pt-28 lg:px-8">
         <Link href="/demo" className="text-sm text-[#5e5e5e] underline underline-offset-4 hover:text-black">
           Back to map
         </Link>
