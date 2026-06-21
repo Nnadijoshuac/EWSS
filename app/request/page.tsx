@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
 import TopNav from '@/components/TopNav';
 import WaterSourceList from '@/components/WaterSourceList';
@@ -25,6 +25,21 @@ export default function RequestPage() {
   const [createdOrder, setCreatedOrder] = useState<WaterOrder | null>(null);
   const [userLocation, setUserLocation] = useState<Coordinates | null>(null);
   const [locationStatus, setLocationStatus] = useState<'idle' | 'loading' | 'ready' | 'error'>('idle');
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const sourceId = params.get('source');
+    const quantity = Number(params.get('quantity'));
+    const mode = params.get('mode');
+    const source = WATER_SOURCES.find((item) => item.id === sourceId);
+
+    if (source) {
+      setSelectedSourceId(source.id);
+      setSelectedArea(source.area);
+    }
+    if ([1000, 2500, 5000, 10000].includes(quantity)) setSelectedQuantity(quantity);
+    if (mode === 'now' || mode === 'schedule') setDeliveryMode(mode);
+  }, []);
 
   const sourcesWithLiveDistance = useMemo(
     () => getSourcesWithLiveDistance(WATER_SOURCES, userLocation),
