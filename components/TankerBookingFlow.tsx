@@ -194,7 +194,7 @@ export default function TankerBookingFlow() {
       <TopNav currentRole="resident" onRoleChange={() => {}} showRoleSwitcher={false} />
 
       <section className="absolute left-3 right-3 top-20 z-20 rounded-lg bg-white p-3 md:left-6 md:right-auto md:w-[390px] lg:left-[max(24px,calc((100vw-1200px)/2))]">
-        <div className="grid gap-2">
+        <div className="hidden md:grid gap-2">
           <label className="block">
             <span className="mb-1 block text-xs text-[#5e5e5e]">Delivery area</span>
             <select
