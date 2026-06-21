@@ -161,6 +161,12 @@ export default function TankerBookingFlow() {
     dragStartY.current = null;
   };
 
+  const handleRecenter = () => {
+    setDeliveryPoint(DEFAULT_DELIVERY_POINT);
+    setSelectedArea('New Haven');
+    setAddress('12 Chime Avenue');
+  };
+
   const deliveryAddress = selectedArea ? `${address}, ${selectedArea}` : address;
   const reviewUrl = selectedSource
     ? `/request?source=${selectedSource.id}&quantity=${quantity}&mode=${deliveryMode}&address=${encodeURIComponent(deliveryAddress)}`
@@ -221,17 +227,31 @@ export default function TankerBookingFlow() {
           </label>
         </div>
         {locationStatus === 'error' && <p className="mt-2 text-xs text-black">Location is unavailable. Enter your address instead.</p>}
-        <div className="mt-2 grid grid-cols-2 rounded-full bg-[#f6f6f6] p-1">
-          {(['street', 'satellite'] as const).map((style) => (
-            <button
-              key={style}
-              type="button"
-              onClick={() => setMapStyle(style)}
-              className={`h-8 rounded-full text-xs font-medium capitalize ${mapStyle === style ? 'bg-black text-white' : 'text-[#5e5e5e]'}`}
-            >
-              {style === 'street' ? 'Map' : 'Satellite'}
-            </button>
-          ))}
+        <div className="mt-3 flex gap-2">
+          <button
+            type="button"
+            onClick={handleRecenter}
+            className="flex-1 rounded-lg border border-[#d8d8d8] bg-white px-3 py-2.5 text-xs font-medium text-black transition hover:border-[#10B981] hover:bg-[#f0f9ff]"
+            title="Return to default location"
+          >
+            📍 Recenter
+          </button>
+          <div className="flex gap-1 rounded-lg border border-[#d8d8d8] bg-white p-1">
+            {(['street', 'satellite'] as const).map((style) => (
+              <button
+                key={style}
+                type="button"
+                onClick={() => setMapStyle(style)}
+                className={`rounded-md px-3 py-1.5 text-xs font-medium transition ${
+                  mapStyle === style
+                    ? 'bg-[#10B981] text-white'
+                    : 'text-[#5e5e5e] hover:bg-[#f6f6f6]'
+                }`}
+              >
+                {style === 'street' ? '🗺️ Street' : '🛰️ Satellite'}
+              </button>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -278,8 +298,8 @@ export default function TankerBookingFlow() {
                     key={option}
                     type="button"
                     onClick={() => setQuantity(option)}
-                    className={`rounded-lg border px-2 py-3 text-sm font-medium ${
-                      quantity === option ? 'border-black bg-black text-white' : 'border-[#d8d8d8] bg-white text-black'
+                    className={`rounded-lg border px-2 py-3 text-sm font-medium transition ${
+                      quantity === option ? 'border-[#10B981] bg-[#10B981] text-white' : 'border-[#d8d8d8] bg-white text-black'
                     }`}
                   >
                     {option.toLocaleString()}L
@@ -296,7 +316,7 @@ export default function TankerBookingFlow() {
                     key={mode.id}
                     type="button"
                     onClick={() => setDeliveryMode(mode.id as 'now' | 'schedule')}
-                    className={`h-10 rounded-full text-sm font-medium ${deliveryMode === mode.id ? 'bg-black text-white' : 'text-[#5e5e5e]'}`}
+                    className={`h-10 rounded-full text-sm font-medium transition ${deliveryMode === mode.id ? 'bg-[#10B981] text-white' : 'text-[#5e5e5e]'}`}
                   >
                     {mode.label}
                   </button>
@@ -317,7 +337,7 @@ export default function TankerBookingFlow() {
                       key={source.id}
                       type="button"
                       onClick={() => setSelectedSourceId(source.id)}
-                      className={`w-full rounded-lg border p-3 text-left ${active ? 'border-black bg-[#f6f6f6]' : 'border-[#d8d8d8] bg-white'}`}
+                      className={`w-full rounded-lg border p-3 text-left transition ${active ? 'border-[#10B981] bg-[#f0f9ff]' : 'border-[#d8d8d8] bg-white'}`}
                     >
                       <span className="flex items-start justify-between gap-3">
                         <span className="min-w-0">
