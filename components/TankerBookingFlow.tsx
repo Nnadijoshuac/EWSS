@@ -34,7 +34,7 @@ export default function TankerBookingFlow() {
   const [quantity, setQuantity] = useState(5000);
   const [deliveryMode, setDeliveryMode] = useState<'now' | 'schedule'>('now');
   const [selectedSourceId, setSelectedSourceId] = useState('src-005');
-  const [sheetExpanded, setSheetExpanded] = useState(true);
+  const [sheetExpanded, setSheetExpanded] = useState(false);
   const [locationStatus, setLocationStatus] = useState<'idle' | 'loading' | 'error'>('idle');
   const dragStartY = useRef<number | null>(null);
 
@@ -73,6 +73,31 @@ export default function TankerBookingFlow() {
       setSelectedSourceId(matchedTankers[0].id);
     }
   }, [matchedTankers, selectedSourceId]);
+
+  useEffect(() => {
+    try {
+      const value = window.localStorage.getItem('vale:resident-settings');
+      if (!value) return;
+      const preferences = JSON.parse(value) as {
+        area?: string;
+        preferredQuantity?: string;
+        savedPlaces?: string[];
+      };
+      const preferredArea = deliveryAreas.find((area) => area.name === preferences.area);
+      const preferredQuantity = Number(preferences.preferredQuantity);
+
+      if (preferredArea) {
+        setSelectedArea(preferredArea.name);
+        setDeliveryPoint(preferredArea.coordinates);
+      }
+      if (quantities.includes(preferredQuantity)) setQuantity(preferredQuantity);
+      if (preferences.savedPlaces?.[0]?.includes('·')) {
+        setAddress(preferences.savedPlaces[0].split('·').slice(1).join('·').trim());
+      }
+    } catch {
+      // Invalid local preferences should never block ordering.
+    }
+  }, []);
 
   const selectedSource = matchedTankers.find((source) => source.id === selectedSourceId) || matchedTankers[0];
 

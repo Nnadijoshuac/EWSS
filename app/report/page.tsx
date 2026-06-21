@@ -27,7 +27,16 @@ export default function ReportPage() {
             <div className="mt-6">
               <ReportIssueForm
                 onSubmit={(report) => {
-                  console.log('Report submitted:', report);
+                  const key = 'vale:resident-reports';
+                  const stored = window.localStorage.getItem(key);
+                  const reports = stored ? JSON.parse(stored) : [];
+                  window.localStorage.setItem(
+                    key,
+                    JSON.stringify([
+                      { ...report, id: `report-${Date.now()}`, status: 'open', createdAt: new Date().toISOString() },
+                      ...reports,
+                    ])
+                  );
                 }}
               />
             </div>

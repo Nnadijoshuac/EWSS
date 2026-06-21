@@ -67,7 +67,10 @@ export default function TopNav({
             )}
 
             {navItems.map((item) => {
-              const active = pathname === item.href || (item.href !== '/' && pathname.startsWith(item.href));
+              const active =
+                pathname === item.href ||
+                (item.href !== '/' && pathname.startsWith(item.href)) ||
+                (item.href === '/orders' && pathname === '/request');
 
               return (
                 <Link
