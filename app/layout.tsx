@@ -1,6 +1,5 @@
 import type { Metadata } from 'next';
 import './globals.css';
-import MobileBottomNav from '@/components/MobileBottomNav';
 
 export const metadata: Metadata = {
   title: 'V Λ L E - Water Access',
@@ -20,7 +19,6 @@ export default function RootLayout({
     <html lang="en">
       <body className="bg-white">
         {children}
-        <MobileBottomNav />
       </body>
     </html>
   );
