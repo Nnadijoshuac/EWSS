@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { UserRole } from '@/lib/types';
 import RoleSwitcher from './RoleSwitcher';
+import BrandLogo from './BrandLogo';
 import { useEffect, useState } from 'react';
 
 interface TopNavProps {
@@ -44,7 +45,7 @@ export default function TopNav({
       <div className="mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between gap-4">
           <Link href="/" className="flex shrink-0 items-center gap-3 transition hover:opacity-80">
-            <span className="text-xl font-bold tracking-[-0.04em] text-white">Vale</span>
+            <BrandLogo className="text-lg text-white sm:text-xl" />
             <div>
               <p className="hidden text-xs font-normal text-[#afafaf] sm:block">Water access</p>
             </div>
