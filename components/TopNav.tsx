@@ -45,11 +45,8 @@ export default function TopNav({
       <div className="mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-8">
         <div className="flex h-20 items-center justify-between gap-4">
           {/* Logo */}
-          <Link href="/" className="flex shrink-0 items-center gap-2 transition hover:opacity-80">
-            <BrandLogo className="text-lg text-white sm:text-xl" />
-            <div className="hidden sm:block">
-              <p className="text-xs font-normal text-[#afafaf]">Vale</p>
-            </div>
+          <Link href="/" className="flex shrink-0 items-center transition hover:opacity-80">
+            <BrandLogo className="text-2xl text-white drop-shadow-lg sm:text-3xl" />
           </Link>
 
           {/* Centered Navigation Island */}
