@@ -8,7 +8,12 @@ type Marker = {
   tone?: 'dark' | 'blue' | 'green' | 'red' | 'amber';
   selected?: boolean;
   value?: string;
+  imageSrc?: string;
+  imageAlt?: string;
+  imageSize?: 'small' | 'large';
 };
+
+type MapPoint = { lat: number; lng: number };
 
 interface OpenStreetMapProps {
   markers?: Marker[];
@@ -20,6 +25,7 @@ interface OpenStreetMapProps {
   showChrome?: boolean;
   showSelectedLabels?: boolean;
   mapStyle?: 'street' | 'satellite';
+  route?: MapPoint[];
 }
 
 const TILE_SIZE = 256;
@@ -52,6 +58,7 @@ export default function OpenStreetMap({
   showChrome = true,
   showSelectedLabels = true,
   mapStyle = 'street',
+  route = [],
 }: OpenStreetMapProps) {
   const centerPoint = latLngToTilePoint(center.lat, center.lng, zoom);
   const tileX = Math.floor(centerPoint.x / TILE_SIZE);
@@ -99,6 +106,33 @@ export default function OpenStreetMap({
 
       <div className={`absolute inset-0 ${mapStyle === 'satellite' ? 'bg-black/10' : 'bg-white/10'}`} />
 
+      {route.slice(0, -1).map((point, index) => {
+        const nextPoint = route[index + 1];
+        const start = latLngToTilePoint(point.lat, point.lng, zoom);
+        const end = latLngToTilePoint(nextPoint.lat, nextPoint.lng, zoom);
+        const startX = start.x - centerPoint.x;
+        const startY = start.y - centerPoint.y;
+        const deltaX = end.x - start.x;
+        const deltaY = end.y - start.y;
+        const length = Math.hypot(deltaX, deltaY);
+        const angle = Math.atan2(deltaY, deltaX) * (180 / Math.PI);
+
+        return (
+          <div
+            key={`${point.lat}-${point.lng}-${index}`}
+            className="pointer-events-none absolute z-[5] h-1 origin-left rounded-full bg-black"
+            style={{
+              left: '50%',
+              top: '50%',
+              marginLeft: startX,
+              marginTop: startY,
+              width: length,
+              transform: `rotate(${angle}deg)`,
+            }}
+          />
+        );
+      })}
+
       {markers.map((marker) => {
         const point = latLngToTilePoint(marker.lat, marker.lng, zoom);
         const x = point.x - centerPoint.x;
@@ -113,14 +147,25 @@ export default function OpenStreetMap({
             style={{ left: '50%', top: '50%', marginLeft: x, marginTop: y }}
             title={marker.label}
           >
-            <span
-              className={`flex h-9 min-w-9 items-center justify-center rounded-full px-2 text-sm font-medium transition hover:scale-110 ${toneClass(
-                marker.tone,
-                marker.selected
-              )}`}
-            >
-              {marker.value || marker.label.slice(0, 2)}
-            </span>
+            {marker.imageSrc ? (
+              <span className={`flex items-center justify-center rounded-full bg-white/95 p-1 transition hover:scale-105 ${marker.selected ? 'ring-4 ring-black' : 'ring-1 ring-black/20'}`}>
+                <img
+                  src={marker.imageSrc}
+                  alt={marker.imageAlt || marker.label}
+                  className={`${marker.imageSize === 'large' ? 'h-16 w-16' : 'h-12 w-12'} object-contain`}
+                  draggable={false}
+                />
+              </span>
+            ) : (
+              <span
+                className={`flex h-9 min-w-9 items-center justify-center rounded-full px-2 text-sm font-medium transition hover:scale-110 ${toneClass(
+                  marker.tone,
+                  marker.selected
+                )}`}
+              >
+                {marker.value || marker.label.slice(0, 2)}
+              </span>
+            )}
             {showSelectedLabels && marker.selected && (
               <span className="max-w-36 rounded-md bg-white px-2 py-1 text-xs font-medium text-black">
                 {marker.label}
