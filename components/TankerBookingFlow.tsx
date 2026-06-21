@@ -225,7 +225,7 @@ export default function TankerBookingFlow() {
               {locationStatus === 'loading' ? 'Locating…' : 'Use location'}
             </button>
           </div>
-          <div className="mt-2 h-[120px] rounded-lg border border-[#d8d8d8] overflow-hidden">
+          <div className="hidden md:block mt-2 h-[120px] rounded-lg border border-[#d8d8d8] overflow-hidden">
             <OpenStreetMap
               markers={[
                 {
