@@ -26,7 +26,7 @@ export default function BulkPage() {
     <div className="min-h-screen bg-white">
       <TopNav currentRole="resident" onRoleChange={() => {}} showRoleSwitcher={false} />
 
-      <main className="mx-auto max-w-[1200px] px-4 pb-28 pt-24 sm:px-6 sm:pt-28 lg:px-8">
+      <main className="mx-auto w-full max-w-[1200px] px-3 pb-28 pt-24 sm:px-6 sm:pt-28 lg:px-8">
         <Link href="/demo" className="text-sm text-[#5e5e5e] underline underline-offset-4 hover:text-black">
           Back to map
         </Link>
@@ -68,7 +68,7 @@ export default function BulkPage() {
             <button onClick={() => setStep('browse')} className="mb-5 text-sm text-[#5e5e5e] underline underline-offset-4">
               Back
             </button>
-            <h1 className="text-4xl font-normal tracking-[-0.03em] text-black">Start a bulk request.</h1>
+            <h1 className="text-3xl font-normal tracking-[-0.03em] text-black sm:text-4xl">Start a bulk request.</h1>
             <p className="mt-3 text-sm leading-6 text-[#5e5e5e]">
               Set the area and target volume. Neighbors can join once it is live.
             </p>
