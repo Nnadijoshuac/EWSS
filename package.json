@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "h3-js": "^4.4.0",
     "next": "^16.2.9",
     "react": "^19.0.0-rc-7a6cd3d-20251025",
     "react-dom": "^19.0.0-rc-7a6cd3d-20251025"
