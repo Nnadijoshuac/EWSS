@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { gridDistance, latLngToCell } from 'h3-js';
 import OpenStreetMap from '@/components/OpenStreetMap';
+import TopNav from '@/components/TopNav';
 import { WATER_SOURCES } from '@/lib/mock-data';
 
 const H3_RESOLUTION = 7;
@@ -154,16 +155,7 @@ export default function TankerBookingFlow() {
         }}
       />
 
-      <header className="absolute left-0 right-0 top-0 z-30 bg-black px-4 text-white sm:px-6">
-        <div className="mx-auto flex h-16 max-w-[1200px] items-center justify-between gap-3">
-          <Link href="/" className="text-xl font-bold tracking-[-0.04em]">Vale</Link>
-          <div className="flex items-center gap-1 sm:gap-2">
-            <span className="hidden rounded-full bg-[#333333] px-3 py-2 text-xs text-[#afafaf] sm:inline-flex">Satellite · H3 matching</span>
-            <Link href="/report" className="rounded-full px-3 py-2 text-sm transition hover:bg-[#333333] sm:px-4">Help</Link>
-            <Link href="/supplier" className="hidden rounded-full bg-white px-4 py-2 text-sm text-black sm:inline-flex">Supply water</Link>
-          </div>
-        </div>
-      </header>
+      <TopNav currentRole="resident" onRoleChange={() => {}} showRoleSwitcher={false} />
 
       <section className="absolute left-3 right-3 top-20 z-20 rounded-lg bg-white p-3 md:left-6 md:right-auto md:w-[390px] lg:left-[max(24px,calc((100vw-1200px)/2))]">
         <div className="grid gap-2">
@@ -203,7 +195,7 @@ export default function TankerBookingFlow() {
       </section>
 
       <section
-        className={`absolute bottom-0 left-0 right-0 z-30 flex overflow-hidden rounded-t-2xl bg-white transition-[height] duration-300 ease-out md:bottom-auto md:left-auto md:right-6 md:top-20 md:h-auto md:max-h-[calc(100dvh-96px)] md:w-[420px] md:rounded-lg lg:right-[max(24px,calc((100vw-1200px)/2))] ${
+        className={`absolute bottom-[76px] left-0 right-0 z-30 flex overflow-hidden rounded-t-2xl bg-white transition-[height] duration-300 ease-out md:bottom-auto md:left-auto md:right-6 md:top-20 md:h-auto md:max-h-[calc(100dvh-96px)] md:w-[420px] md:rounded-lg lg:right-[max(24px,calc((100vw-1200px)/2))] ${
           sheetExpanded ? 'h-[72dvh]' : 'h-[236px]'
         }`}
       >

@@ -17,10 +17,9 @@ interface TopNavProps {
 
 const navItems = [
   { href: '/', label: 'Home', desktop: 'md:inline-flex' },
-  { href: '/demo', label: 'Map', desktop: 'md:inline-flex' },
-  { href: '/request', label: 'Order', desktop: 'md:inline-flex' },
-  { href: '/bulk', label: 'Bulk', desktop: 'lg:inline-flex' },
-  { href: '/report', label: 'Report', desktop: 'lg:inline-flex' },
+  { href: '/orders', label: 'Orders', desktop: 'md:inline-flex' },
+  { href: '/report', label: 'Report', desktop: 'md:inline-flex' },
+  { href: '/settings', label: 'Settings', desktop: 'md:inline-flex' },
 ];
 
 export default function TopNav({

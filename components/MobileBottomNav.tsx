@@ -5,17 +5,13 @@ import { usePathname } from 'next/navigation';
 
 const items = [
   { href: '/', label: 'Home' },
-  { href: '/demo', label: 'Map' },
-  { href: '/request', label: 'Order' },
+  { href: '/orders', label: 'Orders' },
   { href: '/report', label: 'Report' },
+  { href: '/settings', label: 'Settings' },
 ];
 
 export default function MobileBottomNav() {
   const pathname = usePathname();
-
-  if (pathname === '/' || pathname === '/demo') {
-    return null;
-  }
 
   return (
     <nav className="fixed bottom-0 left-0 right-0 z-50 bg-black px-3 pb-[max(env(safe-area-inset-bottom),0.75rem)] pt-2 md:hidden">
