@@ -36,6 +36,7 @@ export default function TankerBookingFlow() {
   const [selectedSourceId, setSelectedSourceId] = useState('src-005');
   const [sheetExpanded, setSheetExpanded] = useState(false);
   const [locationStatus, setLocationStatus] = useState<'idle' | 'loading' | 'error'>('idle');
+  const [mapStyle, setMapStyle] = useState<'street' | 'satellite'>('street');
   const dragStartY = useRef<number | null>(null);
 
   const deliveryCell = useMemo(
@@ -119,6 +120,9 @@ export default function TankerBookingFlow() {
       value: `${Math.round(source.availableLitres / 1000)}K`,
       tone: source.id === selectedSource?.id ? ('dark' as const) : ('green' as const),
       selected: source.id === selectedSource?.id,
+      imageSrc: '/map-assets/water-tanker.png',
+      imageAlt: `${source.name} water tanker`,
+      imageSize: source.id === selectedSource?.id ? ('large' as const) : ('small' as const),
     })),
   ];
 
@@ -171,7 +175,7 @@ export default function TankerBookingFlow() {
         heightClass="h-full rounded-none"
         showChrome={false}
         showSelectedLabels={false}
-        mapStyle="satellite"
+        mapStyle={mapStyle}
         onMarkerClick={(id) => {
           if (id !== 'delivery-point') {
             setSelectedSourceId(id);
@@ -217,6 +221,18 @@ export default function TankerBookingFlow() {
           </label>
         </div>
         {locationStatus === 'error' && <p className="mt-2 text-xs text-black">Location is unavailable. Enter your address instead.</p>}
+        <div className="mt-2 grid grid-cols-2 rounded-full bg-[#f6f6f6] p-1">
+          {(['street', 'satellite'] as const).map((style) => (
+            <button
+              key={style}
+              type="button"
+              onClick={() => setMapStyle(style)}
+              className={`h-8 rounded-full text-xs font-medium capitalize ${mapStyle === style ? 'bg-black text-white' : 'text-[#5e5e5e]'}`}
+            >
+              {style === 'street' ? 'Map' : 'Satellite'}
+            </button>
+          ))}
+        </div>
       </section>
 
       <section
