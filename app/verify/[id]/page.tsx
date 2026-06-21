@@ -40,8 +40,8 @@ export default function VerifyPage() {
       <main className="mx-auto w-full max-w-[1200px] px-3 pb-28 pt-24 sm:px-6 sm:pt-28 lg:px-8">
         <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_340px] lg:items-start">
           <section>
-            <div className="rounded-lg bg-black p-6 text-white sm:p-8">
-              <p className="text-sm text-[#afafaf]">Verification complete</p>
+            <div className="rounded-lg bg-[#10B981] p-6 text-white sm:p-8">
+              <p className="text-sm text-[#f0f9ff]">Verification complete</p>
               <h1 className="mt-3 max-w-2xl text-4xl font-normal leading-[1.1] tracking-[-0.035em] sm:text-[52px]">This source is registered with Vale.</h1>
             </div>
 
