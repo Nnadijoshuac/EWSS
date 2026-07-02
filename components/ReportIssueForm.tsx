@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { ReportType, WaterReport, VerificationStatus } from '@/lib/types';
 import { ENUGU_AREAS } from '@/lib/mock-data';
 import { useAuth } from '@/lib/auth-context';
@@ -11,10 +11,10 @@ interface ReportIssueFormProps {
 }
 
 const reportTypes: Array<{ type: ReportType; label: string }> = [
-  { type: 'no_access', label: 'No access' },
-  { type: 'dirty_water', label: 'Dirty water' },
   { type: 'broken_pipe', label: 'Broken pipe' },
   { type: 'dry_tap', label: 'Dry tap' },
+  { type: 'dirty_water', label: 'Dirty water' },
+  { type: 'no_access', label: 'No access' },
   { type: 'failed_delivery', label: 'Failed delivery' },
   { type: 'overpricing', label: 'Overpricing' },
   { type: 'fake_tanker', label: 'Fake tanker' },
@@ -39,16 +39,19 @@ const aiVerify = (type: ReportType): { status: VerificationStatus; confidence: n
 
 export default function ReportIssueForm({ onSubmit }: ReportIssueFormProps) {
   const { user, updateUser } = useAuth();
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const cameraInputRef = useRef<HTMLInputElement>(null);
+
   const [selectedType, setSelectedType] = useState<ReportType | null>(null);
   const [selectedArea, setSelectedArea] = useState('');
   const [description, setDescription] = useState('');
-  const [severity, setSeverity] = useState<'low' | 'medium' | 'high'>('medium');
+  const [severity, setSeverity] = useState<'low' | 'medium' | 'high'>('high');
   const [photoUrl, setPhotoUrl] = useState('');
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
-  const [successData, setSuccessData] = useState<{ points: number; verification: VerificationStatus; confidence: number; newBadges: string[] } | null>(null);
+  const [successData, setSuccessData] = useState<{ points: number } | null>(null);
 
-  const handlePhotoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handlePhotoCapture = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
       const reader = new FileReader();
@@ -101,10 +104,10 @@ export default function ReportIssueForm({ onSubmit }: ReportIssueFormProps) {
       verifiedReportCount: user.verifiedReportCount + (verificationStatus === 'verified' ? 1 : 0),
     };
 
-    const newBadges = checkBadges(updatedUser);
+    checkBadges(updatedUser);
     updateUser(updatedUser);
 
-    setSuccessData({ points: pointsAwarded, verification: verificationStatus, confidence, newBadges });
+    setSuccessData({ points: pointsAwarded });
     setSubmitted(true);
     setSubmitting(false);
 
@@ -113,76 +116,71 @@ export default function ReportIssueForm({ onSubmit }: ReportIssueFormProps) {
       setSelectedArea('');
       setDescription('');
       setPhotoUrl('');
-      setSeverity('medium');
+      setSeverity('high');
       setSubmitted(false);
       setSuccessData(null);
-    }, 3000);
+    }, 2500);
   };
 
   if (submitted && successData) {
     return (
-      <div className="rounded-lg bg-gradient-to-br from-green-50 to-emerald-50 p-8 text-center border border-green-200">
-        <div className="text-5xl mb-4">✓</div>
-        <h3 className="text-2xl font-bold text-green-900">Report Submitted!</h3>
-
-        <div className="mt-6 space-y-3">
-          <div className="bg-white rounded-lg p-4">
-            <p className="text-sm text-gray-600">Points Earned</p>
-            <p className="text-3xl font-bold text-green-600">+{successData.points}</p>
-          </div>
-
-          <div className="bg-white rounded-lg p-4">
-            <p className="text-sm text-gray-600">AI Verification</p>
-            <p className="text-lg font-semibold text-gray-900 capitalize">{successData.verification}</p>
-            <p className="text-sm text-gray-500">{Math.round(successData.confidence * 100)}% confidence</p>
-          </div>
-
-          {successData.newBadges.length > 0 && (
-            <div className="bg-gradient-to-r from-yellow-50 to-orange-50 rounded-lg p-4 border border-yellow-200">
-              <p className="text-sm font-semibold text-yellow-900 mb-3">🎉 New Badges Earned!</p>
-              <div className="flex gap-2">
-                {successData.newBadges.map((badge) => (
-                  <div key={badge} className="flex flex-col items-center">
-                    <div className="text-3xl">
-                      {badge === 'first_report' ? '🚀' :
-                       badge === 'reporter_5' ? '⭐' :
-                       badge === 'reporter_10' ? '✨' :
-                       badge === 'infrastructure_hero' ? '🦸' :
-                       badge === 'community_leader' ? '👑' :
-                       badge === 'water_guardian' ? '💧' : '🏆'}
-                    </div>
-                    <p className="text-xs text-gray-700 capitalize mt-1">{badge.replace(/_/g, ' ')}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-        </div>
-
-        <p className="mt-4 text-sm text-green-700">
-          Government team will review and take action
-        </p>
-        <button onClick={() => setSubmitted(false)} className="btn-secondary mt-5">
-          Submit another report
+      <div className="text-center">
+        <div className="text-6xl mb-4">✓</div>
+        <h3 className="text-2xl font-normal text-black mb-2">Report submitted</h3>
+        <p className="text-sm text-[#5e5e5e] mb-6">+{successData.points} points earned</p>
+        <button onClick={() => setSubmitted(false)} className="text-sm font-medium text-[#FF7B68] hover:text-[#ff6a52] transition">
+          Submit another
         </button>
       </div>
     );
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-5">
+    <form onSubmit={handleSubmit} className="space-y-6">
+      {/* Camera First - Hero Action */}
       <div>
-        <label className="mb-3 block text-sm font-medium text-black">What happened?</label>
-        <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
+        <label className="block mb-3">
+          <div
+            className="border-2 border-dashed border-[#d8d8d8] rounded-lg p-8 text-center cursor-pointer hover:border-[#FF7B68] transition"
+            onClick={() => cameraInputRef.current?.click()}
+          >
+            {photoUrl ? (
+              <>
+                <img src={photoUrl} alt="Report" className="w-full h-40 object-cover rounded mb-3" />
+                <p className="text-sm text-[#5e5e5e]">Tap to retake photo</p>
+              </>
+            ) : (
+              <>
+                <div className="text-4xl mb-2">📷</div>
+                <p className="font-medium text-black">Take a photo</p>
+                <p className="text-xs text-[#5e5e5e] mt-1">or tap to open camera</p>
+              </>
+            )}
+          </div>
+          <input
+            ref={cameraInputRef}
+            type="file"
+            accept="image/*"
+            capture="environment"
+            onChange={handlePhotoCapture}
+            className="hidden"
+          />
+        </label>
+      </div>
+
+      {/* Issue Type */}
+      <div>
+        <label className="mb-2 block text-sm font-medium text-black">What happened?</label>
+        <div className="grid grid-cols-2 gap-2">
           {reportTypes.map(({ type, label }) => (
             <button
               key={type}
               type="button"
               onClick={() => setSelectedType(type)}
-              className={`min-h-14 rounded-lg border px-3 text-sm font-medium transition ${
+              className={`min-h-12 rounded border px-3 text-sm font-medium transition ${
                 selectedType === type
-                  ? 'border-blue-600 bg-blue-600 text-white'
-                  : 'border-[#d8d8d8] bg-white text-[#5e5e5e] hover:border-blue-400'
+                  ? 'border-[#FF7B68] bg-[#FF7B68] text-white'
+                  : 'border-[#d8d8d8] bg-white text-black hover:border-[#FF7B68]'
               }`}
             >
               {label}
@@ -191,30 +189,35 @@ export default function ReportIssueForm({ onSubmit }: ReportIssueFormProps) {
         </div>
       </div>
 
+      {/* Location */}
       <label className="block">
         <span className="mb-2 block text-sm font-medium text-black">Location</span>
-        <select value={selectedArea} onChange={(event) => setSelectedArea(event.target.value)} className="input-field" required>
+        <select
+          value={selectedArea}
+          onChange={(event) => setSelectedArea(event.target.value)}
+          className="input-field"
+          required
+        >
           <option value="">Select your area</option>
           {ENUGU_AREAS.map((area) => (
-            <option key={area} value={area}>
-              {area}
-            </option>
+            <option key={area} value={area}>{area}</option>
           ))}
         </select>
       </label>
 
+      {/* Severity */}
       <div>
-        <label className="mb-2 block text-sm font-medium text-black">Urgency</label>
+        <label className="mb-2 block text-sm font-medium text-black">How urgent?</label>
         <div className="grid grid-cols-3 gap-2">
           {(['low', 'medium', 'high'] as const).map((item) => (
             <button
               key={item}
               type="button"
               onClick={() => setSeverity(item)}
-              className={`h-12 rounded-lg border text-sm font-medium capitalize ${
+              className={`h-10 rounded border text-sm font-medium capitalize transition ${
                 severity === item
-                  ? 'border-blue-600 bg-blue-600 text-white'
-                  : 'border-[#d8d8d8] bg-white text-[#5e5e5e]'
+                  ? 'border-[#FF7B68] bg-[#FF7B68] text-white'
+                  : 'border-[#d8d8d8] bg-white text-black hover:border-[#FF7B68]'
               }`}
             >
               {item}
@@ -223,24 +226,24 @@ export default function ReportIssueForm({ onSubmit }: ReportIssueFormProps) {
         </div>
       </div>
 
+      {/* Description */}
       <label className="block">
         <span className="mb-2 block text-sm font-medium text-black">Details</span>
         <textarea
           value={description}
           onChange={(event) => setDescription(event.target.value)}
-          placeholder="Describe the issue clearly..."
-          className="input-field min-h-32 resize-none"
+          placeholder="What's the problem?"
+          className="input-field min-h-24 resize-none"
           required
         />
       </label>
 
-      <label className="block">
-        <span className="mb-2 block text-sm font-medium text-black">Photo (optional)</span>
-        <input type="file" accept="image/*" onChange={handlePhotoChange} className="input-field" />
-        {photoUrl && <img src={photoUrl} alt="Preview" className="mt-3 h-40 w-full rounded-lg object-cover" />}
-      </label>
-
-      <button type="submit" disabled={submitting} className="btn-primary h-12 w-full disabled:opacity-50">
+      {/* Submit */}
+      <button
+        type="submit"
+        disabled={submitting}
+        className="w-full bg-[#FF7B68] text-white h-12 rounded font-medium hover:bg-[#ff6a52] transition disabled:opacity-50"
+      >
         {submitting ? 'Submitting...' : 'Submit report'}
       </button>
     </form>
