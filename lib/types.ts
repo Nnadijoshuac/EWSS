@@ -1,4 +1,4 @@
-export type UserRole = 'resident' | 'supplier' | 'admin';
+export type UserRole = 'resident' | 'supplier' | 'admin' | 'government';
 
 export type WaterSourceType = 'tanker' | 'borehole' | 'public_point' | 'subsidized_truck';
 
@@ -10,11 +10,32 @@ export type ReportType = 'no_access' | 'dirty_water' | 'broken_pipe' | 'dry_tap'
 
 export type ReportSeverity = 'low' | 'medium' | 'high';
 
-export type ReportStatus = 'open' | 'reviewing' | 'resolved';
+export type ReportStatus = 'reported' | 'verified' | 'assigned' | 'resolved' | 'rejected';
 
 export type VoucherStatus = 'active' | 'redeemed' | 'expired';
 
 export type SupplierVerificationStatus = 'pending' | 'verified' | 'suspended';
+
+export type BadgeType = 'first_report' | 'reporter_5' | 'reporter_10' | 'infrastructure_hero' | 'community_leader' | 'water_guardian';
+
+export type VerificationStatus = 'pending' | 'verified' | 'rejected';
+
+export interface User {
+  id: string;
+  name: string;
+  email: string;
+  phone?: string;
+  role: UserRole;
+  area?: string;
+  points: number;
+  trustScore: number;
+  badges: BadgeType[];
+  reportCount: number;
+  verifiedReportCount: number;
+  createdAt: string;
+  profilePhoto?: string;
+  bio?: string;
+}
 
 export interface WaterSource {
   id: string;
@@ -56,6 +77,7 @@ export interface WaterOrder {
 
 export interface WaterReport {
   id: string;
+  reporterId: string;
   type: ReportType;
   area: string;
   description: string;
@@ -63,6 +85,19 @@ export interface WaterReport {
   status: ReportStatus;
   createdAt: string;
   coordinates?: { lat: number; lng: number };
+  photoUrl?: string;
+  aiVerificationStatus?: VerificationStatus;
+  aiConfidence?: number;
+  governmentTicketId?: string;
+  assignedTo?: string;
+  resolvedAt?: string;
+  resolvedPhotoUrl?: string;
+  pointsAwarded: number;
+  impactEstimate?: {
+    litersWastedPerDay?: number;
+    estimatedRepairCost?: number;
+    waterLitersRecovered?: number;
+  };
 }
 
 export interface SubsidyVoucher {
@@ -103,4 +138,31 @@ export interface ComplaintAnalytics {
   type: ReportType;
   count: number;
   severity: ReportSeverity;
+}
+
+export interface PointsTransaction {
+  id: string;
+  userId: string;
+  amount: number;
+  reason: 'report_submitted' | 'report_verified' | 'report_resolved' | 'false_report' | 'reward_redeemed' | 'bonus_challenge';
+  reportId?: string;
+  balance: number;
+  createdAt: string;
+}
+
+export interface UserBadge {
+  id: string;
+  userId: string;
+  badge: BadgeType;
+  earnedAt: string;
+}
+
+export interface LeaderboardEntry {
+  userId: string;
+  userName: string;
+  points: number;
+  verifiedReports: number;
+  rank: number;
+  badges: BadgeType[];
+  area?: string;
 }
