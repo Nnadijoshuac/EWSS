@@ -205,26 +205,6 @@ export default function ReportIssueForm({ onSubmit }: ReportIssueFormProps) {
         </select>
       </label>
 
-      {/* Severity */}
-      <div>
-        <label className="mb-2 block text-sm font-medium text-black">How urgent?</label>
-        <div className="grid grid-cols-3 gap-2">
-          {(['low', 'medium', 'high'] as const).map((item) => (
-            <button
-              key={item}
-              type="button"
-              onClick={() => setSeverity(item)}
-              className={`h-10 rounded border text-sm font-medium capitalize transition ${
-                severity === item
-                  ? 'border-[#FF7B68] bg-[#FF7B68] text-white'
-                  : 'border-[#d8d8d8] bg-white text-black hover:border-[#FF7B68]'
-              }`}
-            >
-              {item}
-            </button>
-          ))}
-        </div>
-      </div>
 
       {/* Description */}
       <label className="block">
