@@ -1,16 +1,12 @@
 'use client';
 
 import { useState } from 'react';
-import { ReportType } from '@/lib/types';
+import { ReportType, WaterReport, VerificationStatus } from '@/lib/types';
 import { ENUGU_AREAS } from '@/lib/mock-data';
+import { useAuth } from '@/lib/auth-context';
 
 interface ReportIssueFormProps {
-  onSubmit?: (report: {
-    type: ReportType;
-    area: string;
-    description: string;
-    severity: 'low' | 'medium' | 'high';
-  }) => void;
+  onSubmit?: (report: WaterReport) => void;
 }
 
 const reportTypes: Array<{ type: ReportType; label: string }> = [
@@ -24,14 +20,45 @@ const reportTypes: Array<{ type: ReportType; label: string }> = [
   { type: 'unsafe_borehole', label: 'Unsafe borehole' },
 ];
 
+const aiVerify = (type: ReportType): { status: VerificationStatus; confidence: number } => {
+  const confidenceMap: Record<ReportType, number> = {
+    broken_pipe: 0.96,
+    dry_tap: 0.89,
+    dirty_water: 0.92,
+    no_access: 0.85,
+    failed_delivery: 0.78,
+    overpricing: 0.65,
+    fake_tanker: 0.88,
+    unsafe_borehole: 0.91,
+  };
+  const confidence = confidenceMap[type];
+  const status = confidence > 0.8 ? 'verified' : 'pending';
+  return { status, confidence };
+};
+
 export default function ReportIssueForm({ onSubmit }: ReportIssueFormProps) {
+  const { user, updateUser } = useAuth();
   const [selectedType, setSelectedType] = useState<ReportType | null>(null);
   const [selectedArea, setSelectedArea] = useState('');
   const [description, setDescription] = useState('');
   const [severity, setSeverity] = useState<'low' | 'medium' | 'high'>('medium');
+  const [photoUrl, setPhotoUrl] = useState('');
+  const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [successData, setSuccessData] = useState<{ points: number; verification: VerificationStatus; confidence: number } | null>(null);
 
-  const handleSubmit = (event: React.FormEvent) => {
+  const handlePhotoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setPhotoUrl(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 
     if (!selectedType || !selectedArea || !description) {
@@ -39,24 +66,76 @@ export default function ReportIssueForm({ onSubmit }: ReportIssueFormProps) {
       return;
     }
 
-    onSubmit?.({ type: selectedType, area: selectedArea, description, severity });
+    if (!user) {
+      alert('You must be logged in to submit a report');
+      return;
+    }
+
+    setSubmitting(true);
+
+    const { status: verificationStatus, confidence } = aiVerify(selectedType);
+    const pointsAwarded = verificationStatus === 'verified' ? 10 : 5;
+
+    const report: WaterReport = {
+      id: `report-${Date.now()}`,
+      reporterId: user.id,
+      type: selectedType,
+      area: selectedArea,
+      description,
+      severity,
+      status: 'reported',
+      createdAt: new Date().toISOString(),
+      photoUrl: photoUrl || undefined,
+      aiVerificationStatus: verificationStatus,
+      aiConfidence: confidence,
+      pointsAwarded,
+    };
+
+    onSubmit?.(report);
+
+    updateUser({
+      ...user,
+      points: user.points + pointsAwarded,
+      reportCount: user.reportCount + 1,
+      verifiedReportCount: user.verifiedReportCount + (verificationStatus === 'verified' ? 1 : 0),
+    });
+
+    setSuccessData({ points: pointsAwarded, verification: verificationStatus, confidence });
     setSubmitted(true);
+    setSubmitting(false);
 
     setTimeout(() => {
       setSelectedType(null);
       setSelectedArea('');
       setDescription('');
+      setPhotoUrl('');
       setSeverity('medium');
       setSubmitted(false);
-    }, 2000);
+      setSuccessData(null);
+    }, 3000);
   };
 
-  if (submitted) {
+  if (submitted && successData) {
     return (
-      <div className="rounded-lg bg-[#f6f6f6] p-6 text-center sm:p-8">
-        <h3 className="text-2xl font-normal text-black">Report submitted</h3>
-        <p className="mt-2 text-sm text-[#5e5e5e]">
-          Thanks. We will review this within 24 hours.
+      <div className="rounded-lg bg-gradient-to-br from-green-50 to-emerald-50 p-8 text-center border border-green-200">
+        <div className="text-5xl mb-4">✓</div>
+        <h3 className="text-2xl font-bold text-green-900">Report Submitted!</h3>
+
+        <div className="mt-6 space-y-3">
+          <div className="bg-white rounded-lg p-4">
+            <p className="text-sm text-gray-600">Points Earned</p>
+            <p className="text-3xl font-bold text-green-600">+{successData.points}</p>
+          </div>
+
+          <div className="bg-white rounded-lg p-4">
+            <p className="text-sm text-gray-600">AI Verification</p>
+            <p className="text-lg font-semibold text-gray-900 capitalize">{successData.verification}</p>
+            <p className="text-sm text-gray-500">{Math.round(successData.confidence * 100)}% confidence</p>
+          </div>
+        </div>
+
+        <p className="mt-4 text-sm text-green-700">
+          Government team will review and take action
         </p>
         <button onClick={() => setSubmitted(false)} className="btn-secondary mt-5">
           Submit another report
@@ -77,8 +156,8 @@ export default function ReportIssueForm({ onSubmit }: ReportIssueFormProps) {
               onClick={() => setSelectedType(type)}
               className={`min-h-14 rounded-lg border px-3 text-sm font-medium transition ${
                 selectedType === type
-                  ? 'border-black bg-black text-white'
-                  : 'border-[#d8d8d8] bg-white text-[#5e5e5e] hover:border-black'
+                  ? 'border-blue-600 bg-blue-600 text-white'
+                  : 'border-[#d8d8d8] bg-white text-[#5e5e5e] hover:border-blue-400'
               }`}
             >
               {label}
@@ -109,7 +188,7 @@ export default function ReportIssueForm({ onSubmit }: ReportIssueFormProps) {
               onClick={() => setSeverity(item)}
               className={`h-12 rounded-lg border text-sm font-medium capitalize ${
                 severity === item
-                  ? 'border-black bg-black text-white'
+                  ? 'border-blue-600 bg-blue-600 text-white'
                   : 'border-[#d8d8d8] bg-white text-[#5e5e5e]'
               }`}
             >
@@ -130,8 +209,14 @@ export default function ReportIssueForm({ onSubmit }: ReportIssueFormProps) {
         />
       </label>
 
-      <button type="submit" className="btn-primary h-12 w-full">
-        Submit report
+      <label className="block">
+        <span className="mb-2 block text-sm font-medium text-black">Photo (optional)</span>
+        <input type="file" accept="image/*" onChange={handlePhotoChange} className="input-field" />
+        {photoUrl && <img src={photoUrl} alt="Preview" className="mt-3 h-40 w-full rounded-lg object-cover" />}
+      </label>
+
+      <button type="submit" disabled={submitting} className="btn-primary h-12 w-full disabled:opacity-50">
+        {submitting ? 'Submitting...' : 'Submit report'}
       </button>
     </form>
   );

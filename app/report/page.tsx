@@ -27,10 +27,7 @@ export default function ReportPage() {
                   const reports = stored ? JSON.parse(stored) : [];
                   window.localStorage.setItem(
                     key,
-                    JSON.stringify([
-                      { ...report, id: `report-${Date.now()}`, status: 'open', createdAt: new Date().toISOString() },
-                      ...reports,
-                    ])
+                    JSON.stringify([report, ...reports])
                   );
                 }}
               />
