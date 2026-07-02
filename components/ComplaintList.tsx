@@ -32,7 +32,7 @@ export default function ComplaintList({ complaints, maxItems = 10 }: ComplaintLi
 
             <p className="text-sm leading-6 text-[#5e5e5e]">{complaint.description}</p>
 
-            {complaint.status === 'open' && (
+            {complaint.status === 'reported' && (
               <button className="mt-3 text-xs font-medium text-black underline underline-offset-4">Review</button>
             )}
           </div>
