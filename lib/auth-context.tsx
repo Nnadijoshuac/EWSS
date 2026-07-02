@@ -2,6 +2,7 @@
 
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { User } from './types';
+import { awardNewBadges } from './badges';
 
 interface AuthContextType {
   user: User | null;
@@ -76,7 +77,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const updateUser = (updates: Partial<User>) => {
     if (!user) return;
 
-    const updated = { ...user, ...updates };
+    let updated = { ...user, ...updates };
+    updated = awardNewBadges(updated);
+
     setUser(updated);
     localStorage.setItem('vale:user', JSON.stringify(updated));
 

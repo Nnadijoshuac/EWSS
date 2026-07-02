@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { ReportType, WaterReport, VerificationStatus } from '@/lib/types';
 import { ENUGU_AREAS } from '@/lib/mock-data';
 import { useAuth } from '@/lib/auth-context';
+import { checkBadges } from '@/lib/badges';
 
 interface ReportIssueFormProps {
   onSubmit?: (report: WaterReport) => void;
@@ -45,7 +46,7 @@ export default function ReportIssueForm({ onSubmit }: ReportIssueFormProps) {
   const [photoUrl, setPhotoUrl] = useState('');
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
-  const [successData, setSuccessData] = useState<{ points: number; verification: VerificationStatus; confidence: number } | null>(null);
+  const [successData, setSuccessData] = useState<{ points: number; verification: VerificationStatus; confidence: number; newBadges: string[] } | null>(null);
 
   const handlePhotoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -93,14 +94,17 @@ export default function ReportIssueForm({ onSubmit }: ReportIssueFormProps) {
 
     onSubmit?.(report);
 
-    updateUser({
+    const updatedUser = {
       ...user,
       points: user.points + pointsAwarded,
       reportCount: user.reportCount + 1,
       verifiedReportCount: user.verifiedReportCount + (verificationStatus === 'verified' ? 1 : 0),
-    });
+    };
 
-    setSuccessData({ points: pointsAwarded, verification: verificationStatus, confidence });
+    const newBadges = checkBadges(updatedUser);
+    updateUser(updatedUser);
+
+    setSuccessData({ points: pointsAwarded, verification: verificationStatus, confidence, newBadges });
     setSubmitted(true);
     setSubmitting(false);
 
@@ -132,6 +136,27 @@ export default function ReportIssueForm({ onSubmit }: ReportIssueFormProps) {
             <p className="text-lg font-semibold text-gray-900 capitalize">{successData.verification}</p>
             <p className="text-sm text-gray-500">{Math.round(successData.confidence * 100)}% confidence</p>
           </div>
+
+          {successData.newBadges.length > 0 && (
+            <div className="bg-gradient-to-r from-yellow-50 to-orange-50 rounded-lg p-4 border border-yellow-200">
+              <p className="text-sm font-semibold text-yellow-900 mb-3">🎉 New Badges Earned!</p>
+              <div className="flex gap-2">
+                {successData.newBadges.map((badge) => (
+                  <div key={badge} className="flex flex-col items-center">
+                    <div className="text-3xl">
+                      {badge === 'first_report' ? '🚀' :
+                       badge === 'reporter_5' ? '⭐' :
+                       badge === 'reporter_10' ? '✨' :
+                       badge === 'infrastructure_hero' ? '🦸' :
+                       badge === 'community_leader' ? '👑' :
+                       badge === 'water_guardian' ? '💧' : '🏆'}
+                    </div>
+                    <p className="text-xs text-gray-700 capitalize mt-1">{badge.replace(/_/g, ' ')}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
 
         <p className="mt-4 text-sm text-green-700">
