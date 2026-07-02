@@ -20,8 +20,6 @@ const navItems = [
   { href: '/', label: 'Home' },
   { href: '/orders', label: 'Orders' },
   { href: '/report', label: 'Report' },
-  { href: '/leaderboard', label: 'Leaders' },
-  { href: '/impact', label: 'Impact' },
   { href: '/settings', label: 'Settings' },
 ];
 
