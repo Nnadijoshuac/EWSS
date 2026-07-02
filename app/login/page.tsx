@@ -38,12 +38,6 @@ export default function LoginPage() {
     }
   };
 
-  const demoAccounts = [
-    { name: 'Joshua Nnadi', email: 'joshua@vale.app', role: 'resident' },
-    { name: 'Chief Okoro', email: 'okoro@vale.app', role: 'supplier' },
-    { name: 'Dr. Eze', email: 'eze@vale.app', role: 'government' },
-  ];
-
   return (
     <div className="min-h-screen bg-white flex items-center justify-center p-4">
       <div className="bg-white border border-[#d8d8d8] rounded-lg shadow-sm p-8 max-w-md w-full">
@@ -141,25 +135,6 @@ export default function LoginPage() {
           </button>
         </form>
 
-        <div className="mt-8 pt-8 border-t">
-          <p className="text-sm text-gray-600 mb-4 font-medium">Demo Accounts (any password):</p>
-          <div className="space-y-2">
-            {demoAccounts.map((acc) => (
-              <button
-                key={acc.email}
-                onClick={() => {
-                  setEmail(acc.email);
-                  setPassword('demo');
-                  setIsSignup(false);
-                }}
-                className="w-full text-left p-3 bg-blue-50 hover:bg-blue-100 rounded-lg transition text-sm"
-              >
-                <p className="font-medium text-gray-900">{acc.name}</p>
-                <p className="text-gray-600">{acc.email} ({acc.role})</p>
-              </button>
-            ))}
-          </div>
-        </div>
       </div>
     </div>
   );
